@@ -1,0 +1,435 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		963714E817958AB700CE847D /* ResourceManager Documentation */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 963714F717958AB700CE847D /* Build configuration list for PBXAggregateTarget "ResourceManager Documentation" */;
+			buildPhases = (
+				963714E717958AB700CE847D /* ShellScript */,
+			);
+			dependencies = (
+				963714EA17958AB700CE847D /* PBXTargetDependency */,
+			);
+			name = "ResourceManager Documentation";
+			productName = "ResourceManager Documentation";
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		963714E617958AB700CE847D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 963714E517958AB700CE847D /* Foundation.framework */; };
+		963714F017958AB700CE847D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 963714EE17958AB700CE847D /* InfoPlist.strings */; };
+		9637150017958B9E00CE847D /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 963714FF17958B9E00CE847D /* CFNetwork.framework */; };
+		9637150217958BA400CE847D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9637150117958BA400CE847D /* Security.framework */; };
+		9637150417958BAA00CE847D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9637150317958BAA00CE847D /* SystemConfiguration.framework */; };
+		9637150617958BB100CE847D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9637150517958BB100CE847D /* QuartzCore.framework */; };
+		9637150817958BB900CE847D /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9637150717958BB900CE847D /* libstdc++.dylib */; };
+		9637150B1795921700CE847D /* RMResourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 963715091795921700CE847D /* RMResourceManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9637150C1795921700CE847D /* RMResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9637150A1795921700CE847D /* RMResourceManager.m */; };
+		9637150E179596B700CE847D /* ResourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9637150D1795969700CE847D /* ResourceManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		963715161795B2CB00CE847D /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 963715151795B2CB00CE847D /* DropboxSDK.framework */; };
+		9637151B1795C91400CE847D /* RMFileSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 963715191795C91400CE847D /* RMFileSystem.h */; };
+		9637151C1795C91400CE847D /* RMFileSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9637151A1795C91400CE847D /* RMFileSystem.m */; };
+		9637151F1795E91600CE847D /* UIImage+ResourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9637151D1795E91600CE847D /* UIImage+ResourceManager.h */; };
+		963715201795E91600CE847D /* UIImage+ResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9637151E1795E91600CE847D /* UIImage+ResourceManager.m */; };
+		963715231795EBFB00CE847D /* RMRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = 963715211795EBFA00CE847D /* RMRuntime.h */; };
+		963715241795EBFB00CE847D /* RMRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = 963715221795EBFA00CE847D /* RMRuntime.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		963714E917958AB700CE847D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 963714D817958AB700CE847D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 963714E117958AB700CE847D;
+			remoteInfo = ResourceManager;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		963714E217958AB700CE847D /* ResourceManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework.static; includeInIndex = 0; path = ResourceManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		963714E517958AB700CE847D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		963714ED17958AB700CE847D /* ResourceManager-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ResourceManager-Info.plist"; sourceTree = "<group>"; };
+		963714EF17958AB700CE847D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		963714F117958AB700CE847D /* ResourceManager-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ResourceManager-Prefix.pch"; sourceTree = "<group>"; };
+		963714FF17958B9E00CE847D /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		9637150117958BA400CE847D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		9637150317958BAA00CE847D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		9637150517958BB100CE847D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		9637150717958BB900CE847D /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
+		963715091795921700CE847D /* RMResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMResourceManager.h; path = Classes/RMResourceManager.h; sourceTree = "<group>"; };
+		9637150A1795921700CE847D /* RMResourceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMResourceManager.m; path = Classes/RMResourceManager.m; sourceTree = "<group>"; };
+		9637150D1795969700CE847D /* ResourceManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ResourceManager.h; path = Classes/ResourceManager.h; sourceTree = "<group>"; };
+		963715151795B2CB00CE847D /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
+		963715191795C91400CE847D /* RMFileSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMFileSystem.h; path = Classes/RMFileSystem.h; sourceTree = "<group>"; };
+		9637151A1795C91400CE847D /* RMFileSystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMFileSystem.m; path = Classes/RMFileSystem.m; sourceTree = "<group>"; };
+		9637151D1795E91600CE847D /* UIImage+ResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+ResourceManager.h"; path = "Classes/UIImage+ResourceManager.h"; sourceTree = "<group>"; };
+		9637151E1795E91600CE847D /* UIImage+ResourceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+ResourceManager.m"; path = "Classes/UIImage+ResourceManager.m"; sourceTree = "<group>"; };
+		963715211795EBFA00CE847D /* RMRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMRuntime.h; path = Classes/RMRuntime.h; sourceTree = "<group>"; };
+		963715221795EBFA00CE847D /* RMRuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMRuntime.m; path = Classes/RMRuntime.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		963714DD17958AB700CE847D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9637150817958BB900CE847D /* libstdc++.dylib in Frameworks */,
+				9637150617958BB100CE847D /* QuartzCore.framework in Frameworks */,
+				9637150417958BAA00CE847D /* SystemConfiguration.framework in Frameworks */,
+				9637150217958BA400CE847D /* Security.framework in Frameworks */,
+				9637150017958B9E00CE847D /* CFNetwork.framework in Frameworks */,
+				963714E617958AB700CE847D /* Foundation.framework in Frameworks */,
+				963715161795B2CB00CE847D /* DropboxSDK.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		963714D717958AB700CE847D = {
+			isa = PBXGroup;
+			children = (
+				963714EB17958AB700CE847D /* ResourceManager */,
+				963714E417958AB700CE847D /* Frameworks */,
+				963714E317958AB700CE847D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		963714E317958AB700CE847D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				963714E217958AB700CE847D /* ResourceManager.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		963714E417958AB700CE847D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				963715151795B2CB00CE847D /* DropboxSDK.framework */,
+				9637150717958BB900CE847D /* libstdc++.dylib */,
+				9637150517958BB100CE847D /* QuartzCore.framework */,
+				9637150317958BAA00CE847D /* SystemConfiguration.framework */,
+				9637150117958BA400CE847D /* Security.framework */,
+				963714FF17958B9E00CE847D /* CFNetwork.framework */,
+				963714E517958AB700CE847D /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		963714EB17958AB700CE847D /* ResourceManager */ = {
+			isa = PBXGroup;
+			children = (
+				9637150D1795969700CE847D /* ResourceManager.h */,
+				963714FC17958B1100CE847D /* Classes */,
+				963714EC17958AB700CE847D /* Supporting Files */,
+			);
+			path = ResourceManager;
+			sourceTree = "<group>";
+		};
+		963714EC17958AB700CE847D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				963714ED17958AB700CE847D /* ResourceManager-Info.plist */,
+				963714EE17958AB700CE847D /* InfoPlist.strings */,
+				963714F117958AB700CE847D /* ResourceManager-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		963714FC17958B1100CE847D /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				963715091795921700CE847D /* RMResourceManager.h */,
+				9637150A1795921700CE847D /* RMResourceManager.m */,
+				963715191795C91400CE847D /* RMFileSystem.h */,
+				9637151A1795C91400CE847D /* RMFileSystem.m */,
+				963715211795EBFA00CE847D /* RMRuntime.h */,
+				963715221795EBFA00CE847D /* RMRuntime.m */,
+				9637151D1795E91600CE847D /* UIImage+ResourceManager.h */,
+				9637151E1795E91600CE847D /* UIImage+ResourceManager.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		963714DE17958AB700CE847D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9637150B1795921700CE847D /* RMResourceManager.h in Headers */,
+				9637150E179596B700CE847D /* ResourceManager.h in Headers */,
+				9637151B1795C91400CE847D /* RMFileSystem.h in Headers */,
+				9637151F1795E91600CE847D /* UIImage+ResourceManager.h in Headers */,
+				963715231795EBFB00CE847D /* RMRuntime.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		963714E117958AB700CE847D /* ResourceManager */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 963714F417958AB700CE847D /* Build configuration list for PBXNativeTarget "ResourceManager" */;
+			buildPhases = (
+				963714DC17958AB700CE847D /* Sources */,
+				963714DD17958AB700CE847D /* Frameworks */,
+				963714DE17958AB700CE847D /* Headers */,
+				963714DF17958AB700CE847D /* Resources */,
+				963714E017958AB700CE847D /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ResourceManager;
+			productName = ResourceManager;
+			productReference = 963714E217958AB700CE847D /* ResourceManager.framework */;
+			productType = "com.apple.product-type.framework.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		963714D817958AB700CE847D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "Sebastien Morel";
+			};
+			buildConfigurationList = 963714DB17958AB700CE847D /* Build configuration list for PBXProject "ResourceManager" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 963714D717958AB700CE847D;
+			productRefGroup = 963714E317958AB700CE847D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				963714E117958AB700CE847D /* ResourceManager */,
+				963714E817958AB700CE847D /* ResourceManager Documentation */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		963714DF17958AB700CE847D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				963714F017958AB700CE847D /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		963714E017958AB700CE847D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "rm -f \"${TARGET_BUILD_DIR}/${PROJECT}.framework/Resources/Info.plist\"\ntouch \"${SRCROOT}/Resources\"";
+		};
+		963714E717958AB700CE847D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "UFW_TARGET=${PROJECT}\nUFW_IPHONE_DIR=\"${BUILD_DIR}/${CONFIGURATION}-iphoneos\"\n\n# Generates Documentation\nappledoc --create-docset --install-docset --include \"${SRCROOT}/Documentation/\" --index-desc \"${SRCROOT}/Documentation/index.markdown\" --output \"${UFW_IPHONE_DIR}/Documentation/output\" --docset-install-path \"${UFW_IPHONE_DIR}/Documentation/output\" --project-name \"${UFW_TARGET}\" --project-company \"Wherecloud\" --company-id \"com.wherecloud\" --project-version \"${FRAMEWORK_VERSION}-dev\" --warn-undocumented-object --exit-threshold 2 \"${TARGET_BUILD_DIR}/${UFW_TARGET}.framework/Headers\"\n\n\ncp -R -L \"${UFW_IPHONE_DIR}/Documentation/output/com.wherecloud.${UFW_TARGET}.docset\" \"${USER_LIBRARY_DIR}/Developer/Shared/Documentation/DocSets\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		963714DC17958AB700CE847D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9637150C1795921700CE847D /* RMResourceManager.m in Sources */,
+				9637151C1795C91400CE847D /* RMFileSystem.m in Sources */,
+				963715201795E91600CE847D /* UIImage+ResourceManager.m in Sources */,
+				963715241795EBFB00CE847D /* RMRuntime.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		963714EA17958AB700CE847D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 963714E117958AB700CE847D /* ResourceManager */;
+			targetProxy = 963714E917958AB700CE847D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		963714EE17958AB700CE847D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				963714EF17958AB700CE847D /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		963714F217958AB700CE847D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		963714F317958AB700CE847D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		963714F517958AB700CE847D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				FRAMEWORK_VERSION = 1.0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ResourceManager/ResourceManager-Prefix.pch";
+				INFOPLIST_FILE = "ResourceManager/ResourceManager-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		963714F617958AB700CE847D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				FRAMEWORK_VERSION = 1.0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ResourceManager/ResourceManager-Prefix.pch";
+				INFOPLIST_FILE = "ResourceManager/ResourceManager-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		963714F817958AB700CE847D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = ResourceManager;
+			};
+			name = Debug;
+		};
+		963714F917958AB700CE847D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = ResourceManager;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		963714DB17958AB700CE847D /* Build configuration list for PBXProject "ResourceManager" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				963714F217958AB700CE847D /* Debug */,
+				963714F317958AB700CE847D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		963714F417958AB700CE847D /* Build configuration list for PBXNativeTarget "ResourceManager" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				963714F517958AB700CE847D /* Debug */,
+				963714F617958AB700CE847D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		963714F717958AB700CE847D /* Build configuration list for PBXAggregateTarget "ResourceManager Documentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				963714F817958AB700CE847D /* Debug */,
+				963714F917958AB700CE847D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 963714D817958AB700CE847D /* Project object */;
+}

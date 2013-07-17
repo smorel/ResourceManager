@@ -33,7 +33,7 @@ static RMResourceManager* kSharedManager = nil;
 @property (nonatomic, retain) RMFileSystem* fileSystem;
 @property (nonatomic, assign) NSTimeInterval pullingTimeInterval;
 
-@property (nonatomic, retain) NSMutableDictionary* updateDictionary; //{ "relativePath" : { "weak NSValue observer" : "updateBlock", ... } , ... }
+@property (nonatomic, retain) NSMutableDictionary* updateDictionary;           //{ "relativePath" : { "weak NSValue observer" : "updateBlock", ... } , ... }
 @property (nonatomic, retain) NSMutableDictionary* updateExtensionsDictionary; //{ "extension" : { "weak NSValue observer" : "updateBlock", ... } , ... }
 
 @end

@@ -8,6 +8,7 @@
 
 #import "RMFileSystem.h"
 #import "RMResourceManager.h"
+#import "RMPermissions.h"
 
 @interface RMFileSystem()<DBRestClientDelegate>
 
@@ -20,6 +21,8 @@
 @property (nonatomic, retain) NSArray* pendingDowloads;
 @property (nonatomic, assign) NSInteger pendingDownloadCount;
 
+@property (nonatomic, retain) RMPermissions* permissions;
+
 @end
 
 @implementation RMFileSystem{
@@ -29,13 +32,26 @@
 - (id)initWithDropboxFolder:(NSString*)folder{
     self = [super init];
     
+    
     self.dbClient = [[DBRestClient alloc]initWithSession:[DBSession sharedSession]];
     self.dbClient.delegate = self;
     self.rootFolder = folder ? folder : @"/";
     
     _processQueue = dispatch_queue_create("com.wherecloud.resourcemanager", 0);
     
+    self.permissions = [[RMPermissions alloc]init];
+    
+   /* if([self.permissions arePermissionsAvailable]){
+        [self processDropBoxResources];
+    }else{
+        __unsafe_unretained RMFileSystem* bself = self;
+        self.permissions.availabilityBlock = ^(BOOL available){
+            [bself processDropBoxResources];
+        };
+    }*/
+    
     [self processDropBoxResources];
+    
     
     return self;
 }
@@ -50,12 +66,30 @@
     [self.dbClient loadMetadata:path];
 }
 
+- (NSString*)dropboxFolderForPermissions:(NSString*)path{
+    NSString * relativePath = [path stringByReplacingOccurrencesOfString:self.rootFolder withString:@""];
+    NSString * folder = [relativePath stringByDeletingLastPathComponent];
+    return folder;
+}
+
 - (void)restClient:(DBRestClient *)client loadedMetadata:(DBMetadata *)metadata {
     if (metadata.isDirectory) {
         for (DBMetadata *file in metadata.contents) {
             if(file.isDirectory){
                 [self loadMetadata:file.path];
             }else{
+                NSString* folder = [self dropboxFolderForPermissions:file.path];
+                if(![self.permissions canAccesFilesInDirectory:folder]){
+                    //Add to remove list
+                    continue;
+                }
+                
+                NSString* extension = [file.path pathExtension];
+                if(![self.permissions canAccessFilesWithExtension:extension]){
+                    //Add to remove list
+                    continue;
+                }
+                
                 [self.dropboxResourcesMetadata addObject:file];
             }
         }
@@ -123,7 +157,7 @@
 }
 
 - (NSString*)relativePathFromDropboxPath:(NSString*)dropboxPath{
-    //TODO : Manages folders on dropbox and flatten hierarchy in cache directory
+    //Manages folders on dropbox and flatten hierarchy in cache directory
     //if no .lproj directory in dropboxPath, uses /filename.extension
     //else uses /language.lproj/filename.extension
     

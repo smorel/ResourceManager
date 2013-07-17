@@ -39,6 +39,8 @@
 		963715201795E91600CE847D /* UIImage+ResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9637151E1795E91600CE847D /* UIImage+ResourceManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		96EFE7CA1796EA010034F935 /* RMRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = 96EFE7C81796EA010034F935 /* RMRuntime.h */; };
 		96EFE7CB1796EA010034F935 /* RMRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EFE7C91796EA010034F935 /* RMRuntime.m */; };
+		96EFE7D7179728E00034F935 /* RMPermissions.h in Headers */ = {isa = PBXBuildFile; fileRef = 96EFE7D5179728E00034F935 /* RMPermissions.h */; };
+		96EFE7D8179728E00034F935 /* RMPermissions.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EFE7D6179728E00034F935 /* RMPermissions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +74,8 @@
 		9637151E1795E91600CE847D /* UIImage+ResourceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+ResourceManager.m"; path = "Classes/UIImage+ResourceManager.m"; sourceTree = "<group>"; };
 		96EFE7C81796EA010034F935 /* RMRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMRuntime.h; path = Classes/RMRuntime.h; sourceTree = "<group>"; };
 		96EFE7C91796EA010034F935 /* RMRuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMRuntime.m; path = Classes/RMRuntime.m; sourceTree = "<group>"; };
+		96EFE7D5179728E00034F935 /* RMPermissions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMPermissions.h; path = Classes/RMPermissions.h; sourceTree = "<group>"; };
+		96EFE7D6179728E00034F935 /* RMPermissions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMPermissions.m; path = Classes/RMPermissions.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +158,8 @@
 				96EFE7C91796EA010034F935 /* RMRuntime.m */,
 				9637151D1795E91600CE847D /* UIImage+ResourceManager.h */,
 				9637151E1795E91600CE847D /* UIImage+ResourceManager.m */,
+				96EFE7D5179728E00034F935 /* RMPermissions.h */,
+				96EFE7D6179728E00034F935 /* RMPermissions.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -170,6 +176,7 @@
 				9637151B1795C91400CE847D /* RMFileSystem.h in Headers */,
 				9637151F1795E91600CE847D /* UIImage+ResourceManager.h in Headers */,
 				96EFE7CA1796EA010034F935 /* RMRuntime.h in Headers */,
+				96EFE7D7179728E00034F935 /* RMPermissions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,6 +278,7 @@
 				9637151C1795C91400CE847D /* RMFileSystem.m in Sources */,
 				963715201795E91600CE847D /* UIImage+ResourceManager.m in Sources */,
 				96EFE7CB1796EA010034F935 /* RMRuntime.m in Sources */,
+				96EFE7D8179728E00034F935 /* RMPermissions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

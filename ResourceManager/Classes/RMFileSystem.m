@@ -207,10 +207,10 @@
         NSString* cachePath = [self cachePathForRelativeResourcePath:relativePath];
         
         NSDictionary* userData = @{
-                                   RMResourceManagerApplicationFullPathKey : appPath,
-                                   RMResourceManagerRelativePathKey        : relativePath,
-                                   RMResourceManagerMostRecentPathKey      : cachePath
-                                   };
+            RMResourceManagerApplicationBundlePathKey : appPath ? appPath : @"",
+            RMResourceManagerRelativePathKey          : relativePath ? relativePath : @"",
+            RMResourceManagerMostRecentPathKey        : cachePath ? cachePath : @""
+        };
         
         [[NSNotificationCenter defaultCenter]postNotificationName:RMResourceManagerFileDidUpdateNotification object:self userInfo:userData];
     }
@@ -263,6 +263,22 @@
         return path;
     }
     
+    return nil;
+}
+
+- (NSString*) relativePathForPath:(NSString*)path{
+    if(!path)
+        return nil;
+    
+    NSString* mainBundlePath = [[NSBundle mainBundle]bundlePath];
+    if([path hasPrefix:mainBundlePath]){
+        return [path stringByReplacingOccurrencesOfString:mainBundlePath withString:@""];
+    }
+        
+    NSString* cachePath = [self cacheDirectory];
+    if([path hasPrefix:cachePath]){
+        return [path stringByReplacingOccurrencesOfString:cachePath withString:@""];
+    }
     return nil;
 }
 

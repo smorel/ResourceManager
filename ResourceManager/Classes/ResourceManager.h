@@ -7,3 +7,5 @@
 //
 
 #import "RMResourceManager.h"
+
+#import "UIImage+ResourceManager.h"

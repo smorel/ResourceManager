@@ -12,43 +12,24 @@
 
 @implementation UIImage(ResourceManager)
 
-+ (void)initResourceManagement{
-    RMSwizzleSelector([UIImage class], @selector(initWithContentsOfFile:), @selector(rm_initWithContentsOfFile:));
-    RMSwizzleClassSelector([UIImage class], @selector(imageNamed:), @selector(rm_imageNamed:));
-}
-
-- (id)rm_initWithContentsOfFile:(NSString *)path{
-    //register for updates here
-    
-    return [self rm_initWithContentsOfFile:path];
-}
-
-+ (NSURL*)urlForImageWithName:(NSString*)name{
-    NSURL *imageURL = [[NSBundle mainBundle] URLForResource:[name stringByDeletingPathExtension] withExtension:[name pathExtension]];
-    if (!imageURL)
-        imageURL = [[NSBundle mainBundle] URLForResource:[name stringByDeletingPathExtension] withExtension:@"png"];
-    if (!imageURL)
-        imageURL = [[NSBundle mainBundle] URLForResource:[name stringByDeletingPathExtension] withExtension:nil];
-    
-    return imageURL;
-}
+#pragma mark Resource Path Management
 
 + (NSString*)imageFilePathWithName:(NSString*)name suffix:(NSString*)suffix extension:(NSString*)extension{
     NSString* resource = [NSString stringWithFormat:@"%@%@",name,suffix];
     
     if(extension && [extension length] > 0){
-        NSString* path = [[RMResourceManager sharedManager]pathForResource:resource ofType:extension];
+        NSString* path = [RMResourceManager pathForResource:resource ofType:extension];
         return path;
     }
     
-    NSString* path = [[RMResourceManager sharedManager]pathForResource:resource ofType:@"png"];
+    NSString* path = [RMResourceManager pathForResource:resource ofType:@"png"];
     if(path) return path;
     
-    path = [[RMResourceManager sharedManager]pathForResource:resource ofType:@"jpeg"];
+    path = [RMResourceManager pathForResource:resource ofType:@"jpeg"];
     return path;
 }
 
-+ (UIImage*)rm_imageNamed:(NSString *)name{
++ (NSString*)resoucePathForImageNamed:(NSString*)name{
     NSString* extension = [name pathExtension];
     NSString* imageName = [name stringByDeletingPathExtension];
     
@@ -61,7 +42,7 @@
         }
         
         if(!filePath){
-            filePath = [self imageFilePathWithName:imageName suffix:@"@2x" extension:extension];
+            filePath = [UIImage imageFilePathWithName:imageName suffix:@"@2x" extension:extension];
         }
         
     }
@@ -74,14 +55,58 @@
         }
         
         if(!filePath){
-            filePath = [self imageFilePathWithName:imageName suffix:@"" extension:extension];
+            filePath = [UIImage imageFilePathWithName:imageName suffix:@"" extension:extension];
         }
     }
     
-    if(!filePath)
-        return nil;
+    return filePath;
+}
+
+#pragma mark UIImage initializers with update
+
++ (UIImage*)imageNamed:(NSString *)name update:(void(^)(UIImage* image))update{
+    return [[[UIImage alloc]initWithImageNamed:name update:update]autorelease];
+}
+
++ (UIImage *)imageWithContentsOfFile:(NSString *)path update:(void(^)(UIImage* image))update{
+    return [[[UIImage alloc]initWithContentsOfFile:path update:update]autorelease];
+}
+
+- (id)initWithImageNamed:(NSString*)name  update:(void(^)(UIImage* image))update{
+    NSString* filePath = [UIImage resoucePathForImageNamed:name];
+    return [self initWithContentsOfFile:filePath update:update];
+}
+
+- (id)initWithContentsOfFile:(NSString *)path update:(void(^)(UIImage* image))update{
+    self = [self initWithContentsOfFile:path];
+    [self registerPath:path forUpdate:update];
+    return self;
+}
+
+#pragma mark Manages update observer
+
+- (void)registerPath:(NSString*)path forUpdate:(void(^)(UIImage* image))update{
+    if(!path || !update)
+        return;
     
-    return [UIImage imageWithContentsOfFile:filePath];
+    [UIImage swizzleIfNeeded];
+    [RMResourceManager addObserverForPath:path object:self usingBlock:^(id observer, NSString *path) {
+        UIImage* image = path ? [UIImage imageWithContentsOfFile:path update:update] : nil;
+        update(image);
+    }];
+}
+
+- (void)rm_dealloc{
+    [RMResourceManager removeObserver:self];
+    [self rm_dealloc];
+}
+
++ (void)swizzleIfNeeded{
+    static BOOL kSwizzled = NO;
+    if(!kSwizzled){
+        RMSwizzleSelector([UIImage class], @selector(dealloc), @selector(rm_dealloc));
+        kSwizzled = YES;
+    }
 }
 
 @end

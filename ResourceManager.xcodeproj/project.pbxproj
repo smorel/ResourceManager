@@ -35,10 +35,10 @@
 		963715161795B2CB00CE847D /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 963715151795B2CB00CE847D /* DropboxSDK.framework */; };
 		9637151B1795C91400CE847D /* RMFileSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 963715191795C91400CE847D /* RMFileSystem.h */; };
 		9637151C1795C91400CE847D /* RMFileSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9637151A1795C91400CE847D /* RMFileSystem.m */; };
-		9637151F1795E91600CE847D /* UIImage+ResourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9637151D1795E91600CE847D /* UIImage+ResourceManager.h */; };
-		963715201795E91600CE847D /* UIImage+ResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9637151E1795E91600CE847D /* UIImage+ResourceManager.m */; };
-		963715231795EBFB00CE847D /* RMRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = 963715211795EBFA00CE847D /* RMRuntime.h */; };
-		963715241795EBFB00CE847D /* RMRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = 963715221795EBFA00CE847D /* RMRuntime.m */; };
+		9637151F1795E91600CE847D /* UIImage+ResourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9637151D1795E91600CE847D /* UIImage+ResourceManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		963715201795E91600CE847D /* UIImage+ResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9637151E1795E91600CE847D /* UIImage+ResourceManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		96EFE7CA1796EA010034F935 /* RMRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = 96EFE7C81796EA010034F935 /* RMRuntime.h */; };
+		96EFE7CB1796EA010034F935 /* RMRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EFE7C91796EA010034F935 /* RMRuntime.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,8 +70,8 @@
 		9637151A1795C91400CE847D /* RMFileSystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMFileSystem.m; path = Classes/RMFileSystem.m; sourceTree = "<group>"; };
 		9637151D1795E91600CE847D /* UIImage+ResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+ResourceManager.h"; path = "Classes/UIImage+ResourceManager.h"; sourceTree = "<group>"; };
 		9637151E1795E91600CE847D /* UIImage+ResourceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+ResourceManager.m"; path = "Classes/UIImage+ResourceManager.m"; sourceTree = "<group>"; };
-		963715211795EBFA00CE847D /* RMRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMRuntime.h; path = Classes/RMRuntime.h; sourceTree = "<group>"; };
-		963715221795EBFA00CE847D /* RMRuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMRuntime.m; path = Classes/RMRuntime.m; sourceTree = "<group>"; };
+		96EFE7C81796EA010034F935 /* RMRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMRuntime.h; path = Classes/RMRuntime.h; sourceTree = "<group>"; };
+		96EFE7C91796EA010034F935 /* RMRuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMRuntime.m; path = Classes/RMRuntime.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,8 +150,8 @@
 				9637150A1795921700CE847D /* RMResourceManager.m */,
 				963715191795C91400CE847D /* RMFileSystem.h */,
 				9637151A1795C91400CE847D /* RMFileSystem.m */,
-				963715211795EBFA00CE847D /* RMRuntime.h */,
-				963715221795EBFA00CE847D /* RMRuntime.m */,
+				96EFE7C81796EA010034F935 /* RMRuntime.h */,
+				96EFE7C91796EA010034F935 /* RMRuntime.m */,
 				9637151D1795E91600CE847D /* UIImage+ResourceManager.h */,
 				9637151E1795E91600CE847D /* UIImage+ResourceManager.m */,
 			);
@@ -169,7 +169,7 @@
 				9637150E179596B700CE847D /* ResourceManager.h in Headers */,
 				9637151B1795C91400CE847D /* RMFileSystem.h in Headers */,
 				9637151F1795E91600CE847D /* UIImage+ResourceManager.h in Headers */,
-				963715231795EBFB00CE847D /* RMRuntime.h in Headers */,
+				96EFE7CA1796EA010034F935 /* RMRuntime.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,7 +270,7 @@
 				9637150C1795921700CE847D /* RMResourceManager.m in Sources */,
 				9637151C1795C91400CE847D /* RMFileSystem.m in Sources */,
 				963715201795E91600CE847D /* UIImage+ResourceManager.m in Sources */,
-				963715241795EBFB00CE847D /* RMRuntime.m in Sources */,
+				96EFE7CB1796EA010034F935 /* RMRuntime.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,6 +420,7 @@
 				963714F617958AB700CE847D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		963714F717958AB700CE847D /* Build configuration list for PBXAggregateTarget "ResourceManager Documentation" */ = {
 			isa = XCConfigurationList;
@@ -428,6 +429,7 @@
 				963714F917958AB700CE847D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

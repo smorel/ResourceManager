@@ -8,8 +8,28 @@
 
 #import <UIKit/UIKit.h>
 
+/**
+ */
 @interface UIImage(ResourceManager)
 
-+ (void)initResourceManagement;
+/**
+ */
++ (NSString*)resoucePathForImageNamed:(NSString*)name;
+
+/**
+ */
++ (UIImage*)imageNamed:(NSString *)name update:(void(^)(UIImage* image))update;
+
+/**
+ */
++ (UIImage*)imageWithContentsOfFile:(NSString *)path update:(void(^)(UIImage* image))update;
+
+/**
+ */
+- (id)initWithImageNamed:(NSString*)name update:(void(^)(UIImage* image))update;
+
+/**
+ */
+- (id)initWithContentsOfFile:(NSString *)path update:(void(^)(UIImage* image))update;
 
 @end

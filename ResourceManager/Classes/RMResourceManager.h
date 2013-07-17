@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 extern NSString* RMResourceManagerFileDidUpdateNotification;
-extern NSString* RMResourceManagerApplicationFullPathKey;
+extern NSString* RMResourceManagerApplicationBundlePathKey;
 extern NSString* RMResourceManagerRelativePathKey;
 extern NSString* RMResourceManagerMostRecentPathKey;
 
@@ -31,17 +31,10 @@ extern NSString* RMResourceManagerMostRecentPathKey;
  Initializing Manager
  *****************************************************/
 
-/** Initialize a newly created resource manager object to manage sync using dropbox and the local file system.
- */
-- (id)initWithAppKey:(NSString*)appKey secret:(NSString*)secret dropboxFolder:(NSString*)folder localResourcesDirectory:(NSString*)localResourcesDirectory;
-
-/** Initialize a newly created resource manager object to manage sync using dropbox only.
+/** Initialize a newly created resource manager object to manage sync using dropbox.
  */
 - (id)initWithAppKey:(NSString*)appKey secret:(NSString*)secret dropboxFolder:(NSString*)folder;
 
-/** Initialize a newly created resource manager object to manage sync using the local file system only.
- */
-- (id)initWithLocalResourcesDirectory:(NSString*)localResourcesDirectory;
 
 /******************************************************
  Managing Singleton
@@ -51,21 +44,17 @@ extern NSString* RMResourceManagerMostRecentPathKey;
  */
 + (void)setSharedManager:(RMResourceManager*)manager;
 
-/** Get the shared manager.
- */
-+ (RMResourceManager*)sharedManager;
-
 /******************************************************
  Authentificating withDropbox
  *****************************************************/
 
 /** Forward the open application with url event to the dropbox account After authentification.
  */
-- (void)handleApplication:(UIApplication *)application openURL:(NSURL *)url;
++ (void)handleApplication:(UIApplication *)application openURL:(NSURL *)url;
 
 /** Forward the open application didFinishLaunchingWithOptions event to the dropbox account for authentification.
  */
-- (void)handleApplication:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
++ (void)handleApplication:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
 
 
 /******************************************************
@@ -74,13 +63,21 @@ extern NSString* RMResourceManagerMostRecentPathKey;
 
 /** default value is 3 seconds.
  */
-@property (nonatomic, assign) NSTimeInterval pullingTimeInterval;
-
++ (void)setPullingInterval:(NSTimeInterval)interval;
 
 /******************************************************
  Accessing resource files
  *****************************************************/
 
-- (NSString *)pathForResource:(NSString *)name ofType:(NSString *)ext;
++ (NSString *)pathForResource:(NSString *)name ofType:(NSString *)ext;
+
++ (NSString *)pathForResource:(NSString *)name ofType:(NSString *)ext observer:(id)observer usingBlock:(void(^)(id observer, NSString* path))updateBlock;
+
+/******************************************************
+ Managing update observers
+ *****************************************************/
+
++ (void)addObserverForPath:(NSString*)path object:(id)object usingBlock:(void(^)(id observer, NSString* path))updateBlock;
++ (void)removeObserver:(id)object;
 
 @end

@@ -25,4 +25,6 @@
  */
 - (NSString *)pathForResource:(NSString *)name ofType:(NSString *)ext forLocalization:(NSString *)localizationName;
 
+- (NSString*) relativePathForPath:(NSString*)path;
+
 @end

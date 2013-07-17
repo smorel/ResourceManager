@@ -25,6 +25,8 @@ The dropbox authentication mechanism requires application redirect via Url Schem
 
 Once authenticated, your app will be re-launched with the URL scheme db-APP_KEY. The easiest way to register for this scheme is to right-click on your app's plist file and select Open As → Source Code, and add the following code below the first <dict> tag, substituting APP_KEY with your app's key:
 
+
+<pre>
 <key>CFBundleURLTypes</key>
 <array>
     <dict>
@@ -34,10 +36,11 @@ Once authenticated, your app will be re-launched with the URL scheme db-APP_KEY.
         </array>
     </dict>
 </array>
-
+</pre>
 
 <b>In your application delegate:</b>
 
+<pre>
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
     //Do your stuff ...
 
@@ -54,6 +57,7 @@ Once authenticated, your app will be re-launched with the URL scheme db-APP_KEY.
 	[[RMResourceManager sharedManager]handleApplication:application openURL:url];
         //Do your stuff
 }
+</pre>
 
 
 <b>Retrieving a resource and managing updates:</b>

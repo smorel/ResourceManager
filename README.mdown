@@ -18,7 +18,11 @@ You can easily disconnect the dropbox sync mechanism but still using the APIs to
 
 ## Sample Usage
 
-<b>In your target plist:</b>
+<b>1. Create your app on dropbox:</b>
+
+https://www.dropbox.com/developers/apps
+
+<b>2. In your target plist:</b>
 
 The dropbox authentication mechanism requires application redirect via Url Scheme.
 "From the DropboxSDK documentation" at https://www.dropbox.com/developers/core/start/ios
@@ -27,7 +31,7 @@ Once authenticated, your app will be re-launched with the URL scheme db-APP_KEY.
 
 <pre> CFBundleURLTypes CFBundleURLSchemes db-APP_KEY</pre>
 
-<b>In your application delegate:</b>
+<b>3. In your application delegate:</b>
 
 <pre>
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
@@ -49,7 +53,7 @@ Once authenticated, your app will be re-launched with the URL scheme db-APP_KEY.
 </pre>
 
 
-<b>Retrieving a resource and managing updates:</b>
+<b>4. Retrieving a resource and managing updates:</b>
 
 //TODO
 

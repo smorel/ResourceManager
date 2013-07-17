@@ -7,9 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
+#import <DropboxSDK/DropboxSDK.h>
 
 @interface RMPermissions : NSObject
 @property(nonatomic, copy) void(^availabilityBlock)(BOOL available);
+
+- (id)initWithAccount:(DBAccountInfo*)account;
 
 - (BOOL)arePermissionsAvailable;
 - (BOOL)canAccesFilesInDirectory:(NSString*)directory;

@@ -17,6 +17,8 @@
 
 - (id)initWithDropboxFolder:(NSString*)folder;
 
+- (void)start;
+
 /** This will return the path of the most recent file between the specified application file and the potentially downloaded file from dropbox.
  */
 - (NSString*)pathForResourceAtPath:(NSString*)applicationBundlePath;

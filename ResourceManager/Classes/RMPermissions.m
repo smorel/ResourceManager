@@ -8,18 +8,20 @@
 
 #import "RMPermissions.h"
 #import "RMResourceManager.h"
-#import <DropboxSDK/DropboxSDK.h>
 
 @interface RMPermissions()
 @property(nonatomic,assign) BOOL available;
+@property(nonatomic,retain) DBAccountInfo* account;
 @property(nonatomic,retain) NSMutableDictionary* allowedUsersByFolder;
 @property(nonatomic,retain) NSMutableDictionary* allowedUsersByExtension;
 @end
 
 @implementation RMPermissions
 
-- (id)init{
+- (id)initWithAccount:(DBAccountInfo*)theAccount{
     self = [super init];
+    
+    self.account = theAccount;
     
     NSString* filePath = [RMResourceManager pathForResource:@"ResourceManager" ofType:@"permissions"];
     [self loadPermissionFromPath:filePath];
@@ -53,18 +55,29 @@
     
     NSError* error = nil;
     id object = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-    NSAssert([object isKindOfClass:[NSArray class]],@"invalid content for permissions");
+    if(!object || ![object isKindOfClass:[NSArray class]]){
+        //TODO : Log error
+        return;
+    }
     
     for(NSDictionary* permission in object){
         NSArray* users = [permission objectForKey:@"users"];
         if(users && users.count > 0){
             NSString* folder = [permission objectForKey:@"folder"];
             if(folder){
-                [self.allowedUsersByFolder setObject:users forKey:folder];
+                NSMutableArray* lowerCaseUsers = [NSMutableArray arrayWithCapacity:users.count];
+                for(NSString* user in users){
+                    [lowerCaseUsers addObject:[user lowercaseString]];
+                }
+                [self.allowedUsersByFolder setObject:lowerCaseUsers forKey:folder];
             }else{
                 NSString* extension = [permission objectForKey:@"extension"];
                 if(extension){
-                    [self.allowedUsersByExtension setObject:users forKey:folder];
+                    NSMutableArray* lowerCaseUsers = [NSMutableArray arrayWithCapacity:users.count];
+                    for(NSString* user in users){
+                        [lowerCaseUsers addObject:[user lowercaseString]];
+                    }
+                    [self.allowedUsersByExtension setObject:lowerCaseUsers forKey:folder];
                 }
             }
         }
@@ -87,17 +100,19 @@
 }
 
 - (BOOL)isSessionUserAllowed:(NSArray*)allowedUsers{
-    NSArray* currentUsers = [[DBSession sharedSession]userIds];
-    for(NSString* userId in currentUsers){
-        NSInteger index = [allowedUsers indexOfObject:userId];
-        if(index != NSNotFound)
-            return YES;
-    }
-    
-    return NO;
+    NSString* currentUser = [self.account.displayName lowercaseString];
+    NSInteger index = [allowedUsers indexOfObject:currentUser];
+    return index != NSNotFound;
 }
 
 - (BOOL)iterateOnDirectoryAccess:(NSString*)directory{
+    if([directory hasPrefix:@"/"]){
+        directory = [directory stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:@""];
+    }
+    if([directory hasSuffix:@"/"]){
+        directory = [directory stringByReplacingCharactersInRange:NSMakeRange(directory.length-1,1) withString:@""];
+    }
+        
     if(!directory || directory.length <= 0)
         return YES;
     

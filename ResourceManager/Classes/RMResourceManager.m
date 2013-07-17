@@ -44,6 +44,10 @@ static RMResourceManager* kSharedManager = nil;
 
 + (void)setSharedManager:(RMResourceManager*)manager{
     kSharedManager = manager;
+    
+    if(manager && [[DBSession sharedSession] isLinked]){
+        [manager startResourceManagement];
+    }
 }
 
 + (RMResourceManager*)sharedManager{
@@ -64,10 +68,6 @@ static RMResourceManager* kSharedManager = nil;
         [DBSession setSharedSession:dbSession];
         
         self.dropboxFolder = folder;
-        
-        if([[DBSession sharedSession] isLinked]){
-            [self startResourceManagement];
-        }
     }
     
     return self;
@@ -147,7 +147,7 @@ static RMResourceManager* kSharedManager = nil;
             NSArray* updatedFiles = [notification.userInfo objectForKey:RMResourceManagerUpdatedResourcesPathKey];
             NSMutableSet* updatedFileExtensions = [NSMutableSet set];
             for(NSDictionary* file in updatedFiles){
-                NSString* mostRecentPath = [notification.userInfo objectForKey:RMResourceManagerMostRecentPathKey];
+                NSString* mostRecentPath = [file objectForKey:RMResourceManagerMostRecentPathKey];
                 NSString* extension      = [mostRecentPath pathExtension];
                 [updatedFileExtensions addObject:extension];
             }
@@ -155,7 +155,8 @@ static RMResourceManager* kSharedManager = nil;
             [bself resourcesDidUpdateWithExtensions:updatedFileExtensions];
         }
     }];
-
+    
+    [self.fileSystem start];
 }
 
 - (void)stopResourceManagement{

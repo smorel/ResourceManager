@@ -18,6 +18,7 @@
 @property (nonatomic, retain) NSString* rootFolder;
 @property (nonatomic, assign) NSInteger metaDataRequestCount;
 
+@property (nonatomic, retain) NSMutableArray* removeFromCacheList;
 @property (nonatomic, retain) NSArray* pendingDowloads;
 @property (nonatomic, assign) NSInteger pendingDownloadCount;
 
@@ -32,32 +33,34 @@
 - (id)initWithDropboxFolder:(NSString*)folder{
     self = [super init];
     
-    
-    self.dbClient = [[DBRestClient alloc]initWithSession:[DBSession sharedSession]];
-    self.dbClient.delegate = self;
     self.rootFolder = folder ? folder : @"/";
-    
-    _processQueue = dispatch_queue_create("com.wherecloud.resourcemanager", 0);
-    
-    self.permissions = [[RMPermissions alloc]init];
-    
-   /* if([self.permissions arePermissionsAvailable]){
-        [self processDropBoxResources];
-    }else{
-        __unsafe_unretained RMFileSystem* bself = self;
-        self.permissions.availabilityBlock = ^(BOOL available){
-            [bself processDropBoxResources];
-        };
-    }*/
-    
-    [self processDropBoxResources];
-    
     
     return self;
 }
 
+- (void)start{
+    _processQueue = dispatch_queue_create("com.wherecloud.resourcemanager", 0);
+    
+    
+    self.dbClient = [[DBRestClient alloc]initWithSession:[DBSession sharedSession]];
+    self.dbClient.delegate = self;
+    
+    [self.dbClient loadAccountInfo];
+}
+
+
+- (void)restClient:(DBRestClient*)client loadedAccountInfo:(DBAccountInfo*)info{
+    self.permissions = [[RMPermissions alloc]initWithAccount:info];
+    [self processDropBoxResources];
+}
+
+- (void)restClient:(DBRestClient*)client loadAccountInfoFailedWithError:(NSError*)error{
+    [self processDropBoxResources];
+}
+
 - (void)processDropBoxResources{
     self.dropboxResourcesMetadata = [NSMutableArray array];
+    self.removeFromCacheList = [NSMutableArray array];
     [self loadMetadata:self.rootFolder];
 }
 
@@ -78,16 +81,27 @@
             if(file.isDirectory){
                 [self loadMetadata:file.path];
             }else{
-                NSString* folder = [self dropboxFolderForPermissions:file.path];
-                if(![self.permissions canAccesFilesInDirectory:folder]){
-                    //Add to remove list
-                    continue;
-                }
-                
-                NSString* extension = [file.path pathExtension];
-                if(![self.permissions canAccessFilesWithExtension:extension]){
-                    //Add to remove list
-                    continue;
+                NSString* fileName = [file.path lastPathComponent];
+                if(![[fileName lowercaseString] isEqualToString:@"resourcemanager.permissions"]){
+                    NSString* folder = [self dropboxFolderForPermissions:file.path];
+                    if(![self.permissions canAccesFilesInDirectory:folder]){
+                        NSString* relativePath = [self relativePathFromDropboxPath:file.path];
+                        NSString* cachePath = [self cachePathForRelativeResourcePath:relativePath];
+                        if([[NSFileManager defaultManager]fileExistsAtPath:cachePath]){
+                            [self.removeFromCacheList addObject:file];
+                        }
+                        continue;
+                    }
+                    
+                    NSString* extension = [file.path pathExtension];
+                    if(![self.permissions canAccessFilesWithExtension:extension]){
+                        NSString* relativePath = [self relativePathFromDropboxPath:file.path];
+                        NSString* cachePath = [self cachePathForRelativeResourcePath:relativePath];
+                        if([[NSFileManager defaultManager]fileExistsAtPath:cachePath]){
+                            [self.removeFromCacheList addObject:file];
+                        }
+                        continue;
+                    }
                 }
                 
                 [self.dropboxResourcesMetadata addObject:file];
@@ -214,6 +228,8 @@
         
         if(filesToDownload.count > 0){
             [self downloadFiles:filesToDownload];
+        }else if(self.removeFromCacheList.count > 0){
+            [self notifyForUpdateAfterDownloads];
         }else{
             [self triggerNextPulling];
         }
@@ -271,9 +287,29 @@
         [[NSNotificationCenter defaultCenter]postNotificationName:RMResourceManagerFileDidUpdateNotification object:self userInfo:userData];
     }
     
+    for(DBMetadata* file in self.removeFromCacheList){
+        NSString* relativePath = [self relativePathFromDropboxPath:file.path];
+        NSString* appPath = [[NSBundle mainBundle]pathForResource:relativePath ofType:nil];
+        NSString* cachePath = [self cachePathForRelativeResourcePath:relativePath];
+        
+        NSError* error = nil;
+        [[NSFileManager defaultManager]removeItemAtPath:cachePath error:&error];
+        
+        
+        NSDictionary* userData = @{
+                                   RMResourceManagerApplicationBundlePathKey : appPath ? appPath : @"",
+                                   RMResourceManagerRelativePathKey          : relativePath ? relativePath : @"",
+                                   RMResourceManagerMostRecentPathKey        : appPath ? appPath : @""
+                                   };
+        [files addObject:userData];
+        
+        [[NSNotificationCenter defaultCenter]postNotificationName:RMResourceManagerFileDidUpdateNotification object:self userInfo:userData];
+    }
+    
     [[NSNotificationCenter defaultCenter]postNotificationName:RMResourceManagerDidEndUpdatingResourcesNotification object:self userInfo:@{RMResourceManagerUpdatedResourcesPathKey : files}];
     
     self.pendingDowloads = nil;
+    self.removeFromCacheList = nil;
     
     [self triggerNextPulling];
 }
@@ -340,25 +376,66 @@
     return nil;
 }
 
+//array a set of NSString
+- (NSArray*)filesInCacheWithExtension:(NSString*)extension localization:(NSString*)localizationName{
+    NSString* directory = [self cacheDirectory];
+    
+    NSBundle* bundle = [[NSBundle alloc]initWithPath:directory];
+    NSArray* paths = [bundle pathsForResourcesOfType:extension inDirectory:nil forLocalization:localizationName];
+    return paths;
+}
+
+//returns an array of NSString
+- (NSArray*)filesInApplicationBundleWithExtension:(NSString*)extension localization:(NSString*)localizationName{
+    return [[NSBundle mainBundle]pathsForResourcesOfType:extension inDirectory:nil forLocalization:localizationName];
+}
+
+- (NSArray*)mergePathsFromCache:(NSArray*)cachePaths withApplicationBundlePaths:(NSArray*)appPaths{
+    NSString* mainBundlePath = [[NSBundle mainBundle]bundlePath];
+    
+    NSMutableArray* noInAppCachePaths = [NSMutableArray arrayWithArray:cachePaths];
+    
+    //get the newest between app and cache
+    NSMutableArray* finalPaths = [NSMutableArray array];
+    for(NSString* appPath in appPaths){
+        NSString* relativePath = [appPath stringByReplacingOccurrencesOfString:mainBundlePath withString:@""];
+        NSString* cachePath = [self cachePathForRelativeResourcePath:relativePath];
+        NSInteger index = [noInAppCachePaths indexOfObject:cachePath];
+        
+        if(index == NSNotFound){
+            [finalPaths addObject:appPath];
+            continue;
+        }
+        
+        [noInAppCachePaths removeObjectAtIndex:index];
+        
+        NSError* error = nil;
+        NSDictionary* appFileProperties = [[NSFileManager defaultManager] attributesOfItemAtPath:appPath error:&error];
+        NSDate* appLastModifiedDate = [appFileProperties objectForKey:NSFileModificationDate];
+        
+        NSDictionary* cacheFileProperties = [[NSFileManager defaultManager] attributesOfItemAtPath:cachePath error:&error];
+        NSDate* cacheLastModifiedDate = [cacheFileProperties objectForKey:NSFileModificationDate];
+        if([cacheLastModifiedDate compare: appLastModifiedDate] >= 1){
+            [finalPaths addObject:cachePath];
+            continue;
+        }
+        
+        [finalPaths addObject:appPath];
+    }
+    
+    //get those in cache that are not in app
+    for(NSString* cachePath in noInAppCachePaths){
+        [finalPaths addObject:cachePath];
+    }
+    
+    return finalPaths;
+}
 
 - (NSArray *)pathsForResourcesWithExtension:(NSString *)ext localization:(NSString *)localizationName{
-    NSAssert(NO,@"Not implemented yet!");
+    NSArray* cache = [self filesInCacheWithExtension:ext localization:localizationName];
+    NSArray* app   = [self filesInApplicationBundleWithExtension:ext localization:localizationName];
     
-    /*
-    NSURL* cacheDirectoryUrl = [NSURL fileURLWithPath:[self cacheDirectory] isDirectory:YES];
-    NSMutableArray *cachedFilesURLs = [[[NSFileManager defaultManager] contentsOfDirectoryAtURL:cacheDirectoryUrl
-                                                                     includingPropertiesForKeys:[NSArray arrayWithObject:NSURLContentModificationDateKey]
-                                                                                        options:NSDirectoryEnumerationSkipsHiddenFiles
-                                                                                          error:nil] mutableCopy];
-    //Get the content of the localized folder
-    //get the content of default language folder
-    //merge localized and default folders by keeping the localized first
-    
-    //get the files with extension from the main bundle
-    
-    //merge by keeping the last updated file
-    //return
-     */
+    return [self mergePathsFromCache:cache withApplicationBundlePaths:app];
 }
 
 @end

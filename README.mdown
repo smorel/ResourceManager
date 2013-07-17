@@ -21,22 +21,11 @@ You can easily disconnect the dropbox sync mechanism but still using the APIs to
 <b>In your target plist:</b>
 
 The dropbox authentication mechanism requires application redirect via Url Scheme.
-"From the DropboxSDK documentation" :
+"From the DropboxSDK documentation" at https://www.dropbox.com/developers/core/start/ios
 
 Once authenticated, your app will be re-launched with the URL scheme db-APP_KEY. The easiest way to register for this scheme is to right-click on your app's plist file and select Open As → Source Code, and add the following code below the first <dict> tag, substituting APP_KEY with your app's key:
 
-
-<pre>
-<key>CFBundleURLTypes</key>
-<array>
-    <dict>
-        <key>CFBundleURLSchemes</key>
-        <array>
-            <string>db-APP_KEY</string>
-        </array>
-    </dict>
-</array>
-</pre>
+<pre> CFBundleURLTypes CFBundleURLSchemes db-APP_KEY</pre>
 
 <b>In your application delegate:</b>
 

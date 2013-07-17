@@ -1,0 +1,128 @@
+# ResourceManager
+
+ResourceManager is a framework designed to improve your productivity while developing iOS application. The main objective is to synchronize a dropbox repository of resource with your app on a device and/or the simulator by synching the dropbox folder in a local cache directory and by getting the most recent resources between the application or this cached resource directory.
+
+ResourceManager also provides the mechanism to automatically update your UI/localization when a resource gets updated on dropbox.
+This requires to create a dropbox app that is connected to your account and a folder where you will put the resources you want to be able to update using this mechanism. You will need to specify the appKey and secret at launch to get your iOS application connected to dropbox.
+
+https://www.dropbox.com/developers/apps
+
+The AppCoreKit framework full integrates the ResourceManager framework as a weak dependency. This means that if you're linking with both frameworks, the AppCoreKit resources such as sty sheets, layouts, mappings, … will automatically been updated and reloaded at runtime when that get modified on dropbox. This replaces the local file directory update we had before that only worked in the simulator.
+
+https://github.com/wherecloud/AppCoreKit
+
+The ResourceManager framework can be used alone and provides some apis to get resource paths with an update block that will get triggered when this particular resource gets updated from dropbox. The API looks like the NSBundle api by adding some update features.
+
+You can easily disconnect the dropbox sync mechanism but still using the APIs to get the resources from the application bundle by not setting a shareManager on RMResourceManager. This is what you'll want to do when you'll ship your application on the appStore.
+
+
+## Sample Usage
+
+<b>In your target plist:</b>
+
+The dropbox authentication mechanism requires application redirect via Url Scheme.
+"From the DropboxSDK documentation" :
+
+Once authenticated, your app will be re-launched with the URL scheme db-APP_KEY. The easiest way to register for this scheme is to right-click on your app's plist file and select Open As → Source Code, and add the following code below the first <dict> tag, substituting APP_KEY with your app's key:
+
+<key>CFBundleURLTypes</key>
+<array>
+    <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+            <string>db-APP_KEY</string>
+        </array>
+    </dict>
+</array>
+
+
+<b>In your application delegate:</b>
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
+    //Do your stuff ...
+
+    //After :
+    [self.window makeKeyAndVisible];
+
+    RMResourceManager* resourceManager = [[RMResourceManager alloc]initWithAppKey:@"APP_KEY" secret:@"APP_SECRET" dropboxFolder:@"ROOT_DIRECTORY"];
+    [RMResourceManager setSharedManager:resourceManager];
+
+    [[RMResourceManager sharedManager]handleApplication:application didFinishLaunchingWithOptions:launchOptions];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+	[[RMResourceManager sharedManager]handleApplication:application openURL:url];
+        //Do your stuff
+}
+
+
+<b>Retrieving a resource and managing updates:</b>
+
+//TODO
+
+
+## Compiling the framework
+
+ResourceManager is built as a Static Framework. Static Framework are not natively supported by Xcode and requires some additional specifications to get compiled properly.
+
+Copy the following file:
+
+<pre>./static Frameworks.xcspec</pre>
+
+To:
+
+<pre>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Specifications</pre>
+And
+<pre>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Specifications</pre>
+
+<b>IMPORTANT</b> : You will have to copy this file each time you update Xcode to a newer version.
+
+
+## Compiling the API Documentation
+
+ResourceManager provides a "Documentation" target that generate a docset using the public header files and the additional programming guides in the Documentation folder. This target is a script base on "appledoc". To install appledoc, follow the installation procedure here : https://github.com/tomaz/appledoc
+
+## Using ResourceManager in your own App
+
+* <b>Drag'n'drop</b> the ResourceManager project as subproject in Xcode.
+
+* Adds the ResourceManager.framework <b>link dependency to your target</b> in the build phases settings.
+
+* Add the following <b>frameworks and libraries dependencies</b> to your project in the build phases settings: 
+<pre>
+DropboxSDK, (that can be found in this repository) 
+Security, 
+QuartzCore.
+</pre>
+
+
+* Adds the following <b>link flags</b> in your build settings (<b>OTHER_LDFLAGS</b>): 
+<pre>
+ -ObjC -all_load -weak_library /usr/lib/libstdc++.dylib
+</pre>
+
+
+
+## Credits
+
+If you have any comments, suggestions, question or information request, please contact us at appcorekitsupport@wherecloud.com.
+
+Want to keep updated? Follow us on Twitter - @appcorekit.
+
+
+## License
+
+Copyright 2009-2013 WhereCloud, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+   

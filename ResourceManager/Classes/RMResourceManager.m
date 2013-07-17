@@ -21,6 +21,9 @@ NSString* RMResourceManagerApplicationBundlePathKey  = @"RMResourceManagerApplic
 NSString* RMResourceManagerRelativePathKey           = @"RMResourceManagerRelativePathKey";
 NSString* RMResourceManagerMostRecentPathKey         = @"RMResourceManagerMostRecentPathKey";
 
+NSString* RMResourceManagerDidEndUpdatingResourcesNotification = @"RMResourceManagerDidEndUpdatingResourcesNotification";
+NSString* RMResourceManagerUpdatedResourcesPathKey             = @"RMResourceManagerUpdatedResourcesPathKey";
+
 static RMResourceManager* kSharedManager = nil;
 
 @interface RMResourceManager()<DBSessionDelegate>
@@ -31,6 +34,7 @@ static RMResourceManager* kSharedManager = nil;
 @property (nonatomic, assign) NSTimeInterval pullingTimeInterval;
 
 @property (nonatomic, retain) NSMutableDictionary* updateDictionary; //{ "relativePath" : { "weak NSValue observer" : "updateBlock", ... } , ... }
+@property (nonatomic, retain) NSMutableDictionary* updateExtensionsDictionary; //{ "extension" : { "weak NSValue observer" : "updateBlock", ... } , ... }
 
 @end
 
@@ -137,6 +141,21 @@ static RMResourceManager* kSharedManager = nil;
         NSString* mostRecentPath        = [notification.userInfo objectForKey:RMResourceManagerMostRecentPathKey];
         [bself resourceDidUpdateWithRelativePath:relativePath applicationBundlePath:applicationBundlePath mostRecentPath:mostRecentPath];
     }];
+    
+    [[NSNotificationCenter defaultCenter]addObserverForName:RMResourceManagerDidEndUpdatingResourcesNotification object:self.fileSystem queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
+        if([bself.updateExtensionsDictionary count] > 0){
+            NSArray* updatedFiles = [notification.userInfo objectForKey:RMResourceManagerUpdatedResourcesPathKey];
+            NSMutableSet* updatedFileExtensions = [NSMutableSet set];
+            for(NSDictionary* file in updatedFiles){
+                NSString* mostRecentPath = [notification.userInfo objectForKey:RMResourceManagerMostRecentPathKey];
+                NSString* extension      = [mostRecentPath pathExtension];
+                [updatedFileExtensions addObject:extension];
+            }
+            
+            [bself resourcesDidUpdateWithExtensions:updatedFileExtensions];
+        }
+    }];
+
 }
 
 - (void)stopResourceManagement{
@@ -181,6 +200,36 @@ static RMResourceManager* kSharedManager = nil;
     return path;
 }
 
++ (NSArray *)pathsForResourcesWithExtension:(NSString *)ext{
+    NSString* currentLocale = [[NSLocale preferredLanguages] objectAtIndex:0];
+    return [self pathsForResourcesWithExtension:ext localization:currentLocale];
+}
+
++ (NSArray *)pathsForResourcesWithExtension:(NSString *)ext localization:(NSString *)localizationName{
+    RMResourceManager* manager = [RMResourceManager sharedManager];
+    if(!manager || !manager.fileSystem){
+        return [[NSBundle mainBundle]pathsForResourcesOfType:ext inDirectory:nil];
+    }
+    
+    return [manager.fileSystem pathsForResourcesWithExtension:ext localization:localizationName];
+}
+
++ (NSArray *)pathsForResourcesWithExtension:(NSString *)ext observer:(id)observer usingBlock:(void(^)(id observer, NSArray* paths))updateBlock{
+    NSArray* paths = [self pathsForResourcesWithExtension:ext];
+    if(paths && updateBlock && observer){
+        [RMResourceManager addObserverForResourcesWithExtension:ext object:observer usingBlock:updateBlock];
+    }
+    return paths;
+}
+
++ (NSArray *)pathsForResourcesWithExtension:(NSString *)ext localization:(NSString *)localizationName observer:(id)observer usingBlock:(void(^)(id observer, NSArray* paths))updateBlock{
+    NSArray* paths = [self pathsForResourcesWithExtension:ext localization:localizationName];
+    if(paths && updateBlock && observer){
+        [RMResourceManager addObserverForResourcesWithExtension:ext object:observer usingBlock:updateBlock];
+    }
+    return paths;
+}
+
 #pragma mark Managing Update Observer
 
 //This is not the optimal version we could do here as it requiers to iterate on all dictionary entries ...
@@ -193,6 +242,11 @@ static RMResourceManager* kSharedManager = nil;
     NSValue* observerValue = [NSValue valueWithNonretainedObject:observer];
     for(NSString* relativePath in [manager.updateDictionary allKeys]){
         NSMutableDictionary* observersToUpdateBlocks = [manager.updateDictionary objectForKey:relativePath];
+        [observersToUpdateBlocks removeObjectForKey:observerValue];
+    }
+    
+    for(NSString* relativePath in [manager.updateExtensionsDictionary allKeys]){
+        NSMutableDictionary* observersToUpdateBlocks = [manager.updateExtensionsDictionary objectForKey:relativePath];
         [observersToUpdateBlocks removeObjectForKey:observerValue];
     }
 }
@@ -221,6 +275,28 @@ static RMResourceManager* kSharedManager = nil;
     [observersToUpdateBlocks setObject:[updateBlock copy] forKey:observerValue];
 }
 
++ (void)addObserverForResourcesWithExtension:(NSString*)ext object:(id)observer usingBlock:(void(^)(id observer, NSArray* paths))updateBlock{
+    if(!ext)
+        return;
+    
+    RMResourceManager* manager = [RMResourceManager sharedManager];
+    if(!manager || !manager.fileSystem)
+        return;
+    
+    if(!manager.updateExtensionsDictionary){
+        manager.updateExtensionsDictionary = [NSMutableDictionary dictionary];
+    }
+    
+    NSMutableDictionary* observersToUpdateBlocks = [manager.updateDictionary objectForKey:ext];
+    if(!observersToUpdateBlocks){
+        observersToUpdateBlocks = [NSMutableDictionary dictionary];
+        [manager.updateExtensionsDictionary setObject:observersToUpdateBlocks forKey:ext];
+    }
+    
+    NSValue* observerValue = [NSValue valueWithNonretainedObject:observer];
+    [observersToUpdateBlocks setObject:[updateBlock copy] forKey:observerValue];
+}
+
 - (void)resourceDidUpdateWithRelativePath:(NSString*)relativePath applicationBundlePath:(NSString*)applicationBundlePath mostRecentPath:(NSString*)mostRecentPath{
     if(!self.updateDictionary)
         return;
@@ -230,6 +306,20 @@ static RMResourceManager* kSharedManager = nil;
         id observer = [observerValue nonretainedObjectValue];
         void(^updateBlock)(id observer, NSString* path) = [observersToUpdateBlocks objectForKey:observerValue];
         updateBlock(observer,mostRecentPath);
+    }
+}
+
+- (void)resourcesDidUpdateWithExtensions:(NSSet*)extensions{
+    for(NSString* extension in extensions){
+        NSMutableDictionary* observersToUpdateBlocks = [self.updateExtensionsDictionary objectForKey:extension];
+        
+        NSArray* updatedFiles = [RMResourceManager pathsForResourcesWithExtension:extension];
+        
+        for(NSValue* observerValue in [observersToUpdateBlocks allKeys]){
+            id observer = [observerValue nonretainedObjectValue];
+            void(^updateBlock)(id observer, NSArray* paths) = [observersToUpdateBlocks objectForKey:observerValue];
+            updateBlock(observer,updatedFiles);
+        }
     }
 }
 

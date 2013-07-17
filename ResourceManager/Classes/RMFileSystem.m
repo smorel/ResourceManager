@@ -102,7 +102,7 @@
 }
 
 - (BOOL)needsToDownloadFile:(DBMetadata*)file{
-    NSString* relativePath = [file.path stringByReplacingOccurrencesOfString:self.rootFolder withString:@""];
+    NSString* relativePath = [self relativePathFromDropboxPath:file.path];
     
     NSString* cachePath = [self cachePathForRelativeResourcePath:relativePath];
     if(![[NSFileManager defaultManager]fileExistsAtPath:cachePath]){
@@ -122,12 +122,31 @@
     return YES;
 }
 
+- (NSString*)relativePathFromDropboxPath:(NSString*)dropboxPath{
+    //TODO : Manages folders on dropbox and flatten hierarchy in cache directory
+    //if no .lproj directory in dropboxPath, uses /filename.extension
+    //else uses /language.lproj/filename.extension
+    
+    NSRange lprojRange = [dropboxPath rangeOfString:@"lproj"];
+    if(lprojRange.location == NSNotFound){
+        return [NSString stringWithFormat:@"/%@",[dropboxPath lastPathComponent]];
+    }
+    
+    NSArray* pathComponents = [dropboxPath pathComponents];
+    NSAssert(pathComponents.count >= 2,@"Localized file paths must at least have 2 path components");
+    
+    NSString* fileName = [pathComponents objectAtIndex:pathComponents.count - 1];
+    NSString* localizationFolder = [pathComponents objectAtIndex:pathComponents.count - 2];
+    
+    return [NSString stringWithFormat:@"/%@/%@",localizationFolder,fileName];
+}
+
 - (void)processAndDownloadMostRecentResources{
    // dispatch_async(_processQueue, ^{
         NSMutableArray* filesToDownload = [NSMutableArray array];
         
-        for(DBMetadata* file in self.dropboxResourcesMetadata){
-            NSString* relativePath = [file.path stringByReplacingOccurrencesOfString:self.rootFolder withString:@""];
+    for(DBMetadata* file in self.dropboxResourcesMetadata){
+            NSString* relativePath = [self relativePathFromDropboxPath:file.path];
             
             NSString* appPath = [[NSBundle mainBundle]pathForResource:relativePath ofType:nil];
             if(!appPath){
@@ -172,7 +191,7 @@
     self.pendingDownloadCount = files.count;
     
     for(DBMetadata* file in files){
-        NSString* relativePath = [file.path stringByReplacingOccurrencesOfString:self.rootFolder withString:@""];
+        NSString* relativePath = [self relativePathFromDropboxPath:file.path];
         
         NSString* cacheFilePath = [self cachePathForRelativeResourcePath:relativePath];
         if([[NSFileManager defaultManager]fileExistsAtPath:cacheFilePath]){
@@ -201,8 +220,10 @@
 }
 
 - (void)notifyForUpdateAfterDownloads{
+    NSMutableArray* files = [NSMutableArray arrayWithCapacity:self.pendingDowloads.count];
+    
     for(DBMetadata* file in self.pendingDowloads){
-        NSString* relativePath = [file.path stringByReplacingOccurrencesOfString:self.rootFolder withString:@""];
+        NSString* relativePath = [self relativePathFromDropboxPath:file.path];
         NSString* appPath = [[NSBundle mainBundle]pathForResource:relativePath ofType:nil];
         NSString* cachePath = [self cachePathForRelativeResourcePath:relativePath];
         
@@ -211,9 +232,12 @@
             RMResourceManagerRelativePathKey          : relativePath ? relativePath : @"",
             RMResourceManagerMostRecentPathKey        : cachePath ? cachePath : @""
         };
+        [files addObject:userData];
         
         [[NSNotificationCenter defaultCenter]postNotificationName:RMResourceManagerFileDidUpdateNotification object:self userInfo:userData];
     }
+    
+    [[NSNotificationCenter defaultCenter]postNotificationName:RMResourceManagerDidEndUpdatingResourcesNotification object:self userInfo:@{RMResourceManagerUpdatedResourcesPathKey : files}];
     
     self.pendingDowloads = nil;
     
@@ -280,6 +304,27 @@
         return [path stringByReplacingOccurrencesOfString:cachePath withString:@""];
     }
     return nil;
+}
+
+
+- (NSArray *)pathsForResourcesWithExtension:(NSString *)ext localization:(NSString *)localizationName{
+    NSAssert(NO,@"Not implemented yet!");
+    
+    /*
+    NSURL* cacheDirectoryUrl = [NSURL fileURLWithPath:[self cacheDirectory] isDirectory:YES];
+    NSMutableArray *cachedFilesURLs = [[[NSFileManager defaultManager] contentsOfDirectoryAtURL:cacheDirectoryUrl
+                                                                     includingPropertiesForKeys:[NSArray arrayWithObject:NSURLContentModificationDateKey]
+                                                                                        options:NSDirectoryEnumerationSkipsHiddenFiles
+                                                                                          error:nil] mutableCopy];
+    //Get the content of the localized folder
+    //get the content of default language folder
+    //merge localized and default folders by keeping the localized first
+    
+    //get the files with extension from the main bundle
+    
+    //merge by keeping the last updated file
+    //return
+     */
 }
 
 @end

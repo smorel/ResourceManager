@@ -80,7 +80,9 @@
     }
     
     if(title){
+        #ifdef DEBUG
         NSLog(@"%@",title);
+        #endif
     }
     
     UIViewController* root = [[[[UIApplication sharedApplication]windows]objectAtIndex:0]rootViewController];

@@ -63,7 +63,7 @@ static RMResourceManager* kSharedManager = nil;
 - (id)initWithAppKey:(NSString*)appKey secret:(NSString*)secret dropboxFolder:(NSString*)folder{
     self = [super init];
     
-    self.pullingTimeInterval = 3;
+    self.pullingTimeInterval = 1;
     self.hudEnabled = YES;
     
     if(appKey && secret){

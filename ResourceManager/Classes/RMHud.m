@@ -87,7 +87,13 @@
         case RMFileSystemStateIdle:{ break; }
         case RMFileSystemStateDownloading:
         {
-            self.infoLabel.text = [NSString stringWithFormat:@"Downloading %d files", self.fileSystem.pendingDowloads.count];
+            NSString* text = nil;
+            if(self.fileSystem.pendingDowloads.count == 1){
+                text = [NSString stringWithFormat:@"Downloading '%@'",[[[self.fileSystem.pendingDowloads objectAtIndex:0]path]lastPathComponent]];
+            }else{
+                text = [NSString stringWithFormat:@"Downloading %d files", self.fileSystem.pendingDowloads.count];
+            }
+            self.infoLabel.text = text;
             break;
         }
         case RMFileSystemStatePulling:

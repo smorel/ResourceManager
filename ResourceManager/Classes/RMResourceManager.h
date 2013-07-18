@@ -75,6 +75,10 @@ extern NSString* RMResourceManagerMostRecentPathKey;
  */
 + (void)setSharedManager:(RMResourceManager*)manager;
 
+/** return YES if the shared manager has been setup.
+ */
++ (BOOL)isResourceManagerConnected;
+
 /******************************************************
  Authentificating withDropbox
  *****************************************************/

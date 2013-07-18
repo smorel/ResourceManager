@@ -57,13 +57,17 @@ static RMResourceManager* kSharedManager = nil;
     return kSharedManager;
 }
 
++ (BOOL)isResourceManagerConnected{
+    return kSharedManager != nil;
+}
+
 
 #pragma mark Initializing Resource Manager
 
 - (id)initWithAppKey:(NSString*)appKey secret:(NSString*)secret dropboxFolder:(NSString*)folder{
     self = [super init];
     
-    self.pullingTimeInterval = 2;
+    self.pullingTimeInterval = 3;
     self.hudEnabled = YES;
     
     if(appKey && secret){

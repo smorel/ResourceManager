@@ -35,6 +35,7 @@
 @property (nonatomic, retain) RMFileSystem* fileSystem;
 @property (nonatomic, retain) UIView* view;
 @property (nonatomic, retain) UILabel* infoLabel;
+@property (nonatomic, retain) NSString* userTitle;
 @end
 
 @implementation RMHud
@@ -71,20 +72,52 @@
     self.infoLabel.textColor = [UIColor whiteColor];
     self.infoLabel.textAlignment = NSTextAlignmentCenter;
 }
-     
-- (void)update{
+
+- (void)updateTitle:(NSString*)title{
+    
     if(!self.view){
         [self createView];
+    }
+    
+    if(title){
+        NSLog(@"%@",title);
     }
     
     UIViewController* root = [[[[UIApplication sharedApplication]windows]objectAtIndex:0]rootViewController];
     NSAssert(root,@"Your application's main window has no root view controller.");
     
     UIView* parentView = root.view;
-    self.view.hidden = NO;
     
+    self.infoLabel.text = title;
+    
+    self.view.hidden = (self.infoLabel.text == nil);
+    [self.infoLabel sizeToFit];
+    self.view.frame = CGRectMake((parentView.bounds.size.width / 2) - ((self.infoLabel.bounds.size.width + 20) / 2),
+                                 0, self.infoLabel.bounds.size.width + 20, self.infoLabel.bounds.size.height + 20);
+    self.infoLabel.frame = self.view.bounds;
+    
+    [parentView addSubview:self.view];
+}
+
+- (void)setTitle:(NSString*)title{
+    self.userTitle = title;
+    [self updateTitle:title];
+}
+
+- (void)setTitleFromFileSystemUpdate:(NSString*)title{
+    if(self.userTitle != nil)
+        return;
+    
+    [self updateTitle:title];
+}
+     
+- (void)update{
     switch(self.fileSystem.currentState){
-        case RMFileSystemStateIdle:{ break; }
+        case RMFileSystemStateIdle:{
+            NSLog(@"IDLE...");
+            [self setTitleFromFileSystemUpdate:nil];
+            break;
+        }
         case RMFileSystemStateDownloading:
         {
             NSString* text = nil;
@@ -93,33 +126,26 @@
             }else{
                 text = [NSString stringWithFormat:@"Downloading %d files", self.fileSystem.pendingDowloads.count];
             }
-            self.infoLabel.text = text;
+            [self setTitleFromFileSystemUpdate:text];
             break;
         }
         case RMFileSystemStatePulling:
         {
-            self.infoLabel.text = nil;//@"Pulling...";
+            NSLog(@"Pulling...");
+            [self setTitleFromFileSystemUpdate:nil];
             break;
         }
         case RMFileSystemStateLoadingAccount:
         {
-            self.infoLabel.text = @"Loading Account...";
+            [self setTitleFromFileSystemUpdate:@"Loading Account..."];
             break;
         }
         case RMFileSystemStateNotifying:
         {
-            self.infoLabel.text = @"Updating Application...";
+            [self setTitleFromFileSystemUpdate:@"Updating Application..."];
             break;
         }
     }
-    
-    self.view.hidden = (self.fileSystem.currentState == RMFileSystemStateIdle) || (self.infoLabel.text == nil);
-    [self.infoLabel sizeToFit];
-    self.view.frame = CGRectMake((parentView.bounds.size.width / 2) - ((self.infoLabel.bounds.size.width + 20) / 2),
-                                 0, self.infoLabel.bounds.size.width + 20, self.infoLabel.bounds.size.height + 20);
-    self.infoLabel.frame = self.view.bounds;
-    
-    [parentView addSubview:self.view];
 }
 
 - (void)disappear{

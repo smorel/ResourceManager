@@ -63,7 +63,7 @@ static RMResourceManager* kSharedManager = nil;
 - (id)initWithAppKey:(NSString*)appKey secret:(NSString*)secret dropboxFolder:(NSString*)folder{
     self = [super init];
     
-    self.pullingTimeInterval = 1;
+    self.pullingTimeInterval = 2;
     self.hudEnabled = YES;
     
     if(appKey && secret){
@@ -89,6 +89,7 @@ static RMResourceManager* kSharedManager = nil;
         return;
     
     if (![[DBSession sharedSession] isLinked]) {
+        NSLog(@"Authentification");
         [manager presentsLinkAccountViewController];
     }else{
         if(manager.hudEnabled && !manager.hud){
@@ -139,6 +140,15 @@ static RMResourceManager* kSharedManager = nil;
     RMResourceManager* manager = [RMResourceManager sharedManager];
     if(manager){
         manager.hudEnabled = enabled;
+    }
+}
+
++ (void)setHudTitle:(NSString*)title{
+    RMResourceManager* manager = [RMResourceManager sharedManager];
+    if(manager){
+        dispatch_async(dispatch_get_main_queue(),^(){
+            [manager.hud setTitle:title];
+        });
     }
 }
 

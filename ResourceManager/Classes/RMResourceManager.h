@@ -96,10 +96,6 @@ extern NSString* RMResourceManagerMostRecentPathKey;
  */
 + (void)setPullingInterval:(NSTimeInterval)interval;
 
-/** default value is yes.
- */
-+ (void)setHudEnabled:(BOOL)enabled;
-
 /******************************************************
  Accessing resource files
  *****************************************************/
@@ -123,5 +119,18 @@ extern NSString* RMResourceManagerMostRecentPathKey;
 + (void)addObserverForResourcesWithExtension:(NSString*)ext object:(id)object usingBlock:(void(^)(id observer, NSArray* paths))updateBlock;
 + (void)addObserverForPath:(NSString*)path object:(id)object usingBlock:(void(^)(id observer, NSString* path))updateBlock;
 + (void)removeObserver:(id)object;
+
+/******************************************************
+ Managing HUD
+ *****************************************************/
+
+/** default value is yes.
+ */
++ (void)setHudEnabled:(BOOL)enabled;
+
+/** Sets the title displayed in the hud if hud is enabled.
+ */
++ (void)setHudTitle:(NSString*)title;
+
 
 @end

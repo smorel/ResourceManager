@@ -44,14 +44,16 @@
 - (void)start{
     _processQueue = dispatch_queue_create("com.wherecloud.resourcemanager", 0);
     
-    
     self.dbClient = [[DBRestClient alloc]initWithSession:[DBSession sharedSession]];
     self.dbClient.delegate = self;
     
+    [self loadAccount];
+}
+
+- (void)loadAccount{
     self.currentState = RMFileSystemStateLoadingAccount;
     [self.dbClient loadAccountInfo];
 }
-
 
 - (void)restClient:(DBRestClient*)client loadedAccountInfo:(DBAccountInfo*)info{
     self.permissions = [[RMPermissions alloc]initWithAccount:info];
@@ -59,6 +61,9 @@
 }
 
 - (void)restClient:(DBRestClient*)client loadAccountInfoFailedWithError:(NSError*)error{
+    if(error.code == NSURLErrorTimedOut){
+        [self loadAccount];
+    }
     [self processDropBoxResources];
 }
 
@@ -123,6 +128,10 @@
 
 - (void)restClient:(DBRestClient *)client loadMetadataFailedWithError:(NSError *)error {
     self.metaDataRequestCount--;
+    
+    if(self.currentState != RMFileSystemStateIdle){
+        [self triggerNextPulling];
+    }
 }
 
 - (NSString*)cacheDirectory{
@@ -324,10 +333,10 @@
 }
 
 - (void)notifyForUpdateAfterDownloads{
-    
     self.currentState = RMFileSystemStateNotifying;
+    
     //Let the hud refresh
-    [self performSelector:@selector(delayedNotification) withObject:nil afterDelay:.2];
+    [self performSelector:@selector(delayedNotification) withObject:nil afterDelay:.1];
 }
 
 - (void)triggerNextPulling{

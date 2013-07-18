@@ -96,6 +96,10 @@ extern NSString* RMResourceManagerMostRecentPathKey;
  */
 + (void)setPullingInterval:(NSTimeInterval)interval;
 
+/** default value is yes.
+ */
++ (void)setHudEnabled:(BOOL)enabled;
+
 /******************************************************
  Accessing resource files
  *****************************************************/

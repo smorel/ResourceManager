@@ -14,6 +14,7 @@
 #import <DropboxSDK/DropboxSDK.h>
 
 #import "UIImage+ResourceManager.h"
+#import "RMHud.h"
 
 
 NSString* RMResourceManagerFileDidUpdateNotification = @"RMResourceManagerFileDidUpdateNotification";
@@ -32,6 +33,8 @@ static RMResourceManager* kSharedManager = nil;
 @property (nonatomic, retain) NSString* dropboxFolder;
 @property (nonatomic, retain) RMFileSystem* fileSystem;
 @property (nonatomic, assign) NSTimeInterval pullingTimeInterval;
+@property (nonatomic, assign) BOOL hudEnabled;
+@property (nonatomic, retain) RMHud* hud;
 
 @property (nonatomic, retain) NSMutableDictionary* updateDictionary;           //{ "relativePath" : { "weak NSValue observer" : "updateBlock", ... } , ... }
 @property (nonatomic, retain) NSMutableDictionary* updateExtensionsDictionary; //{ "extension" : { "weak NSValue observer" : "updateBlock", ... } , ... }
@@ -61,6 +64,7 @@ static RMResourceManager* kSharedManager = nil;
     self = [super init];
     
     self.pullingTimeInterval = 3;
+    self.hudEnabled = YES;
     
     if(appKey && secret){
         DBSession* dbSession = [[DBSession alloc] initWithAppKey:appKey appSecret:secret root:kDBRootDropbox];
@@ -86,6 +90,10 @@ static RMResourceManager* kSharedManager = nil;
     
     if (![[DBSession sharedSession] isLinked]) {
         [manager presentsLinkAccountViewController];
+    }else{
+        if(manager.hudEnabled && !manager.hud){
+            manager.hud = [[RMHud alloc]initWithFileSystem:manager.fileSystem];
+        }
     }
 }
 
@@ -97,6 +105,10 @@ static RMResourceManager* kSharedManager = nil;
 	if ([[DBSession sharedSession] handleOpenURL:url]) {
         if ([[DBSession sharedSession] isLinked]) {
             [manager startResourceManagement];
+            
+            if(manager.hudEnabled && !manager.hud){
+                manager.hud = [[RMHud alloc]initWithFileSystem:manager.fileSystem];
+            }
         }
     }
 }
@@ -121,6 +133,23 @@ static RMResourceManager* kSharedManager = nil;
         return;
     
     manager.pullingTimeInterval = interval;
+}
+
++ (void)setHudEnabled:(BOOL)enabled{
+    RMResourceManager* manager = [RMResourceManager sharedManager];
+    if(manager){
+        manager.hudEnabled = enabled;
+    }
+}
+
+- (void)setHudEnabled:(BOOL)enabled{
+    _hudEnabled = enabled;
+    if(enabled && !self.hud && self.fileSystem){
+        self.hud = [[RMHud alloc]initWithFileSystem:self.fileSystem];
+    }else if(!enabled && self.hud){
+        [self.hud disappear];
+        self.hud = nil;
+    }
 }
 
 - (void)setPullingTimeInterval:(NSTimeInterval)thePullingTimeInterval{

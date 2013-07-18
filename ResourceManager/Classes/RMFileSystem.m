@@ -24,6 +24,8 @@
 
 @property (nonatomic, retain) RMPermissions* permissions;
 
+@property (nonatomic, assign, readwrite) RMFileSystemState currentState;
+
 @end
 
 @implementation RMFileSystem{
@@ -34,6 +36,7 @@
     self = [super init];
     
     self.rootFolder = folder ? folder : @"/";
+    self.currentState = RMFileSystemStateIdle;
     
     return self;
 }
@@ -45,6 +48,7 @@
     self.dbClient = [[DBRestClient alloc]initWithSession:[DBSession sharedSession]];
     self.dbClient.delegate = self;
     
+    self.currentState = RMFileSystemStateLoadingAccount;
     [self.dbClient loadAccountInfo];
 }
 
@@ -59,6 +63,8 @@
 }
 
 - (void)processDropBoxResources{
+    self.currentState = RMFileSystemStatePulling;
+    
     self.dropboxResourcesMetadata = [NSMutableArray array];
     self.removeFromCacheList = [NSMutableArray array];
     [self loadMetadata:self.rootFolder];
@@ -240,6 +246,8 @@
     self.pendingDowloads = files;
     self.pendingDownloadCount = files.count;
     
+    self.currentState = RMFileSystemStateDownloading;
+    
     for(DBMetadata* file in files){
         NSString* relativePath = [self relativePathFromDropboxPath:file.path];
         
@@ -269,7 +277,8 @@
     }
 }
 
-- (void)notifyForUpdateAfterDownloads{
+- (void)delayedNotification{
+    
     NSMutableArray* files = [NSMutableArray arrayWithCapacity:self.pendingDowloads.count];
     
     for(DBMetadata* file in self.pendingDowloads){
@@ -278,10 +287,10 @@
         NSString* cachePath = [self cachePathForRelativeResourcePath:relativePath];
         
         NSDictionary* userData = @{
-            RMResourceManagerApplicationBundlePathKey : appPath ? appPath : @"",
-            RMResourceManagerRelativePathKey          : relativePath ? relativePath : @"",
-            RMResourceManagerMostRecentPathKey        : cachePath ? cachePath : @""
-        };
+                                   RMResourceManagerApplicationBundlePathKey : appPath ? appPath : @"",
+                                   RMResourceManagerRelativePathKey          : relativePath ? relativePath : @"",
+                                   RMResourceManagerMostRecentPathKey        : cachePath ? cachePath : @""
+                                   };
         [files addObject:userData];
         
         [[NSNotificationCenter defaultCenter]postNotificationName:RMResourceManagerFileDidUpdateNotification object:self userInfo:userData];
@@ -314,7 +323,15 @@
     [self triggerNextPulling];
 }
 
+- (void)notifyForUpdateAfterDownloads{
+    
+    self.currentState = RMFileSystemStateNotifying;
+    //Let the hud refresh
+    [self performSelector:@selector(delayedNotification) withObject:nil afterDelay:.2];
+}
+
 - (void)triggerNextPulling{
+    self.currentState = RMFileSystemStateIdle;
     [self performSelector:@selector(processDropBoxResources) withObject:nil afterDelay:self.pullingTimeInterval];
 }
 

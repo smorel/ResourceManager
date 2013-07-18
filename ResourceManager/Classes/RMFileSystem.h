@@ -11,8 +11,17 @@
 #import <QuartzCore/QuartzCore.h>
 #import <DropboxSDK/DropboxSDK.h>
 
+typedef enum RMFileSystemState{
+    RMFileSystemStateIdle,
+    RMFileSystemStateLoadingAccount,
+    RMFileSystemStatePulling,
+    RMFileSystemStateDownloading,
+    RMFileSystemStateNotifying
+}RMFileSystemState;
+
 @interface RMFileSystem : NSObject
 
+@property (nonatomic, assign, readonly) RMFileSystemState currentState;
 @property (nonatomic, assign) NSTimeInterval pullingTimeInterval;
 
 - (id)initWithDropboxFolder:(NSString*)folder;

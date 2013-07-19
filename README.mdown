@@ -123,6 +123,62 @@ NSArray* paths = [CKResourceManager pathsForResourcesWithExtension:@"mp3"];
 Like for a single path observation, do not forget to unregister your observer.
 
 
+## Your Dropbox Resource Repository
+
+### Folders
+
+Resource manager supports resource in folders. It will flatten the file hierarchy when downloading the files into the apllication's cache directory to match the hierarchy it would have in the application bundle. 1 root directory and localization folders.
+
+### Restrictions/Permissions
+
+An advantage of organizing your resources into folders, is that Resource Manager framework provides a mechanism to specify per user restriction on folders or file extensions.
+
+A case where you would be interested in such feature is that you provided access to your client or collegues to customize some resources files for a specific release of your app (*1). But you want to use the mechanism and continue working on the next version of your app (*2) and customizing some resources as well. By placing the file that needs to get modified in the next version (*2) into a folder where you have access and not your client or collegues, their version of the app will not be impacted by the changes you make in your folder.
+
+In the same time, as soon as you give access to somebody, its app will get notified and its version will update the files automatically. As soon as you remove access to this person, the files that are newly restricted will get removed from its cache directory and its version of the app will use the main bundle resource again.
+
+This could also be used to test 2 different versions of an app by giving access to different persons on different folders that contains the 2 version of the application resources.
+
+Here is a sample ResourceManager.permissions file that you could place into your dropbox folder for users restrictions to update when you save this file.
+Users are the dropbox "Display Name" for the user account you want to specify restrictions.
+
+
+``` json
+[
+   { "folder" : "folder1", //and its subfolders
+     "users" : [
+         "Sebastien Morel"
+      ]
+   },
+
+   { "folder" : "folder2",
+     "users" : [
+         "Sebastien Morel",
+         "Frederic Brunel"
+     ]
+   },
+
+
+   { "folder" : "folder1/nextedFolder1",
+     "users" : [
+         "Frederic Brunel"
+     ]
+   },
+   
+   { "extension" : "mp3",
+     "users" : [
+         "Sebastien Morel",
+         "Frederic Brunel",
+         "Martin Dufort"
+     ]
+   }
+]
+
+```
+
+By default, if we do not find a ResourceManager.permissions file or if a folder/file extension on dropbox has no entry in the permissions file, we consider that everybody can access the files in this folder/extension.
+
+
 ## Compiling the framework
 
 ResourceManager is built as a Static Framework. Static Framework are not natively supported by Xcode and requires some additional specifications to get compiled properly.

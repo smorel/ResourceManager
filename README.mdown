@@ -2,7 +2,7 @@
 
 > Are you tired of waiting for your app to compile and get synchronized to your device when you want to update an image or localization ? Could it be wonderfull if you could distribute your application over the air and somebody else edit the localization files for you ? Imagine if you could give your app to a designer who tweak the layouts and stylesheets for you without any Xcode installation nor objective-C pre-requierements ?
 >
-> This is why we made the ResourceManager framework because in combination with the AppCoreKit and a few lines of code for very specific application cases, we can do it !
+> This is why we made the ResourceManager framework because in combination with the AppCoreKit and a few lines of code for very specific application cases, we can do it ! YES WE CAN !
 </i>
 
 

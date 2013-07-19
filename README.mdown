@@ -32,8 +32,8 @@ Once authenticated, your app will be re-launched with the URL scheme db-APP_KEY.
 
 <b>3. In your application delegate:</b>
 
-<pre>
-#import < < ResourceManager/ResourceManager.h > >
+``` objective-c
+#import < ResourceManager/ResourceManager.h >
 
 - (id)init{
    self = [super init];
@@ -57,7 +57,7 @@ Once authenticated, your app will be re-launched with the URL scheme db-APP_KEY.
 	[[RMResourceManager sharedManager]handleApplication:application openURL:url];
     //Do your stuff
 }
-</pre>
+```
 
 
 <b>4. Retrieving The most recent path for resource:</b>

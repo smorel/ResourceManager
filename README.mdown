@@ -61,39 +61,40 @@ Once authenticated, your app will be re-launched with the URL scheme db-APP_KEY.
 
 
 <b>4. Retrieving The most recent path for resource:</b>
-<pre>
+
+``` objective-c
 NSString* resourcePath = [RMResourceManager pathForResource:@"MyResource" ofType:@"myExtension"];
 //Load the resource here using the "resourcePath" ...
-</pre>
+```
 
 <b>5. Getting notified when this resource gets updated:</b>
 
-<pre>
+``` objective-c
 [RMResourceManager addObserverForPath:resourcePath object:self usingBlock:^(id observer, NSString *path) {
     //Load the resource here by using the last updated "path" ...
 }];
-</pre>
+```
     
 As the manager keeps some weak references on the oberver object, you must unregister from the resource manager when needed or at least when you object ("self" here) gets deallocated.
     
-<pre>
+``` objective-c
 [RMResourceManager removeObserver:self];
-</pre>
+```
 
 <b>6. Retrieving The most recent paths for resources with a specific extension:</b>
 
-<pre>
+``` objective-c
 NSArray* soundFilePaths = [CKResourceManager pathsForResourcesWithExtension:@"mp3"];
 //Do something with those files
-</pre>
+```
 
 <b>7. Getting notified when these resource gets updated or a new file is added with the specified extension:</b>
 
-<pre>
+``` objective-c
 [CKResourceManager addObserverForResourcesWithExtension:@"mp3" object:self usingBlock:^(id observer, NSArray *paths) {
     //Do something with the up to date paths for all mp3 files.
 }];
-</pre>
+```
 
 Like for a single path observation, do not forget to unregister your observer.
 

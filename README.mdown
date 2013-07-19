@@ -1,5 +1,9 @@
 # ResourceManager
 
+Are you tired of waiting for your app to compile and get synchronized to your device when you want to update an image or localization ? Could it be wonderfull if you could distribute your application over the air and somebody else edit the localization files for you ? Imagine if you could give your app to a designer who tweak the layouts and stylesheets for you without any Xcode installation nor objective-C pre-requierements ?
+
+This is why we made the ResourceManager framework because in combination with the AppCoreKit and a few lines of code for very specific application cases, we can do it !
+
 <b>ResourceManager</b> is a framework designed to improve your productivity while developing iOS application. The main objective is to synchronize multiple resource repositories and work with the most recent version of each. By resources, we mean everything that you'd like to embed into your application : <b>Images, nibs, strings files, config files, json, AppcoreKit stylesheets and layouts, ...</b>
 
 <b>ResourceManager</b> provides Apis similar to <b>NSBundle</b> to get the paths of the most recent resources from the various resource repositories.

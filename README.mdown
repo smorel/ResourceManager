@@ -1,12 +1,12 @@
 # ResourceManager
 
-ResourceManager is a framework designed to improve your productivity while developing iOS application. The main objective is to synchronize multiple resource repositories and work with the most recent version of each. By resources, we mean everything that you'd like to embed into your application : Images, nibs, strings files, config files, json, AppcoreKit stylesheets and layouts, ...
+<b>ResourceManager</b> is a framework designed to improve your productivity while developing iOS application. The main objective is to synchronize multiple resource repositories and work with the most recent version of each. By resources, we mean everything that you'd like to embed into your application : Images, nibs, strings files, config files, json, AppcoreKit stylesheets and layouts, ...
 
-ResourceManager provides Apis similar to NSBundle to get the paths of the most recent resources from the various resource repositories.
+<b>ResourceManager</b> provides Apis similar to NSBundle to get the paths of the most recent resources from the various resource repositories.
 
 Repositories can be the application's Main Bundle as well as a dropbox folder. The Resource Manager provides a similar API as the notification center to get notified when a file gets updated. As soon as a file gets saved in one or several repositories, it will get the latest version and fire notification for your application to update. You can also get notified of file addition/change by observing file extensions.
 
-It has been designed to get update mechanism directly through your device and not only in the simulator like we previously implemented into the AppCoreKit. Several changes have been made to the AppCoreKit to fully integrates this new framework as a weak dependency and in a very efficient way. AppCoreKit provides mechanism to automatically reload stylesheets and layouts, images, color palettes, mappings, mock, localization files (.strings) and update the UI as a consequence. Lets go to the AppCoreKit repository and read the release notes for the last version to learn more.
+It has been designed to get <b>update mechanism directly to your device and not only the simulator</b> like we previously implemented into the <b>AppCoreKit</b>. Several changes have been made to the <b>AppCoreKit</b> to fully integrates this new framework as a weak dependency and in a very efficient way. <b>AppCoreKit</b> provides mechanism to automatically reload stylesheets and layouts, images, color palettes, mappings, mock, localization files (.strings) and update the UI as a consequence. Lets go to the <b>AppCoreKit</b> github repository and read the release notes for the last version to learn more:
 
 https://github.com/wherecloud/AppCoreKit
 

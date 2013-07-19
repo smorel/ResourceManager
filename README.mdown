@@ -14,7 +14,7 @@ This framework should be used during the development process as you do not want 
 
 ### Integration within AppCoreKit
 
-It has been designed to update directly to your device and not only the simulator like we previously implemented in AppCoreKit. Several changes have been made to the AppCoreKit to fully integrate this new framework as a weak dependency and in a very efficient way. AppCoreKit provides the mechanism to automatically reload stylesheets and layouts, images, colour palettes, mappings, mock, localization files (.strings) and updates the UI as a consequence. Go to the AppCoreKit github repository and get the <i>resource-manager</i> branch to try the integration:
+It has been designed to update directly to your device and not only the simulator like we previously implemented in AppCoreKit. Several changes have been made to the AppCoreKit to fully integrate this new framework as a weak dependency and in a very efficient way. AppCoreKit provides the mechanism to automatically reload stylesheets and layouts, images, colour palettes, mappings, mock, localization files (.strings) and updates the UI as a consequence. Go to the AppCoreKit github repository and get the <i>master</i> branch to try the integration:
 
 https://github.com/wherecloud/AppCoreKit
 

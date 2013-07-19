@@ -33,21 +33,27 @@ Once authenticated, your app will be re-launched with the URL scheme db-APP_KEY.
 <b>3. In your application delegate:</b>
 
 <pre>
+- (id)init{
+   self = [super init];
+   
+    RMResourceManager* resourceManager = [[RMResourceManager alloc]initWithAppKey:@"APP_KEY" secret:@"APP_SECRET" dropboxFolder:@"ROOT_DIRECTORY"];
+    [RMResourceManager setSharedManager:resourceManager];
+    
+    //Do your stuff
+}
+   
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
     //Do your stuff ...
 
     //After :
     [self.window makeKeyAndVisible];
 
-    RMResourceManager* resourceManager = [[RMResourceManager alloc]initWithAppKey:@"APP_KEY" secret:@"APP_SECRET" dropboxFolder:@"ROOT_DIRECTORY"];
-    [RMResourceManager setSharedManager:resourceManager];
-
     [[RMResourceManager sharedManager]handleApplication:application didFinishLaunchingWithOptions:launchOptions];
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
 	[[RMResourceManager sharedManager]handleApplication:application openURL:url];
-        //Do your stuff
+    //Do your stuff
 }
 </pre>
 

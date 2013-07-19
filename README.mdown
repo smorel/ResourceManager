@@ -22,11 +22,16 @@ https://github.com/wherecloud/AppCoreKit
 
 ## Sample Usage
 
-<b>1. Create your app on Dropbox:</b>
+
+<b>1. Initializing the resource manager:</b>
+
+# Synchronizing Resource on Dropbox
+
+Create your app on Dropbox:
 
 https://www.dropbox.com/developers/apps
 
-<b>2. In your target plist:</b>
+In your target plist:
 
 The Dropbox authentication mechanism requires application redirect via Url Scheme.
 "From the DropboxSDK documentation" at https://www.dropbox.com/developers/core/start/ios
@@ -35,8 +40,7 @@ Once authenticated, your app will be re-launched with the URL scheme db-APP_KEY.
 
 <pre> CFBundleURLTypes CFBundleURLSchemes db-APP_KEY</pre>
 
-<b>3. In your application delegate:</b>
-
+In your application delegate:
 
 
 ``` objective-c
@@ -55,7 +59,42 @@ Once authenticated, your app will be re-launched with the URL scheme db-APP_KEY.
     
     //Do your stuff
 }
+```
+
+
+# Synchronizing your resource from your XCode project's directory (Working in Simulator Only)
+
+In your target plist:
+
+add a string entry with key "SRC_ROOT" and value "$SRCROOT/$PROJECT/"
+
+In your application delegate:
+
+
+``` objective-c
+#import < ResourceManager/ResourceManager.h >
+
+- (id)init{
+   self = [super init];
    
+    //Comment or remove the following code when you want to deactivate the sync mechanism
+    NSString* projectPath = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"SRC_ROOT"];
+    RMBundleResourceRepository* lr = [[RMBundleResourceRepository alloc]initWithPath:projectPath];
+    lr.pullingTimeInterval = 1;
+    
+    RMResourceManager* rm = [[RMResourceManager alloc]initWithRepositories:@[lr]];
+    [RMResourceManager rm];
+    
+    //Do your stuff
+}
+
+```
+
+<b>2. Forward requiered callback to the resource manager:</b>
+
+In your application delegate:
+   
+``` objective-c
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
     //Do your stuff ...
 
@@ -78,7 +117,7 @@ Once authenticated, your app will be re-launched with the URL scheme db-APP_KEY.
 ```
 
 
-<b>4. Retrieving The most recent path for resource:</b>
+<b>3. Retrieving The most recent path for resource:</b>
 
 ``` objective-c
 NSString* resourcePath = [RMResourceManager pathForResource:@"MyResource" 
@@ -86,7 +125,7 @@ NSString* resourcePath = [RMResourceManager pathForResource:@"MyResource"
 //Load the resource here using the "resourcePath" ...
 ```
 
-<b>5. Getting notified when this resource gets updated:</b>
+<b>4. Getting notified when this resource gets updated:</b>
 
 ``` objective-c
 [RMResourceManager addObserverForPath:resourcePath 
@@ -102,14 +141,14 @@ As the manager keeps some weak references on the observer object, you must unreg
 [RMResourceManager removeObserver:self];
 ```
 
-<b>6. Retrieving The most recent paths for resources with a specific extension:</b>
+<b>5. Retrieving The most recent paths for resources with a specific extension:</b>
 
 ``` objective-c
 NSArray* paths = [CKResourceManager pathsForResourcesWithExtension:@"mp3"];
 //Do something with those files
 ```
 
-<b>7. Getting notified when these resource are updated or a new file is added with the specified extension:</b>
+<b>6. Getting notified when these resource are updated or a new file is added with the specified extension:</b>
 
 ``` objective-c
 [CKResourceManager addObserverForResourcesWithExtension:@"mp3" 

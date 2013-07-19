@@ -74,6 +74,7 @@
 		9637151A1795C91400CE847D /* RMFileSystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMFileSystem.m; path = Classes/RMFileSystem.m; sourceTree = "<group>"; };
 		9637151D1795E91600CE847D /* UIImage+ResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+ResourceManager.h"; path = "Classes/UIImage+ResourceManager.h"; sourceTree = "<group>"; };
 		9637151E1795E91600CE847D /* UIImage+ResourceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+ResourceManager.m"; path = "Classes/UIImage+ResourceManager.m"; sourceTree = "<group>"; };
+		963AB79D1798C1410076925C /* README.mdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.mdown; sourceTree = SOURCE_ROOT; };
 		96EFE7C81796EA010034F935 /* RMRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMRuntime.h; path = Classes/RMRuntime.h; sourceTree = "<group>"; };
 		96EFE7C91796EA010034F935 /* RMRuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMRuntime.m; path = Classes/RMRuntime.m; sourceTree = "<group>"; };
 		96EFE7D5179728E00034F935 /* RMPermissions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMPermissions.h; path = Classes/RMPermissions.h; sourceTree = "<group>"; };
@@ -134,6 +135,7 @@
 		963714EB17958AB700CE847D /* ResourceManager */ = {
 			isa = PBXGroup;
 			children = (
+				963AB79D1798C1410076925C /* README.mdown */,
 				9637150D1795969700CE847D /* ResourceManager.h */,
 				963714FC17958B1100CE847D /* Classes */,
 				963714EC17958AB700CE847D /* Supporting Files */,

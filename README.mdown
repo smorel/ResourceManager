@@ -1,19 +1,18 @@
 # ResourceManager
 
-ResourceManager is a framework designed to improve your productivity while developing iOS application. The main objective is to synchronize a dropbox repository of resource with your app on a device and/or the simulator by synching the dropbox folder in a local cache directory and by getting the most recent resources between the application or this cached resource directory.
+ResourceManager is a framework designed to improve your productivity while developing iOS application. The main objective is to synchronize multiple resource repositories and work with the most recent version of each. By resources, we mean everything that you'd like to embed into your application : Images, nibs, strings files, config files, json, AppcoreKit stylesheets and layouts, ...
 
-ResourceManager also provides the mechanism to automatically update your UI/localization when a resource gets updated on dropbox.
-This requires to create a dropbox app that is connected to your account and a folder where you will put the resources you want to be able to update using this mechanism. You will need to specify the appKey and secret at launch to get your iOS application connected to dropbox.
+ResourceManager provides Apis similar to NSBundle to get the paths of the most recent resources from the various resource repositories.
 
-https://www.dropbox.com/developers/apps
+Repositories can be the application's Main Bundle as well as a dropbox folder. The Resource Manager provides a similar API as the notification center to get notified when a file gets updated. As soon as a file gets saved in one or several repositories, it will get the latest version and fire notification for your application to update. You can also get notified of file addition/change by observing file extensions.
 
-The AppCoreKit framework full integrates the ResourceManager framework as a weak dependency. This means that if you're linking with both frameworks, the AppCoreKit resources such as sty sheets, layouts, mappings, … will automatically been updated and reloaded at runtime when that get modified on dropbox. This replaces the local file directory update we had before that only worked in the simulator.
+It has been designed to get update mechanism directly through your device and not only in the simulator like we previously implemented into the AppCoreKit. Several changes have been made to the AppCoreKit to fully integrates this new framework as a weak dependency and in a very efficient way. AppCoreKit provides mechanism to automatically reload stylesheets and layouts, images, color palettes, mappings, mock, localization files (.strings) and update the UI as a consequence. Lets go to the AppCoreKit repository and read the release notes for the last version to learn more.
 
 https://github.com/wherecloud/AppCoreKit
 
-The ResourceManager framework can be used alone and provides some apis to get resource paths with an update block that will get triggered when this particular resource gets updated from dropbox. The API looks like the NSBundle api by adding some update features.
 
-You can easily disconnect the dropbox sync mechanism but still using the APIs to get the resources from the application bundle by not setting a shareManager on RMResourceManager. This is what you'll want to do when you'll ship your application on the appStore.
+This framework should mainly get used during the development process as you do not want to impact your user experience with files updating at runtime !
+You can easily disconnect sync mechanism but still using the APIs to get the resources from the application main bundle by not setting a shared RMResourceManager.
 
 
 ## Sample Usage
@@ -53,9 +52,42 @@ Once authenticated, your app will be re-launched with the URL scheme db-APP_KEY.
 </pre>
 
 
-<b>4. Retrieving a resource and managing updates:</b>
+<b>4. Retrieving The most recent path for resource:</b>
+<pre>
+NSString* resourcePath = [RMResourceManager pathForResource:@"MyResource" ofType:@"myExtension"];
+//Load the resource here using the "resourcePath" ...
+</pre>
 
-//TODO
+<b>5. Getting notified when this resource gets updated:</b>
+
+<pre>
+[RMResourceManager addObserverForPath:resourcePath object:self usingBlock:^(id observer, NSString *path) {
+    //Load the resource here by using the last updated "path" ...
+}];
+</pre>
+    
+As the manager keeps some weak references on the oberver object, you must unregister from the resource manager when needed or at least when you object ("self" here) gets deallocated.
+    
+<pre>
+[RMResourceManager removeObserver:self];
+</pre>
+
+<b>6. Retrieving The most recent paths for resources with a specific extension:</b>
+
+<pre>
+NSArray* soundFilePaths = [CKResourceManager pathsForResourcesWithExtension:@"mp3"];
+//Do something with those files
+</pre>
+
+<b>7. Getting notified when these resource gets updated or a new file is added with the specified extension:</b>
+
+<pre>
+[CKResourceManager addObserverForResourcesWithExtension:@"mp3" object:self usingBlock:^(id observer, NSArray *paths) {
+    //Do something with the up to date paths for all mp3 files.
+}];
+</pre>
+
+Like for a single path observation, do not forget to unregister your observer.
 
 
 ## Compiling the framework

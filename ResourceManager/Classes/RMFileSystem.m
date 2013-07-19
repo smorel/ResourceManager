@@ -141,7 +141,14 @@ NSString* RMResourceManagerUpdatedResourcesPathKey             = @"RMResourceMan
 }
 
 - (NSString*)repository:(RMResourceRepository*)repository requestStoragePathForFileWithRelativePath:(NSString*)filePath{
-    return [self cachePathForRelativeResourcePath:filePath];
+    NSString* path = [self cachePathForRelativeResourcePath:filePath];
+    NSString* directory = [path stringByDeletingLastPathComponent];
+    
+    if(![[NSFileManager defaultManager]fileExistsAtPath:directory]){
+        [[NSFileManager defaultManager]createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    return path;
 }
 
 #pragma mark Managing Resources

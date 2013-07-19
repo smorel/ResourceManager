@@ -1,5 +1,3 @@
-# ResourceManager
-
 ### Are you tired of waiting for your app to compile and sync to your device when you just want to update an image or some text? Wouldn’t it be wonderful if you could distribute your application over the air and the copywriter could edit the localization files directly? Imagine if you could give your app to a designer who could tweak the layouts, fonts, margins and colours, without needing an Xcode installation or any knowledge of Objective-C?
 
 ### With the **ResourceManager framework**, combined with AppCoreKit and a few lines of code, all this is possible.  

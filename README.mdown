@@ -33,7 +33,7 @@ Once authenticated, your app will be re-launched with the URL scheme db-APP_KEY.
 <b>3. In your application delegate:</b>
 
 <pre>
-#import << ResourceManager/ResourceManager.h >>
+#import < < ResourceManager/ResourceManager.h > >
 
 - (id)init{
    self = [super init];

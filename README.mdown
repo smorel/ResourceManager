@@ -1,36 +1,33 @@
 # ResourceManager
 
-> Are you tired of waiting for your app to compile and get synchronized to your device when you just want to update an image or a text deep in your application workflow ? Could it be wonderfull if you could distribute your application over the air and somebody else edit the localization files for you ? Imagine if you could give your app to a designer who tweak the layouts and stylesheets, the fonts, spacings and colors for you without any Xcode installation nor objective-C pre-requierements ?
->
-> This is why we made the ResourceManager framework because in combination with the AppCoreKit and a few lines of code for very specific application cases, we can do it ! YES WE CAN !
-</i>
+## Are you tired of waiting for your app to compile and sync to your device when you just want to update an image or some text? Wouldn’t it be wonderful if you could distribute your application over the air and the copywriter could edit the localization files directly? Imagine if you could give your app to a designer who could tweak the layouts, fonts, margins and colours, without needing an Xcode installation or any knowledge of Objective-C?
 
+## With the **ResourceManager framework**, combined with AppCoreKit and a few lines of code, all this is possible.  
 
+# How does it work?
 
-<b>ResourceManager</b> is a framework designed to improve your productivity while developing iOS applications. The main objective is to synchronize multiple resource repositories and work with the most recent version of each. By resources, we mean everything that you'd like to embed into your application : <b>Images, nibs, strings files, config files, json, AppcoreKit stylesheets and layouts, ...</b>
+**ResourceManager** is a framework designed to improve your productivity while developing iOS applications. The main objective is to synchronize multiple resource repositories and work with the most recent version of each. By resources, we mean everything that you'd like to embed into your application, such as **images, nibs, strings files, config files, json, AppcoreKit stylesheets and layouts**.
 
-<b>ResourceManager</b> provides simple Apis similar to <b>NSBundle</b> to get the paths of the most recent resources from the various resource repositories.
+<b>ResourceManager</b> provides simple APIs similar to <b>NSBundle</b> to get the paths of the most recent resources from the various resource repositories.
 
-Repositories can be the application's Main Bundle as well as a dropbox folder. The Resource Manager provides APIs similar to <b>NSNotificationCenter</b> to get notified when a file gets updated. As soon as a file gets saved in one or several repositories, the files will get downloaded to the cache directory if needed and a notification is fired your application to update. You can also get notified of file addition/change by observing file extensions.
+Repositories can be defined as the application's Main Bundle, as well as a Dropbox folder. The Resource Manager provides APIs similar to <b>NSNotificationCenter</b> to send notifications when a file is updated. As soon as a file gets saved in one or several repositories, the files will get downloaded to the cache directory if needed and a notification is sent to your application to update. You can also get notified of file additions and changes by observing file extensions.
 
-It has been designed to get <b>update mechanism directly to your device and not only the simulator</b> like we previously implemented into the <b>AppCoreKit</b>. Several changes have been made to the <b>AppCoreKit</b> to fully integrate this new framework as a weak dependency and in a very efficient way. <b>AppCoreKit</b> provides mechanism to automatically reload stylesheets and layouts, images, color palettes, mappings, mock, localization files (.strings) and update the UI as a consequence. Lets go to the <b>AppCoreKit</b> github repository and get the <i>resource-manager</i> branch to try the integration:
+It has been designed to <b>update directly to your device and not only the simulator</b> like we previously implemented in <b>AppCoreKit</b>. Several changes have been made to the <b>AppCoreKit</b> to fully integrate this new framework as a weak dependency and in a very efficient way. <b>AppCoreKit</b> provides the mechanism to automatically reload stylesheets and layouts, images, colour palettes, mappings, mock, localization files (.strings) and updates the UI as a consequence. Go to the <b>AppCoreKit</b> github repository and get the <i>resource-manager</i> branch to try the integration:
 
 https://github.com/wherecloud/AppCoreKit
 
-
-This framework should mainly get used during the development process as you do not want to impact your user experience with files updating at runtime !
-You can easily disconnect sync mechanism but still using the APIs to get the resources from the application main bundle by not setting a shared RMResourceManager.
+This framework should be used during the development process as you do not want to impact your user experience with files updating at runtime! You can easily disconnect sync mechanism but still use the APIs to get the resources from the application main bundle by not setting a shared RMResourceManager.
 
 
 ## Sample Usage
 
-<b>1. Create your app on dropbox:</b>
+<b>1. Create your app on Dropbox:</b>
 
 https://www.dropbox.com/developers/apps
 
 <b>2. In your target plist:</b>
 
-The dropbox authentication mechanism requires application redirect via Url Scheme.
+The Dropbox authentication mechanism requires application redirect via Url Scheme.
 "From the DropboxSDK documentation" at https://www.dropbox.com/developers/core/start/ios
 
 Once authenticated, your app will be re-launched with the URL scheme db-APP_KEY. The easiest way to register for this scheme is to right-click on your app's plist file and select Open As → Source Code, and add the following code below the first <dict> tag, substituting APP_KEY with your app's key:
@@ -97,7 +94,7 @@ NSString* resourcePath = [RMResourceManager pathForResource:@"MyResource"
 }];
 ```
     
-As the manager keeps some weak references on the oberver object, you must unregister from the resource manager when needed or at least when you object ("self" here) gets deallocated.
+As the manager keeps some weak references on the observer object, you must unregister from the resource manager when needed or at least when you object ("self" here) gets deallocated.
     
 ``` objective-c
 [RMResourceManager removeObserver:self];
@@ -110,7 +107,7 @@ NSArray* paths = [CKResourceManager pathsForResourcesWithExtension:@"mp3"];
 //Do something with those files
 ```
 
-<b>7. Getting notified when these resource gets updated or a new file is added with the specified extension:</b>
+<b>7. Getting notified when these resource are updated or a new file is added with the specified extension:</b>
 
 ``` objective-c
 [CKResourceManager addObserverForResourcesWithExtension:@"mp3" 
@@ -127,20 +124,20 @@ Like for a single path observation, do not forget to unregister your observer.
 
 ### Folders
 
-Resource manager supports resource in folders. It will flatten the file hierarchy when downloading the files into the apllication's cache directory to match the hierarchy it would have in the application bundle. 1 root directory and localization folders.
+Resource manager supports resource in folders. It will flatten the file hierarchy when downloading the files into the application's cache directory to match the hierarchy it would have in the application bundle: 1 root directory and localization folders.
 
-### Restrictions/Permissions
+### Restrictions/Permissions (For Advanced Users)
 
-An advantage of organizing your resources into folders, is that Resource Manager framework provides a mechanism to specify per user restriction on folders or file extensions.
+An advantage of organizing your resources into folders is that the Resource Manager framework provides a mechanism to specify *per user* restrictions on folders or file extensions.
 
-A case where you would be interested in such feature is that you provided access to your client or collegues to customize some resources files for a specific release of your app (*1). But you want to use the mechanism and continue working on the next version of your app (*2) and customizing some resources as well. By placing the file that needs to get modified in the next version (*2) into a folder where you have access and not your client or collegues, their version of the app will not be impacted by the changes you make in your folder.
+This feature allows you to give controlled access to your client or colleagues. For instance, let's say you want your designer to customize some resources files for a specific release of your app. But meanwhile, you want to continue working on the next version of your app, customizing resources in the process. By working within a folder that only you have access to, their version of the app will not be impacted by the changes you make in your folder.
 
-In the same time, as soon as you give access to somebody, its app will get notified and its version will update the files automatically. As soon as you remove access to this person, the files that are newly restricted will get removed from its cache directory and its version of the app will use the main bundle resource again.
+At the same time, as soon as you give access to a new user, their app will be notified and their version will update automatically. As soon as you remove this person's access, the files that are newly restricted will be removed from their cache directory and their version of the app will use the main bundle resource again.
 
-This could also be used to test 2 different versions of an app by giving access to different persons on different folders that contains the 2 version of the application resources.
+This could also be used to test two different versions of an app, by giving users access to two different versions of the application resources.
 
-Here is a sample ResourceManager.permissions file that you could place into your dropbox folder for users restrictions to update when you save this file.
-Users are the dropbox "Display Name" for the user account you want to specify restrictions.
+Here is a sample ResourceManager.permissions file that you could place into your Dropbox folder for user restrictions to update when you save this file.
+Users are the Dropbox "Display Name" for the user account for which you want to specify the restrictions.
 
 
 ``` json
@@ -181,7 +178,7 @@ By default, if we do not find a ResourceManager.permissions file or if a folder/
 
 ## Compiling the framework
 
-ResourceManager is built as a Static Framework. Static Framework are not natively supported by Xcode and requires some additional specifications to get compiled properly.
+ResourceManager is built as a Static Framework. Static Frameworks are not natively supported by Xcode and require some additional specifications to be compiled properly.
 
 Copy the following file:
 
@@ -193,7 +190,7 @@ To:
 And
 <pre>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Specifications</pre>
 
-<b>IMPORTANT</b> : You will have to copy this file each time you update Xcode to a newer version.
+<b>IMPORTANT:</b> You will have to copy this file each time you update Xcode to a newer version.
 
 
 ## Compiling the API Documentation
@@ -225,7 +222,7 @@ QuartzCore.
 
 If you have any comments, suggestions, question or information request, please contact us at appcorekitsupport@wherecloud.com.
 
-Want to keep updated? Follow us on Twitter - @appcorekit.
+Want to keep updated? Follow us on Twitter at @appcorekit.
 
 
 ## License
@@ -238,9 +235,6 @@ You may obtain a copy of the License at
 
 http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and limitations under the License.
    

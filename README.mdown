@@ -38,7 +38,9 @@ Once authenticated, your app will be re-launched with the URL scheme db-APP_KEY.
 - (id)init{
    self = [super init];
    
-    RMResourceManager* resourceManager = [[RMResourceManager alloc]initWithAppKey:@"APP_KEY" secret:@"APP_SECRET" dropboxFolder:@"ROOT_DIRECTORY"];
+    RMResourceManager* resourceManager = [[RMResourceManager alloc]initWithAppKey:@"APP_KEY" 
+                                                                           secret:@"APP_SECRET" 
+                                                                    dropboxFolder:@"ROOT_DIRECTORY"];
     [RMResourceManager setSharedManager:resourceManager];
     
     //Do your stuff
@@ -53,7 +55,9 @@ Once authenticated, your app will be re-launched with the URL scheme db-APP_KEY.
     [[RMResourceManager sharedManager]handleApplication:application didFinishLaunchingWithOptions:launchOptions];
 }
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url 
+                                       sourceApplication:(NSString *)sourceApplication 
+                                              annotation:(id)annotation {
 	[[RMResourceManager sharedManager]handleApplication:application openURL:url];
     //Do your stuff
 }
@@ -63,14 +67,17 @@ Once authenticated, your app will be re-launched with the URL scheme db-APP_KEY.
 <b>4. Retrieving The most recent path for resource:</b>
 
 ``` objective-c
-NSString* resourcePath = [RMResourceManager pathForResource:@"MyResource" ofType:@"myExtension"];
+NSString* resourcePath = [RMResourceManager pathForResource:@"MyResource" 
+                                                     ofType:@"myExtension"];
 //Load the resource here using the "resourcePath" ...
 ```
 
 <b>5. Getting notified when this resource gets updated:</b>
 
 ``` objective-c
-[RMResourceManager addObserverForPath:resourcePath object:self usingBlock:^(id observer, NSString *path) {
+[RMResourceManager addObserverForPath:resourcePath 
+                               object:self 
+                           usingBlock:^(id observer, NSString *path) {
     //Load the resource here by using the last updated "path" ...
 }];
 ```
@@ -91,7 +98,9 @@ NSArray* soundFilePaths = [CKResourceManager pathsForResourcesWithExtension:@"mp
 <b>7. Getting notified when these resource gets updated or a new file is added with the specified extension:</b>
 
 ``` objective-c
-[CKResourceManager addObserverForResourcesWithExtension:@"mp3" object:self usingBlock:^(id observer, NSArray *paths) {
+[CKResourceManager addObserverForResourcesWithExtension:@"mp3" 
+                                                 object:self 
+                                             usingBlock:^(id observer, NSArray *paths) {
     //Do something with the up to date paths for all mp3 files.
 }];
 ```

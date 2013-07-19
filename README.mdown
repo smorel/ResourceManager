@@ -47,11 +47,11 @@ Once authenticated, your app will be re-launched with the URL scheme db-APP_KEY.
 - (id)init{
    self = [super init];
    
+    //Comment or remove the following code when you want to deactivate the sync mechanism
     RMResourceManager* rm = [[RMResourceManager alloc]initWithAppKey:@"APP_KEY" 
                                                               secret:@"APP_SECRET"
                                                        dropboxFolder:@"ROOT_DIRECTORY"];
                                                        
-    //Comment or remove the following code when you want to deactivate the sync mechanism
     [RMResourceManager setSharedManager:rm];
     
     //Do your stuff
@@ -63,16 +63,16 @@ Once authenticated, your app will be re-launched with the URL scheme db-APP_KEY.
     //After :
     [self.window makeKeyAndVisible];
 
-    [[RMResourceManager sharedManager]handleApplication:application 
-                          didFinishLaunchingWithOptions:launchOptions];
+    [RMResourceManager handleApplication:application 
+           didFinishLaunchingWithOptions:launchOptions];
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url 
                                        sourceApplication:(NSString *)sourceApplication 
                                               annotation:(id)annotation {
                                               
-	[[RMResourceManager sharedManager]handleApplication:application 
-                                                openURL:url];
+	[RMResourceManager handleApplication:application 
+                                  openURL:url];
                                                 
     //Do your stuff
 }

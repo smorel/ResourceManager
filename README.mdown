@@ -5,16 +5,20 @@
 This is why we made the ResourceManager framework because in combination with the AppCoreKit and a few lines of code for very specific application cases, we can do it !
 </i>
 
-<p></p>
-<p></p>
+<pre>
 
-<b>ResourceManager</b> is a framework designed to improve your productivity while developing iOS application. The main objective is to synchronize multiple resource repositories and work with the most recent version of each. By resources, we mean everything that you'd like to embed into your application : <b>Images, nibs, strings files, config files, json, AppcoreKit stylesheets and layouts, ...</b>
 
-<b>ResourceManager</b> provides Apis similar to <b>NSBundle</b> to get the paths of the most recent resources from the various resource repositories.
+</pre>
 
-Repositories can be the application's Main Bundle as well as a dropbox folder. The Resource Manager provides APIs similar to <b>NSNotificationCenter</b> to get notified when a file gets updated. As soon as a file gets saved in one or several repositories, it will get the latest version from the downloaded files in the cache directory or the application bundle, and fire notifications for your application to update. You can also get notified of file addition/change by observing file extensions.
 
-It has been designed to get <b>update mechanism directly to your device and not only the simulator</b> like we previously implemented into the <b>AppCoreKit</b>. Several changes have been made to the <b>AppCoreKit</b> to fully integrates this new framework as a weak dependency and in a very efficient way. <b>AppCoreKit</b> provides mechanism to automatically reload stylesheets and layouts, images, color palettes, mappings, mock, localization files (.strings) and update the UI as a consequence. Lets go to the <b>AppCoreKit</b> github repository and read the release notes for the last version to learn more:
+
+<b>ResourceManager</b> is a framework designed to improve your productivity while developing iOS applications. The main objective is to synchronize multiple resource repositories and work with the most recent version of each. By resources, we mean everything that you'd like to embed into your application : <b>Images, nibs, strings files, config files, json, AppcoreKit stylesheets and layouts, ...</b>
+
+<b>ResourceManager</b> provides simple Apis similar to <b>NSBundle</b> to get the paths of the most recent resources from the various resource repositories.
+
+Repositories can be the application's Main Bundle as well as a dropbox folder. The Resource Manager provides APIs similar to <b>NSNotificationCenter</b> to get notified when a file gets updated. As soon as a file gets saved in one or several repositories, the files will get downloaded to the cache directory if needed and a notification is fired your application to update. You can also get notified of file addition/change by observing file extensions.
+
+It has been designed to get <b>update mechanism directly to your device and not only the simulator</b> like we previously implemented into the <b>AppCoreKit</b>. Several changes have been made to the <b>AppCoreKit</b> to fully integrate this new framework as a weak dependency and in a very efficient way. <b>AppCoreKit</b> provides mechanism to automatically reload stylesheets and layouts, images, color palettes, mappings, mock, localization files (.strings) and update the UI as a consequence. Lets go to the <b>AppCoreKit</b> github repository and get the <i>resource-manager</i> branch to try the integration:
 
 https://github.com/wherecloud/AppCoreKit
 

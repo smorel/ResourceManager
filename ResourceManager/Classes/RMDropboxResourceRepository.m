@@ -108,6 +108,7 @@ typedef enum RMDropboxResourceRepositoryState{
 }
 
 - (void)stop{
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
 }
 
 - (void)triggerNextPulling{

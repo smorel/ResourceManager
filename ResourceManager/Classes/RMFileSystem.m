@@ -123,12 +123,12 @@ NSString* RMResourceManagerUpdatedResourcesPathKey             = @"RMResourceMan
     NSDictionary* fileProperties = [[NSFileManager defaultManager] attributesOfItemAtPath:path error:&error];
     NSDate* fileModifiedDate = [fileProperties objectForKey:NSFileModificationDate];
     
-    return [fileModifiedDate compare: modificationDate] >= 1;
+    return [fileModifiedDate compare: modificationDate] >= 0;
 }
 
 - (BOOL)shouldRepository:(RMResourceRepository*)repository updateFileWithRelativePath:(NSString*)filePath modificationDate:(NSDate*)modificationDate{
     NSString* cachePath = [self cachePathForRelativeResourcePath:filePath];
-    if(cachePath){
+    if(cachePath && [[NSFileManager defaultManager]fileExistsAtPath:cachePath]){
         return ![self hasFileAtPath:cachePath beenModifiedAfterDate:modificationDate];
     }
     

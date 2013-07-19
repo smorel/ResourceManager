@@ -9,6 +9,6 @@
 #import "RMResourceManager.h"
 #import "RMResourceRepository.h"
 #import "RMDropboxResourceRepository.h"
-#import "RMResourceRepository.h"
+#import "RMBundleResourceRepository.h"
 
 #import "UIImage+ResourceManager.h"

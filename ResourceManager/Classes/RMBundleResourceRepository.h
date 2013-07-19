@@ -20,4 +20,8 @@
  */
 - (id)initWithPath:(NSString*)path;
 
+/**
+ */
+@property (nonatomic, assign) NSTimeInterval pullingTimeInterval;
+
 @end

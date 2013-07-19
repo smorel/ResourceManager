@@ -25,7 +25,7 @@ https://github.com/wherecloud/AppCoreKit
 
 <b>1. Initializing the resource manager:</b>
 
-# Synchronizing Resource on Dropbox
+**Synchronizing Resource on Dropbox**
 
 Create your app on Dropbox:
 
@@ -62,7 +62,7 @@ In your application delegate:
 ```
 
 
-# Synchronizing your resource from your XCode project's directory (Working in Simulator Only)
+**Synchronizing your resource from your XCode project's directory (Working in Simulator Only)**
 
 In your target plist:
 

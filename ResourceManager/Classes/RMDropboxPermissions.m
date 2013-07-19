@@ -1,22 +1,22 @@
 //
-//  RMPermissions.m
+//  RMDropboxPermissions.m
 //  ResourceManager
 //
 //  Created by Sebastien Morel on 2013-07-17.
 //  Copyright (c) 2013 Sebastien Morel. All rights reserved.
 //
 
-#import "RMPermissions.h"
+#import "RMDropboxPermissions.h"
 #import "RMResourceManager.h"
 
-@interface RMPermissions()
+@interface RMDropboxPermissions()
 @property(nonatomic,assign) BOOL available;
 @property(nonatomic,retain) DBAccountInfo* account;
 @property(nonatomic,retain) NSMutableDictionary* allowedUsersByFolder;
 @property(nonatomic,retain) NSMutableDictionary* allowedUsersByExtension;
 @end
 
-@implementation RMPermissions
+@implementation RMDropboxPermissions
 
 - (id)initWithAccount:(DBAccountInfo*)theAccount{
     self = [super init];
@@ -26,7 +26,7 @@
     NSString* filePath = [RMResourceManager pathForResource:@"ResourceManager" ofType:@"permissions"];
     [self loadPermissionFromPath:filePath];
     
-    __unsafe_unretained RMPermissions* bself = self;
+    __unsafe_unretained RMDropboxPermissions* bself = self;
     [RMResourceManager addObserverForResourcesWithExtension:@"permissions" object:self usingBlock:^(id observer, NSArray *paths) {
         for(NSString* path in paths){
             if([path hasSuffix:@"ResourceManager.permissions" ]){

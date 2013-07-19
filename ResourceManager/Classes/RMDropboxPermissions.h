@@ -1,5 +1,5 @@
 //
-//  RMPermissions.h
+//  RMDropboxPermissions.h
 //  ResourceManager
 //
 //  Created by Sebastien Morel on 2013-07-17.
@@ -11,7 +11,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <DropboxSDK/DropboxSDK.h>
 
-@interface RMPermissions : NSObject
+@interface RMDropboxPermissions : NSObject
 @property(nonatomic, copy) void(^availabilityBlock)(BOOL available);
 
 - (id)initWithAccount:(DBAccountInfo*)account;

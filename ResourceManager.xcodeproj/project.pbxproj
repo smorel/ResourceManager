@@ -37,11 +37,16 @@
 		9637151C1795C91400CE847D /* RMFileSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9637151A1795C91400CE847D /* RMFileSystem.m */; };
 		9637151F1795E91600CE847D /* UIImage+ResourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9637151D1795E91600CE847D /* UIImage+ResourceManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		963715201795E91600CE847D /* UIImage+ResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9637151E1795E91600CE847D /* UIImage+ResourceManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		963AB7A017997DC60076925C /* What's Next.mdown in Resources */ = {isa = PBXBuildFile; fileRef = 963AB79F17997DC60076925C /* What's Next.mdown */; };
+		963AB7A31799977A0076925C /* RMResourceRepository.h in Headers */ = {isa = PBXBuildFile; fileRef = 963AB7A1179997780076925C /* RMResourceRepository.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		963AB7A41799977A0076925C /* RMResourceRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 963AB7A2179997780076925C /* RMResourceRepository.m */; };
+		963AB7AB17999B850076925C /* RMDropboxResourceRepository.h in Headers */ = {isa = PBXBuildFile; fileRef = 963AB7A917999B850076925C /* RMDropboxResourceRepository.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		963AB7AC17999B850076925C /* RMDropboxResourceRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 963AB7AA17999B850076925C /* RMDropboxResourceRepository.m */; };
+		963AB7AF17999B980076925C /* RMBundleResourceRepository.h in Headers */ = {isa = PBXBuildFile; fileRef = 963AB7AD17999B980076925C /* RMBundleResourceRepository.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		963AB7B017999B980076925C /* RMBundleResourceRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 963AB7AE17999B980076925C /* RMBundleResourceRepository.m */; };
 		96EFE7CA1796EA010034F935 /* RMRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = 96EFE7C81796EA010034F935 /* RMRuntime.h */; };
 		96EFE7CB1796EA010034F935 /* RMRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EFE7C91796EA010034F935 /* RMRuntime.m */; };
-		96EFE7D7179728E00034F935 /* RMPermissions.h in Headers */ = {isa = PBXBuildFile; fileRef = 96EFE7D5179728E00034F935 /* RMPermissions.h */; };
-		96EFE7D8179728E00034F935 /* RMPermissions.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EFE7D6179728E00034F935 /* RMPermissions.m */; };
+		96EFE7D7179728E00034F935 /* RMDropboxPermissions.h in Headers */ = {isa = PBXBuildFile; fileRef = 96EFE7D5179728E00034F935 /* RMDropboxPermissions.h */; };
+		96EFE7D8179728E00034F935 /* RMDropboxPermissions.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EFE7D6179728E00034F935 /* RMDropboxPermissions.m */; };
 		96FEFDF1179774A50001CC4A /* RMHud.h in Headers */ = {isa = PBXBuildFile; fileRef = 96FEFDEF179774A50001CC4A /* RMHud.h */; };
 		96FEFDF2179774A50001CC4A /* RMHud.m in Sources */ = {isa = PBXBuildFile; fileRef = 96FEFDF0179774A50001CC4A /* RMHud.m */; };
 /* End PBXBuildFile section */
@@ -77,10 +82,16 @@
 		9637151E1795E91600CE847D /* UIImage+ResourceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+ResourceManager.m"; path = "Classes/UIImage+ResourceManager.m"; sourceTree = "<group>"; };
 		963AB79D1798C1410076925C /* README.mdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.mdown; sourceTree = SOURCE_ROOT; };
 		963AB79F17997DC60076925C /* What's Next.mdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "What's Next.mdown"; sourceTree = SOURCE_ROOT; };
+		963AB7A1179997780076925C /* RMResourceRepository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMResourceRepository.h; path = Classes/RMResourceRepository.h; sourceTree = "<group>"; };
+		963AB7A2179997780076925C /* RMResourceRepository.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMResourceRepository.m; path = Classes/RMResourceRepository.m; sourceTree = "<group>"; };
+		963AB7A917999B850076925C /* RMDropboxResourceRepository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMDropboxResourceRepository.h; path = Classes/RMDropboxResourceRepository.h; sourceTree = "<group>"; };
+		963AB7AA17999B850076925C /* RMDropboxResourceRepository.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMDropboxResourceRepository.m; path = Classes/RMDropboxResourceRepository.m; sourceTree = "<group>"; };
+		963AB7AD17999B980076925C /* RMBundleResourceRepository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMBundleResourceRepository.h; path = Classes/RMBundleResourceRepository.h; sourceTree = "<group>"; };
+		963AB7AE17999B980076925C /* RMBundleResourceRepository.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMBundleResourceRepository.m; path = Classes/RMBundleResourceRepository.m; sourceTree = "<group>"; };
 		96EFE7C81796EA010034F935 /* RMRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMRuntime.h; path = Classes/RMRuntime.h; sourceTree = "<group>"; };
 		96EFE7C91796EA010034F935 /* RMRuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMRuntime.m; path = Classes/RMRuntime.m; sourceTree = "<group>"; };
-		96EFE7D5179728E00034F935 /* RMPermissions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMPermissions.h; path = Classes/RMPermissions.h; sourceTree = "<group>"; };
-		96EFE7D6179728E00034F935 /* RMPermissions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMPermissions.m; path = Classes/RMPermissions.m; sourceTree = "<group>"; };
+		96EFE7D5179728E00034F935 /* RMDropboxPermissions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMDropboxPermissions.h; path = Classes/RMDropboxPermissions.h; sourceTree = "<group>"; };
+		96EFE7D6179728E00034F935 /* RMDropboxPermissions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMDropboxPermissions.m; path = Classes/RMDropboxPermissions.m; sourceTree = "<group>"; };
 		96FEFDEF179774A50001CC4A /* RMHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMHud.h; path = Classes/RMHud.h; sourceTree = "<group>"; };
 		96FEFDF0179774A50001CC4A /* RMHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMHud.m; path = Classes/RMHud.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -163,16 +174,62 @@
 				9637150A1795921700CE847D /* RMResourceManager.m */,
 				963715191795C91400CE847D /* RMFileSystem.h */,
 				9637151A1795C91400CE847D /* RMFileSystem.m */,
+				963AB7A517999B220076925C /* Repositories */,
+				963AB7A717999B4A0076925C /* HUD */,
+				963AB7A817999B5B0076925C /* Helpers */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		963AB7A517999B220076925C /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				963AB7A1179997780076925C /* RMResourceRepository.h */,
+				963AB7A2179997780076925C /* RMResourceRepository.m */,
+				963AB7B11799B3590076925C /* Dropbox */,
+				963AB7B21799B3690076925C /* Bundle */,
+			);
+			name = Repositories;
+			sourceTree = "<group>";
+		};
+		963AB7A717999B4A0076925C /* HUD */ = {
+			isa = PBXGroup;
+			children = (
+				96FEFDEF179774A50001CC4A /* RMHud.h */,
+				96FEFDF0179774A50001CC4A /* RMHud.m */,
+			);
+			name = HUD;
+			sourceTree = "<group>";
+		};
+		963AB7A817999B5B0076925C /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
 				96EFE7C81796EA010034F935 /* RMRuntime.h */,
 				96EFE7C91796EA010034F935 /* RMRuntime.m */,
 				9637151D1795E91600CE847D /* UIImage+ResourceManager.h */,
 				9637151E1795E91600CE847D /* UIImage+ResourceManager.m */,
-				96EFE7D5179728E00034F935 /* RMPermissions.h */,
-				96EFE7D6179728E00034F935 /* RMPermissions.m */,
-				96FEFDEF179774A50001CC4A /* RMHud.h */,
-				96FEFDF0179774A50001CC4A /* RMHud.m */,
 			);
-			name = Classes;
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+		963AB7B11799B3590076925C /* Dropbox */ = {
+			isa = PBXGroup;
+			children = (
+				963AB7A917999B850076925C /* RMDropboxResourceRepository.h */,
+				963AB7AA17999B850076925C /* RMDropboxResourceRepository.m */,
+				96EFE7D5179728E00034F935 /* RMDropboxPermissions.h */,
+				96EFE7D6179728E00034F935 /* RMDropboxPermissions.m */,
+			);
+			name = Dropbox;
+			sourceTree = "<group>";
+		};
+		963AB7B21799B3690076925C /* Bundle */ = {
+			isa = PBXGroup;
+			children = (
+				963AB7AD17999B980076925C /* RMBundleResourceRepository.h */,
+				963AB7AE17999B980076925C /* RMBundleResourceRepository.m */,
+			);
+			name = Bundle;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,8 +244,11 @@
 				9637151B1795C91400CE847D /* RMFileSystem.h in Headers */,
 				9637151F1795E91600CE847D /* UIImage+ResourceManager.h in Headers */,
 				96EFE7CA1796EA010034F935 /* RMRuntime.h in Headers */,
-				96EFE7D7179728E00034F935 /* RMPermissions.h in Headers */,
+				96EFE7D7179728E00034F935 /* RMDropboxPermissions.h in Headers */,
 				96FEFDF1179774A50001CC4A /* RMHud.h in Headers */,
+				963AB7A31799977A0076925C /* RMResourceRepository.h in Headers */,
+				963AB7AB17999B850076925C /* RMDropboxResourceRepository.h in Headers */,
+				963AB7AF17999B980076925C /* RMBundleResourceRepository.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,7 +307,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				963714F017958AB700CE847D /* InfoPlist.strings in Resources */,
-				963AB7A017997DC60076925C /* What's Next.mdown in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,8 +350,11 @@
 				9637151C1795C91400CE847D /* RMFileSystem.m in Sources */,
 				963715201795E91600CE847D /* UIImage+ResourceManager.m in Sources */,
 				96EFE7CB1796EA010034F935 /* RMRuntime.m in Sources */,
-				96EFE7D8179728E00034F935 /* RMPermissions.m in Sources */,
+				96EFE7D8179728E00034F935 /* RMDropboxPermissions.m in Sources */,
 				96FEFDF2179774A50001CC4A /* RMHud.m in Sources */,
+				963AB7A41799977A0076925C /* RMResourceRepository.m in Sources */,
+				963AB7AC17999B850076925C /* RMDropboxResourceRepository.m in Sources */,
+				963AB7B017999B980076925C /* RMBundleResourceRepository.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

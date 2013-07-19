@@ -46,11 +46,12 @@ Once authenticated, your app will be re-launched with the URL scheme db-APP_KEY.
    self = [super init];
    
     //Comment or remove the following code when you want to deactivate the sync mechanism
-    RMResourceManager* rm = [[RMResourceManager alloc]initWithAppKey:@"APP_KEY" 
-                                                              secret:@"APP_SECRET"
-                                                       dropboxFolder:@"ROOT_DIRECTORY"];
-                                                       
-    [RMResourceManager setSharedManager:rm];
+    RMDropboxResourceRepository* rp = [[RMDropboxResourceRepository alloc]initWithAppKey:@"APP_KEY" 
+                                                                                  secret:@"APP_SECRET" 
+                                                                           rootDirectory:@"ROOT_DIRECTORY"];
+    RMResourceManager* rm = [[RMResourceManager alloc]initWithRepositories:@[rp]];
+    [RMResourceManager rm];
+                                              
     
     //Do your stuff
 }

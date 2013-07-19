@@ -8,41 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-//RMResourceManagerDidEndUpdatingResourcesNotification
-extern NSString* RMResourceManagerDidEndUpdatingResourcesNotification;
-extern NSString* RMResourceManagerUpdatedResourcesPathKey;
-
-/**
-[[NSNotificationCenter defaultCenter]addObserverForName:RMResourceManagerDidEndUpdatingResourcesNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
-    NSArray* updatedFiles = [notification.userInfo objectForKey:RMResourceManagerUpdatedResourcesPathKey];
-    for(NSDictionary* file in updatedFiles){
-        NSString* relativePath          = [file objectForKey:RMResourceManagerRelativePathKey];
-        NSString* applicationBundlePath = [file objectForKey:RMResourceManagerApplicationBundlePathKey];
-        NSString* mostRecentPath        = [file objectForKey:RMResourceManagerMostRecentPathKey];
-        
-        //DO Something
-    }
-}];
- */
-
-//-------------------
-
-//RMResourceManagerFileDidUpdateNotification
-extern NSString* RMResourceManagerFileDidUpdateNotification;
-extern NSString* RMResourceManagerApplicationBundlePathKey;
-extern NSString* RMResourceManagerRelativePathKey;
-extern NSString* RMResourceManagerMostRecentPathKey;
-
-/**
- [[NSNotificationCenter defaultCenter]addObserverForName:RMResourceManagerFileDidUpdateNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
-     NSString* relativePath          = [notification.userInfo objectForKey:RMResourceManagerRelativePathKey];
-     NSString* applicationBundlePath = [notification.userInfo objectForKey:RMResourceManagerApplicationBundlePathKey];
-     NSString* mostRecentPath        = [notification.userInfo objectForKey:RMResourceManagerMostRecentPathKey];
-     //DO Something
- }];
- */
-
-//-------------------
 
 /** The resource Manager will manage the sync between your application resources and a dropbox repository and/or a directory
  on your computer's file system.
@@ -62,10 +27,9 @@ extern NSString* RMResourceManagerMostRecentPathKey;
  Initializing Manager
  *****************************************************/
 
-/** Initialize a newly created resource manager object to manage sync using dropbox.
+/** Initialize a newly created resource manager object to manage sync using the specified repositories.
  */
-- (id)initWithAppKey:(NSString*)appKey secret:(NSString*)secret dropboxFolder:(NSString*)folder;
-
+- (id)initWithRepositories:(NSArray*)repositories;
 
 /******************************************************
  Managing Singleton
@@ -90,15 +54,6 @@ extern NSString* RMResourceManagerMostRecentPathKey;
 /** Forward the open application didFinishLaunchingWithOptions event to the dropbox account for authentification.
  */
 + (void)handleApplication:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
-
-
-/******************************************************
- Customizing the resource manager
- *****************************************************/
-
-/** default value is 3 seconds.
- */
-+ (void)setPullingInterval:(NSTimeInterval)interval;
 
 /******************************************************
  Accessing resource files

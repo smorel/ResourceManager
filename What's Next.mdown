@@ -7,21 +7,3 @@
          
 * Uses delta updates from dropbox instead of pulling everything
          -> If permissions change, we'll have to pull everything to know wich files we should remove from the cache directory.
-
-## Refactoring
-
-* Implements RMResourceRepositoryProtocol
-
-* Implements RMDropboxResourceRepository
-         -> InitWithAppKey:(NSString*)appKey secret:(NSString*)secret rootDirectory:(NSString*)rootDirectory;
-
-* Implements RMBundleResourceRepository
-         -> InitWithBundle:(NSBundle*)bundle;
-         -> InitWithDirectory:(NSString*)directoryPath;
-
-
-* We could imagine a websocket resource repository connected to a local server than can pull updates on its side and push updates to the app.
-
-* RMFileSystem should be able to manage a set of RMResourceRepositoryProtocol
-
-* Initialize the RMResourceManager with a set of RMResourceRepositoryProtocol

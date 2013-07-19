@@ -6,27 +6,58 @@
 //  Copyright (c) 2013 Sebastien Morel. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import <QuartzCore/QuartzCore.h>
-#import <DropboxSDK/DropboxSDK.h>
+#import "RMResourceRepository.h"
 
-typedef enum RMFileSystemState{
-    RMFileSystemStateIdle,
-    RMFileSystemStateLoadingAccount,
-    RMFileSystemStatePulling,
-    RMFileSystemStateDownloading,
-    RMFileSystemStateNotifying
-}RMFileSystemState;
+
+//RMResourceManagerDidEndUpdatingResourcesNotification
+extern NSString* RMResourceManagerDidEndUpdatingResourcesNotification;
+extern NSString* RMResourceManagerUpdatedResourcesPathKey;
+
+/**
+ [[NSNotificationCenter defaultCenter]addObserverForName:RMResourceManagerDidEndUpdatingResourcesNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
+ NSArray* updatedFiles = [notification.userInfo objectForKey:RMResourceManagerUpdatedResourcesPathKey];
+ for(NSDictionary* file in updatedFiles){
+ NSString* relativePath          = [file objectForKey:RMResourceManagerRelativePathKey];
+ NSString* applicationBundlePath = [file objectForKey:RMResourceManagerApplicationBundlePathKey];
+ NSString* mostRecentPath        = [file objectForKey:RMResourceManagerMostRecentPathKey];
+ 
+ //DO Something
+ }
+ }];
+ */
+
+//-------------------
+
+//RMResourceManagerFileDidUpdateNotification
+extern NSString* RMResourceManagerFileDidUpdateNotification;
+extern NSString* RMResourceManagerApplicationBundlePathKey;
+extern NSString* RMResourceManagerRelativePathKey;
+extern NSString* RMResourceManagerMostRecentPathKey;
+
+/**
+ [[NSNotificationCenter defaultCenter]addObserverForName:RMResourceManagerFileDidUpdateNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
+ NSString* relativePath          = [notification.userInfo objectForKey:RMResourceManagerRelativePathKey];
+ NSString* applicationBundlePath = [notification.userInfo objectForKey:RMResourceManagerApplicationBundlePathKey];
+ NSString* mostRecentPath        = [notification.userInfo objectForKey:RMResourceManagerMostRecentPathKey];
+ //DO Something
+ }];
+ */
+
+//-------------------
+
 
 @interface RMFileSystem : NSObject
 
-@property (nonatomic, assign, readonly) RMFileSystemState currentState;
-@property (nonatomic, assign) NSTimeInterval pullingTimeInterval;
+@property(nonatomic, retain, readonly) NSSet* repositories;
 
-- (id)initWithDropboxFolder:(NSString*)folder;
+/** 
+ */
+- (id)initWithRepositories:(NSSet*)repositories;
 
-- (void)start;
+
+/**
+ */
++ (NSString*)relativePathForResourceWithPath:(NSString*)path;
 
 /** This will return the path of the most recent file between the specified application file and the potentially downloaded file from dropbox.
  */
@@ -39,7 +70,5 @@ typedef enum RMFileSystemState{
 /** Returns the most recent paths between local cache and application bundle for files with the specified extension and the specified localization
  */
 - (NSArray *)pathsForResourcesWithExtension:(NSString *)ext localization:(NSString *)localizationName;
-
-- (NSString*) relativePathForPath:(NSString*)path;
 
 @end

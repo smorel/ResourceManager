@@ -9,30 +9,15 @@
 #import "RMResourceManager.h"
 #import "RMFileSystem.h"
 
-#import <UIKit/UIKit.h>
-#import <QuartzCore/QuartzCore.h>
-#import <DropboxSDK/DropboxSDK.h>
-
 #import "UIImage+ResourceManager.h"
 #import "RMHud.h"
 
-
-NSString* RMResourceManagerFileDidUpdateNotification = @"RMResourceManagerFileDidUpdateNotification";
-NSString* RMResourceManagerApplicationBundlePathKey  = @"RMResourceManagerApplicationBundlePathKey";
-NSString* RMResourceManagerRelativePathKey           = @"RMResourceManagerRelativePathKey";
-NSString* RMResourceManagerMostRecentPathKey         = @"RMResourceManagerMostRecentPathKey";
-
-NSString* RMResourceManagerDidEndUpdatingResourcesNotification = @"RMResourceManagerDidEndUpdatingResourcesNotification";
-NSString* RMResourceManagerUpdatedResourcesPathKey             = @"RMResourceManagerUpdatedResourcesPathKey";
-
 static RMResourceManager* kSharedManager = nil;
 
-@interface RMResourceManager()<DBSessionDelegate>
+@interface RMResourceManager()
 
-@property (nonatomic, retain) DBSession* dbSession;
-@property (nonatomic, retain) NSString* dropboxFolder;
 @property (nonatomic, retain) RMFileSystem* fileSystem;
-@property (nonatomic, assign) NSTimeInterval pullingTimeInterval;
+@property (nonatomic, retain) NSSet* repositories;
 @property (nonatomic, assign) BOOL hudEnabled;
 @property (nonatomic, retain) RMHud* hud;
 
@@ -41,6 +26,7 @@ static RMResourceManager* kSharedManager = nil;
 
 @end
 
+
 @implementation RMResourceManager
 
 #pragma mark Managing Singleton
@@ -48,9 +34,7 @@ static RMResourceManager* kSharedManager = nil;
 + (void)setSharedManager:(RMResourceManager*)manager{
     kSharedManager = manager;
     
-    if(manager && [[DBSession sharedSession] isLinked]){
-        [manager startResourceManagement];
-    }
+    [kSharedManager start];
 }
 
 + (RMResourceManager*)sharedManager{
@@ -64,25 +48,44 @@ static RMResourceManager* kSharedManager = nil;
 
 #pragma mark Initializing Resource Manager
 
-- (id)initWithAppKey:(NSString*)appKey secret:(NSString*)secret dropboxFolder:(NSString*)folder{
+- (id)initWithRepositories:(NSArray*)theRepositories{
     self = [super init];
-    
-    self.pullingTimeInterval = 3;
-    self.hudEnabled = YES;
-    
-    if(appKey && secret){
-        DBSession* dbSession = [[DBSession alloc] initWithAppKey:appKey appSecret:secret root:kDBRootDropbox];
-        dbSession.delegate = self;
-        [DBSession setSharedSession:dbSession];
-        
-        self.dropboxFolder = folder;
-    }
-    
+    self.repositories = [NSSet setWithArray:theRepositories];
     return self;
 }
 
 - (void)dealloc{
-    [self stopResourceManagement];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:RMResourceManagerFileDidUpdateNotification object:self.fileSystem];
+}
+
+- (void)start{
+    self.fileSystem = [[RMFileSystem alloc]initWithRepositories:self.repositories];
+    
+    __unsafe_unretained RMResourceManager* bself = self;
+    [[NSNotificationCenter defaultCenter]addObserverForName:RMResourceManagerFileDidUpdateNotification object:self.fileSystem queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
+        NSString* relativePath          = [notification.userInfo objectForKey:RMResourceManagerRelativePathKey];
+        NSString* applicationBundlePath = [notification.userInfo objectForKey:RMResourceManagerApplicationBundlePathKey];
+        NSString* mostRecentPath        = [notification.userInfo objectForKey:RMResourceManagerMostRecentPathKey];
+        [bself resourceDidUpdateWithRelativePath:relativePath applicationBundlePath:applicationBundlePath mostRecentPath:mostRecentPath];
+    }];
+    
+    [[NSNotificationCenter defaultCenter]addObserverForName:RMResourceManagerDidEndUpdatingResourcesNotification object:self.fileSystem queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
+        if([bself.updateExtensionsDictionary count] > 0){
+            NSArray* updatedFiles = [notification.userInfo objectForKey:RMResourceManagerUpdatedResourcesPathKey];
+            NSMutableSet* updatedFileExtensions = [NSMutableSet set];
+            for(NSDictionary* file in updatedFiles){
+                NSString* mostRecentPath = [file objectForKey:RMResourceManagerMostRecentPathKey];
+                NSString* extension      = [mostRecentPath pathExtension];
+                [updatedFileExtensions addObject:extension];
+            }
+            
+            [bself resourcesDidUpdateWithExtensions:updatedFileExtensions];
+        }
+    }];
+    
+    if(self.hudEnabled && !self.hud){
+        self.hud = [[RMHud alloc]initWithFileSystem:self.fileSystem];
+    }
 }
 
 #pragma mark Managing Dropbox Authentification
@@ -92,13 +95,8 @@ static RMResourceManager* kSharedManager = nil;
     if(!manager)
         return;
     
-    if (![[DBSession sharedSession] isLinked]) {
-        NSLog(@"Authentification");
-        [manager presentsLinkAccountViewController];
-    }else{
-        if(manager.hudEnabled && !manager.hud){
-            manager.hud = [[RMHud alloc]initWithFileSystem:manager.fileSystem];
-        }
+    for(RMResourceRepository* repository in manager.repositories){
+        [repository handleApplication:application didFinishLaunchingWithOptions:launchOptions];
     }
 }
 
@@ -107,38 +105,12 @@ static RMResourceManager* kSharedManager = nil;
     if(!manager)
         return;
     
-	if ([[DBSession sharedSession] handleOpenURL:url]) {
-        if ([[DBSession sharedSession] isLinked]) {
-            [manager startResourceManagement];
-            
-            if(manager.hudEnabled && !manager.hud){
-                manager.hud = [[RMHud alloc]initWithFileSystem:manager.fileSystem];
-            }
-        }
+	for(RMResourceRepository* repository in manager.repositories){
+        [repository handleApplication:application openURL:url];
     }
 }
 
-- (void)sessionDidReceiveAuthorizationFailure:(DBSession *)session userId:(NSString *)userId{
-    [self presentsLinkAccountViewController];
-}
-
-- (void)presentsLinkAccountViewController{
-    UIViewController* root = [[[[UIApplication sharedApplication]windows]objectAtIndex:0]rootViewController];
-    NSAssert(root,@"Your application's main window has no root view controller.");
- 
-    [[DBSession sharedSession] linkFromController:root];
-}
-
-
 #pragma mark Managing File System
-
-+ (void)setPullingInterval:(NSTimeInterval)interval{
-    RMResourceManager* manager = [RMResourceManager sharedManager];
-    if(!manager)
-        return;
-    
-    manager.pullingTimeInterval = interval;
-}
 
 + (void)setHudEnabled:(BOOL)enabled{
     RMResourceManager* manager = [RMResourceManager sharedManager];
@@ -166,46 +138,6 @@ static RMResourceManager* kSharedManager = nil;
     }
 }
 
-- (void)setPullingTimeInterval:(NSTimeInterval)thePullingTimeInterval{
-    _pullingTimeInterval = thePullingTimeInterval;
-    if(self.fileSystem){
-        self.fileSystem.pullingTimeInterval = self.pullingTimeInterval;
-    }
-}
-
-- (void)startResourceManagement{
-    self.fileSystem = [[RMFileSystem alloc]initWithDropboxFolder:self.dropboxFolder];
-    self.fileSystem.pullingTimeInterval = self.pullingTimeInterval;
-    
-    __unsafe_unretained RMResourceManager* bself = self;
-    [[NSNotificationCenter defaultCenter]addObserverForName:RMResourceManagerFileDidUpdateNotification object:self.fileSystem queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
-        NSString* relativePath          = [notification.userInfo objectForKey:RMResourceManagerRelativePathKey];
-        NSString* applicationBundlePath = [notification.userInfo objectForKey:RMResourceManagerApplicationBundlePathKey];
-        NSString* mostRecentPath        = [notification.userInfo objectForKey:RMResourceManagerMostRecentPathKey];
-        [bself resourceDidUpdateWithRelativePath:relativePath applicationBundlePath:applicationBundlePath mostRecentPath:mostRecentPath];
-    }];
-    
-    [[NSNotificationCenter defaultCenter]addObserverForName:RMResourceManagerDidEndUpdatingResourcesNotification object:self.fileSystem queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
-        if([bself.updateExtensionsDictionary count] > 0){
-            NSArray* updatedFiles = [notification.userInfo objectForKey:RMResourceManagerUpdatedResourcesPathKey];
-            NSMutableSet* updatedFileExtensions = [NSMutableSet set];
-            for(NSDictionary* file in updatedFiles){
-                NSString* mostRecentPath = [file objectForKey:RMResourceManagerMostRecentPathKey];
-                NSString* extension      = [mostRecentPath pathExtension];
-                [updatedFileExtensions addObject:extension];
-            }
-            
-            [bself resourcesDidUpdateWithExtensions:updatedFileExtensions];
-        }
-    }];
-    
-    [self.fileSystem start];
-}
-
-- (void)stopResourceManagement{
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:RMResourceManagerFileDidUpdateNotification object:self.fileSystem];
-    self.fileSystem = nil;
-}
 
 #pragma mark Managing Resource Paths
 
@@ -307,7 +239,7 @@ static RMResourceManager* kSharedManager = nil;
         manager.updateDictionary = [NSMutableDictionary dictionary];
     }
     
-    NSString* relativePath = [manager.fileSystem relativePathForPath:path];
+    NSString* relativePath = [RMFileSystem relativePathForResourceWithPath:path];
     
     NSMutableDictionary* observersToUpdateBlocks = [manager.updateDictionary objectForKey:relativePath];
     if(!observersToUpdateBlocks){

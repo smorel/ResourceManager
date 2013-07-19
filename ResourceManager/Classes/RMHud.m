@@ -8,27 +8,6 @@
 
 #import "RMHud.h"
 #import "RMFileSystem.h"
-#import "RMPermissions.h"
-
-//private implementations
-
-@interface RMFileSystem()
-
-@property (nonatomic, retain) DBRestClient* dbClient;
-
-@property (nonatomic, retain) NSMutableArray* dropboxResourcesMetadata;
-@property (nonatomic, retain) NSString* rootFolder;
-@property (nonatomic, assign) NSInteger metaDataRequestCount;
-
-@property (nonatomic, retain) NSMutableArray* removeFromCacheList;
-@property (nonatomic, retain) NSArray* pendingDowloads;
-@property (nonatomic, assign) NSInteger pendingDownloadCount;
-
-@property (nonatomic, retain) RMPermissions* permissions;
-
-@property (nonatomic, assign, readwrite) RMFileSystemState currentState;
-
-@end
 
 
 @interface RMHud()
@@ -45,7 +24,7 @@
     
     self.fileSystem = fileSystem;
     
-    [fileSystem addObserver:self forKeyPath:@"currentState" options:NSKeyValueObservingOptionNew context:nil];
+  //  [fileSystem addObserver:self forKeyPath:@"currentState" options:NSKeyValueObservingOptionNew context:nil];
     
     [self update];
     
@@ -53,13 +32,14 @@
 }
 
 - (void)dealloc{
-    [self.fileSystem removeObserver:self forKeyPath:@"currentState" context:nil];
+   // [self.fileSystem removeObserver:self forKeyPath:@"currentState" context:nil];
 }
 
-
+/*
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
     [self update];
 }
+ */
 
 - (void)createView{
     self.view = [[UIView alloc]initWithFrame:CGRectMake(0,0,10,10)];
@@ -114,7 +94,7 @@
 }
      
 - (void)update{
-    switch(self.fileSystem.currentState){
+   /* switch(self.fileSystem.currentState){
         case RMFileSystemStateIdle:{
             NSLog(@"IDLE...");
             [self setTitleFromFileSystemUpdate:nil];
@@ -148,6 +128,7 @@
             break;
         }
     }
+    */
 }
 
 - (void)disappear{

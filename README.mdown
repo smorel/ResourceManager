@@ -22,7 +22,6 @@ https://github.com/wherecloud/AppCoreKit
 
 ## Sample Usage
 
-
 <b>1. Initializing the resource manager:</b>
 
 **1.1. Synchronizing Resources from Dropbox**
@@ -160,6 +159,65 @@ NSArray* paths = [CKResourceManager pathsForResourcesWithExtension:@"mp3"];
 
 Like for a single path observation, do not forget to unregister your observer.
 
+## Using ResourceManager in your own App (Pre-Compiled)
+
+You can find a pre-compiled version of ResourceManager and sample integration in our sample repository at https://github.com/wherecloud/appcorekit-samples
+
+* <b>Drag'n'drop</b> the ResourceManager and the DropBoxSDK frameworks in your XCode project.
+
+* Add the following <b>frameworks and libraries dependencies</b> to your project in the build phases settings: 
+<pre>
+Security, 
+QuartzCore.
+</pre>
+
+* Adds the following <b>link flags</b> in your build settings (<b>OTHER_LDFLAGS</b>): 
+<pre>
+ -ObjC -all_load -weak_library /usr/lib/libstdc++.dylib
+</pre>
+
+
+## Compiling the framework
+
+ResourceManager is built as a Static Framework. Static Frameworks are not natively supported by Xcode and require some additional specifications to be compiled properly.
+
+Copy the following file:
+
+<pre>./static Frameworks.xcspec</pre>
+
+To:
+
+<pre>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Specifications</pre>
+And
+<pre>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Specifications</pre>
+
+<b>IMPORTANT:</b> You will have to copy this file each time you update Xcode to a newer version.
+
+
+## Using ResourceManager in your own App (Sources)
+
+* <b>Drag'n'drop</b> the ResourceManager project as subproject in Xcode.
+
+* Adds the ResourceManager.framework <b>link dependency to your target</b> in the build phases settings.
+
+* Add the following <b>frameworks and libraries dependencies</b> to your project in the build phases settings: 
+<pre>
+DropboxSDK, (that can be found in this repository) 
+Security, 
+QuartzCore.
+</pre>
+
+
+* Adds the following <b>link flags</b> in your build settings (<b>OTHER_LDFLAGS</b>): 
+<pre>
+ -ObjC -all_load -weak_library /usr/lib/libstdc++.dylib
+</pre>
+
+
+## Compiling the API Documentation
+
+ResourceManager provides a "Documentation" target that generate a docset using the public header files and the additional programming guides in the Documentation folder. This target is a script base on "appledoc". To install appledoc, follow the installation procedure here : https://github.com/tomaz/appledoc
+
 
 ## Your Dropbox Resource Repository
 
@@ -215,48 +273,6 @@ Users are the Dropbox "Display Name" for the user account for which you want to 
 ```
 
 By default, if we do not find a ResourceManager.permissions file or if a folder/file extension on dropbox has no entry in the permissions file, we consider that everybody can access the files in this folder/extension.
-
-
-## Compiling the framework
-
-ResourceManager is built as a Static Framework. Static Frameworks are not natively supported by Xcode and require some additional specifications to be compiled properly.
-
-Copy the following file:
-
-<pre>./static Frameworks.xcspec</pre>
-
-To:
-
-<pre>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Specifications</pre>
-And
-<pre>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Specifications</pre>
-
-<b>IMPORTANT:</b> You will have to copy this file each time you update Xcode to a newer version.
-
-
-## Compiling the API Documentation
-
-ResourceManager provides a "Documentation" target that generate a docset using the public header files and the additional programming guides in the Documentation folder. This target is a script base on "appledoc". To install appledoc, follow the installation procedure here : https://github.com/tomaz/appledoc
-
-## Using ResourceManager in your own App
-
-* <b>Drag'n'drop</b> the ResourceManager project as subproject in Xcode.
-
-* Adds the ResourceManager.framework <b>link dependency to your target</b> in the build phases settings.
-
-* Add the following <b>frameworks and libraries dependencies</b> to your project in the build phases settings: 
-<pre>
-DropboxSDK, (that can be found in this repository) 
-Security, 
-QuartzCore.
-</pre>
-
-
-* Adds the following <b>link flags</b> in your build settings (<b>OTHER_LDFLAGS</b>): 
-<pre>
- -ObjC -all_load -weak_library /usr/lib/libstdc++.dylib
-</pre>
-
 
 
 ## Credits

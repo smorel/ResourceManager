@@ -79,6 +79,12 @@ typedef enum RMDropboxResourceRepositoryState{
 }
 
 - (void)handleApplication:(UIApplication *)application openURL:(NSURL *)url{
+    if(!url)
+        return;
+    
+    if([[[url description]lowercaseString]hasSuffix:@"cancel"])
+        return;
+    
     if ([[DBSession sharedSession] handleOpenURL:url]) {
         [self connect];
     }
@@ -131,8 +137,7 @@ typedef enum RMDropboxResourceRepositoryState{
 - (void)restClient:(DBRestClient*)client loadAccountInfoFailedWithError:(NSError*)error{
     if(error.code == NSURLErrorTimedOut){
         [self loadAccount];
-    }
-    [self pull];
+    }   // [self pull];
 }
 
 #pragma mark Managing Permissions

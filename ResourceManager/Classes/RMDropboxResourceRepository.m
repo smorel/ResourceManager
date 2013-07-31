@@ -34,6 +34,7 @@ typedef enum RMDropboxResourceRepositoryState{
 @property (nonatomic, retain) NSMutableSet* pendingManagedFilePaths;
 
 @property (nonatomic, retain) RMDropboxPermissions* permissions;
+@property (nonatomic, assign) BOOL stoppedDueToInvalidRootDirectory;
 
 @end
 
@@ -67,6 +68,17 @@ typedef enum RMDropboxResourceRepositoryState{
 
 - (void)disconnect{
     [self stop];
+}
+
+- (void)notifyThatRootDirectoryDoesntExistsOnDropboxAndStop{
+    if(self.stoppedDueToInvalidRootDirectory)
+        return;
+    NSString* message = [NSString stringWithFormat:@"The folder '%@' does not exists in your account. Please create or correct this issue and relaunch your app to get the sync working properly.",self.rootDirectory];
+    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"DropBox Resource Repository Error" message:message
+                                                  delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alert show];
+    
+    self.stoppedDueToInvalidRootDirectory = YES;
 }
 
 #pragma mark Authentification Management
@@ -120,6 +132,12 @@ typedef enum RMDropboxResourceRepositoryState{
 
 - (void)triggerNextPulling{
     self.state = RMDropboxResourceRepositoryStateIdle;
+    
+    if(self.stoppedDueToInvalidRootDirectory){
+        [self disconnect];
+        return;
+    }
+    
     [self performSelector:@selector(pull) withObject:nil afterDelay:self.pullingTimeInterval];
 }
 
@@ -165,7 +183,7 @@ typedef enum RMDropboxResourceRepositoryState{
 }
 
 - (void)restClient:(DBRestClient *)client loadedMetadata:(DBMetadata *)metadata {
-    if (metadata.isDirectory) {
+    if (metadata.isDirectory && !metadata.isDeleted) {
         for (DBMetadata *file in metadata.contents) {
             if(file.isDirectory){
                 [self loadMetadata:file.path];
@@ -188,7 +206,11 @@ typedef enum RMDropboxResourceRepositoryState{
                 [self.dropboxResourcesMetadata addObject:file];
             }
         }
+    }else if(metadata.isDeleted){
+        [self restClient:client loadMetadataFailedWithError:[NSError errorWithDomain:@"RMDropboxResourceRepositoryDomain" code:-1 userInfo:@{@"metaData" : metadata}]];
+        return;
     }
+    
     self.metaDataRequestCount--;
     
     if(self.metaDataRequestCount == 0){
@@ -198,6 +220,24 @@ typedef enum RMDropboxResourceRepositoryState{
 
 - (void)restClient:(DBRestClient *)client loadMetadataFailedWithError:(NSError *)error {
     self.metaDataRequestCount--;
+    
+    //Handle case where root folder has been deleted from dropbox
+    if(error.code == -1 && [error.domain isEqualToString:@"RMDropboxResourceRepositoryDomain"]){
+        DBMetadata* metaData = [error.userInfo objectForKey:@"metaData"];
+        if(metaData.isDirectory && [metaData.path isEqualToString:self.rootDirectory]){
+            [self notifyThatRootDirectoryDoesntExistsOnDropboxAndStop];
+            return;
+        }
+    }
+    
+    //Handle the case where the root folder has never existed on dropbox
+    if((error.code == 404 || error.code == DBErrorFileNotFound) && [error.domain isEqualToString:DBErrorDomain]){
+        NSString* path = [error.userInfo objectForKey:@"path"];
+        if([path isEqualToString:self.rootDirectory]){
+            [self notifyThatRootDirectoryDoesntExistsOnDropboxAndStop];
+            return;
+        }
+    }
     
     if(self.state != RMDropboxResourceRepositoryStateIdle){
         [self triggerNextPulling];

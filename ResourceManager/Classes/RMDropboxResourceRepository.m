@@ -91,6 +91,7 @@ typedef enum RMDropboxResourceRepositoryState{
 }
 
 - (void)sessionDidReceiveAuthorizationFailure:(DBSession *)session userId:(NSString *)userId{
+    [[DBSession sharedSession]unlinkAll];
     [self presentsLinkAccountViewController];
 }
 

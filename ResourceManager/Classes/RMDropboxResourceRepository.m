@@ -302,4 +302,45 @@ typedef enum RMDropboxResourceRepositoryState{
 }
 
 
+#pragma mark HUD Management
+
+- (void)setState:(RMDropboxResourceRepositoryState)theState{
+    _state = theState;
+    
+    switch(_state){
+        case RMDropboxResourceRepositoryStateIdle:{
+            NSLog(@"IDLE...");
+            [self notifyHudWitchMessage:nil];
+            break;
+        }
+        case RMDropboxResourceRepositoryStateDownloading:
+        {
+            NSString* text = nil;
+            if(self.pendingDowloads.count == 1){
+                text = [NSString stringWithFormat:@"Downloading '%@'",[[[self.pendingDowloads objectAtIndex:0]path]lastPathComponent]];
+            }else{
+                text = [NSString stringWithFormat:@"Downloading %d files", self.pendingDowloads.count];
+            }
+            [self notifyHudWitchMessage:text];
+            break;
+        }
+        case RMDropboxResourceRepositoryStatePulling:
+        {
+            NSLog(@"Pulling...");
+            [self notifyHudWitchMessage:nil];
+            break;
+        }
+        case RMDropboxResourceRepositoryStateLoadingAccount:
+        {
+            [self notifyHudWitchMessage:@"Loading Account..."];
+            break;
+        }
+        case RMDropboxResourceRepositoryStateNotifying:
+        {
+            [self notifyHudWitchMessage:@"Updating Application..."];
+            break;
+        }
+    }
+}
+
 @end

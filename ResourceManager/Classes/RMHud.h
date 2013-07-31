@@ -7,12 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-@class RMFileSystem;
+@class RMResourceRepository;
 
 @interface RMHud : NSObject
 
-- (id)initWithFileSystem:(RMFileSystem*)fileSystem;
 - (void)setTitle:(NSString*)title;
 - (void)disappear;
+
+- (void)repository:(RMResourceRepository*)repository didNotifyHudWithMessage:(NSString*)message;
 
 @end

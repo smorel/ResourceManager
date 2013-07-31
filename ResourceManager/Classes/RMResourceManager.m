@@ -33,7 +33,6 @@ static RMResourceManager* kSharedManager = nil;
 
 + (void)setSharedManager:(RMResourceManager*)manager{
     kSharedManager = manager;
-    
     [kSharedManager start];
 }
 
@@ -50,6 +49,7 @@ static RMResourceManager* kSharedManager = nil;
 
 - (id)initWithRepositories:(NSArray*)theRepositories{
     self = [super init];
+    self.hudEnabled = YES;
     self.repositories = [NSSet setWithArray:theRepositories];
     return self;
 }
@@ -59,6 +59,10 @@ static RMResourceManager* kSharedManager = nil;
 }
 
 - (void)start{
+    if(self.hudEnabled && !self.hud){
+        self.hud = [[RMHud alloc]init];
+    }
+    
     self.fileSystem = [[RMFileSystem alloc]initWithRepositories:self.repositories];
     
     __unsafe_unretained RMResourceManager* bself = self;
@@ -82,10 +86,6 @@ static RMResourceManager* kSharedManager = nil;
             [bself resourcesDidUpdateWithExtensions:updatedFileExtensions];
         }
     }];
-    
-    if(self.hudEnabled && !self.hud){
-        self.hud = [[RMHud alloc]initWithFileSystem:self.fileSystem];
-    }
 }
 
 #pragma mark Managing Dropbox Authentification
@@ -130,8 +130,8 @@ static RMResourceManager* kSharedManager = nil;
 
 - (void)setHudEnabled:(BOOL)enabled{
     _hudEnabled = enabled;
-    if(enabled && !self.hud && self.fileSystem){
-        self.hud = [[RMHud alloc]initWithFileSystem:self.fileSystem];
+    if(enabled && !self.hud){
+        self.hud = [[RMHud alloc]init];
     }else if(!enabled && self.hud){
         [self.hud disappear];
         self.hud = nil;
@@ -297,6 +297,13 @@ static RMResourceManager* kSharedManager = nil;
             updateBlock(observer,updatedFiles);
         }
     }
+}
+
+- (void)repository:(RMResourceRepository*)repository didNotifyHudWithMessage:(NSString*)message{
+    if(!self.hud)
+        return;
+    
+    [self.hud repository:repository didNotifyHudWithMessage:message];
 }
 
 @end

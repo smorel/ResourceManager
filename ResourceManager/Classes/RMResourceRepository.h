@@ -29,6 +29,10 @@
  */
 - (NSString*)repository:(RMResourceRepository*)repository requestStoragePathForFileWithRelativePath:(NSString*)filePath;
 
+/**
+ */
+- (void)repository:(RMResourceRepository*)repository didNotifyHudWithMessage:(NSString*)message;
+
 
 @end
 
@@ -64,5 +68,9 @@
 /**
  */
 - (NSString*)relativePathForResourceWithPath:(NSString*)path;
+
+/**
+ */
+- (void)notifyHudWitchMessage:(NSString*)message;
 
 @end

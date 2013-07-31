@@ -151,6 +151,13 @@ NSString* RMResourceManagerUpdatedResourcesPathKey             = @"RMResourceMan
     return path;
 }
 
+- (void)repository:(RMResourceRepository*)repository didNotifyHudWithMessage:(NSString*)message{
+    RMResourceManager* manager = [RMResourceManager performSelector:@selector(sharedManager)];
+    if(manager){
+        [manager performSelector:@selector(repository:didNotifyHudWithMessage:) withObject:repository withObject:message];
+    }
+}
+
 #pragma mark Managing Resources
 
 - (NSString*)cachePathForRelativeResourcePath:(NSString*)relativePath{

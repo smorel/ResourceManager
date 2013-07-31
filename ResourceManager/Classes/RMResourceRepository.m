@@ -46,4 +46,10 @@
     return [RMFileSystem relativePathForResourceWithPath:path];
 }
 
+- (void)notifyHudWitchMessage:(NSString*)message{
+    if(self.delegate){
+        [self.delegate performSelector:@selector(repository:didNotifyHudWithMessage:) withObject:self withObject:message];
+    }
+}
+
 @end

@@ -12,13 +12,6 @@ Repositories can be defined as bundles, as well as a Dropbox folder. The Resourc
 
 This framework should be used during the development process as you do not want to impact your user experience with files updating at runtime! You can easily disconnect sync mechanism but still use the APIs to get the resources from the application main bundle by not setting a shared RMResourceManager.
 
-### Integration within AppCoreKit
-
-It has been designed to update directly to your device and not only the simulator like it was previously implemented in AppCoreKit. Several changes have been made to the AppCoreKit to fully integrate this new framework as a weak dependency and in a very efficient way. AppCoreKit provides the mechanism to automatically reload stylesheets and layouts, images, colour palettes, mappings, mock, localization files (.strings) and updates the UI as a consequence. Go to the AppCoreKit github repository and get the <i>master</i> branch to try the integration:
-
-https://github.com/wherecloud/AppCoreKit
-
-
 
 ## Sample Usage
 
@@ -159,7 +152,25 @@ NSArray* paths = [CKResourceManager pathsForResourcesWithExtension:@"mp3"];
 
 Like for a single path observation, do not forget to unregister your observer.
 
-## Using ResourceManager in your own App (Pre-Compiled)
+
+
+## Installation
+
+The recommended approach for installing ResourceManager is via the [CocoaPods](http://cocoapods.org/) package manager, as it provides flexible dependency management and dead simple installation. For best results, it is recommended that you install via CocoaPods **>= 0.19.1** using Git **>= 1.8.0** installed via Homebrew.
+
+### Using CocoaPods
+
+Adds the following lines in you PodFile
+
+<pre>
+platform :ios, '5.0'
+
+pod 'ResourceManager'
+</pre>
+
+### As a framework
+
+#### Using ResourceManager in your own App (Pre-Compiled)
 
 You can find a pre-compiled version of ResourceManager and sample integration in our sample repository at https://github.com/wherecloud/appcorekit-samples
 
@@ -177,7 +188,7 @@ QuartzCore.
 </pre>
 
 
-## Compiling the framework
+#### Compiling the framework
 
 ResourceManager is built as a Static Framework. Static Frameworks are not natively supported by Xcode and require some additional specifications to be compiled properly.
 
@@ -194,7 +205,7 @@ And
 <b>IMPORTANT:</b> You will have to copy this file each time you update Xcode to a newer version.
 
 
-## Using ResourceManager in your own App (Sources)
+#### Using ResourceManager in your own App (Sources)
 
 * <b>Drag'n'drop</b> the ResourceManager project as subproject in Xcode.
 
@@ -214,7 +225,7 @@ QuartzCore.
 </pre>
 
 
-## Compiling the API Documentation
+#### Compiling the API Documentation
 
 ResourceManager provides a "Documentation" target that generate a docset using the public header files and the additional programming guides in the Documentation folder. This target is a script base on "appledoc". To install appledoc, follow the installation procedure here : https://github.com/tomaz/appledoc
 
@@ -273,6 +284,13 @@ Users are the Dropbox "Display Name" for the user account for which you want to 
 ```
 
 By default, if we do not find a ResourceManager.permissions file or if a folder/file extension on dropbox has no entry in the permissions file, we consider that everybody can access the files in this folder/extension.
+
+## Fully integrated with AppCoreKit
+
+It has been designed to update directly to your device and not only the simulator like it was previously implemented in AppCoreKit. Several changes have been made to the AppCoreKit to fully integrate this new framework as a weak dependency and in a very efficient way. AppCoreKit provides the mechanism to automatically reload stylesheets and layouts, images, mappings, mock, localization files (.strings) and updates the UI as a consequence. Go to the AppCoreKit github repository and get the <i>master</i> branch to try the integration:
+
+https://github.com/wherecloud/AppCoreKit
+
 
 
 ## Credits

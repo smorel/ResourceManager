@@ -7,7 +7,7 @@
 //
 
 #import "RMDropboxResourceRepository.h"
-#import <DropboxSDK/DropboxSDK.h>
+#import "DropboxSDK.h"
 #import "RMDropboxPermissions.h"
 
 typedef enum RMDropboxResourceRepositoryState{

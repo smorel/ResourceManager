@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
-#import <DropboxSDK/DropboxSDK.h>
+#import "DropboxSDK.h"
 
 @interface RMDropboxPermissions : NSObject
 @property(nonatomic, copy) void(^availabilityBlock)(BOOL available);

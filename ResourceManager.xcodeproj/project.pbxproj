@@ -445,6 +445,7 @@
 				FRAMEWORK_VERSION = 1.0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ResourceManager/ResourceManager-Prefix.pch";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/DropboxSDK.framework/Headers/\"";
 				INFOPLIST_FILE = "ResourceManager/ResourceManager-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -464,6 +465,7 @@
 				FRAMEWORK_VERSION = 1.0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ResourceManager/ResourceManager-Prefix.pch";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/DropboxSDK.framework/Headers/\"";
 				INFOPLIST_FILE = "ResourceManager/ResourceManager-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

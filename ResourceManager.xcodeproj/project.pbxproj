@@ -405,7 +405,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
-				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -447,6 +446,7 @@
 				GCC_PREFIX_HEADER = "ResourceManager/ResourceManager-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/DropboxSDK.framework/Headers/\"";
 				INFOPLIST_FILE = "ResourceManager/ResourceManager-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = framework;
@@ -467,6 +467,7 @@
 				GCC_PREFIX_HEADER = "ResourceManager/ResourceManager-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/DropboxSDK.framework/Headers/\"";
 				INFOPLIST_FILE = "ResourceManager/ResourceManager-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = framework;

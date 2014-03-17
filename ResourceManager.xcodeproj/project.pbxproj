@@ -435,6 +435,10 @@
 		963714F517958AB700CE847D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					armv7s,
+					armv7,
+				);
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -457,6 +461,10 @@
 		963714F617958AB700CE847D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					armv7s,
+					armv7,
+				);
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = (

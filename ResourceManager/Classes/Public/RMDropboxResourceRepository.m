@@ -7,8 +7,11 @@
 //
 
 #import "RMDropboxResourceRepository.h"
-#import "DropboxSDK.h"
 #import "RMDropboxPermissions.h"
+#import "RMWeakLinkedDBSession.h"
+#import "RMWeakLinkedDBRestClient.h"
+#import "RMWeakLinkedDBMetadata.h"
+#import "RWWeakLinkedDBAccountInfo.h"
 
 typedef enum RMDropboxResourceRepositoryState{
     RMDropboxResourceRepositoryStateIdle,
@@ -18,9 +21,9 @@ typedef enum RMDropboxResourceRepositoryState{
     RMDropboxResourceRepositoryStateNotifying
 }RMDropboxResourceRepositoryState;
 
-@interface RMDropboxResourceRepository()<DBSessionDelegate,DBRestClientDelegate>
-@property (nonatomic, retain) DBSession* dbSession;
-@property (nonatomic, retain) DBRestClient* dbClient;
+@interface RMDropboxResourceRepository()//<DBSessionDelegate,DBRestClientDelegate>
+@property (nonatomic, retain) RMWeakLinkedDBSession* dbSession;
+@property (nonatomic, retain) RMWeakLinkedDBRestClient* dbClient;
 @property (nonatomic, retain) NSString* rootDirectory;
 @property (nonatomic, assign, readwrite) RMDropboxResourceRepositoryState state;
 
@@ -45,9 +48,9 @@ typedef enum RMDropboxResourceRepositoryState{
 - (id)initWithAppKey:(NSString*)appKey secret:(NSString*)secret rootDirectory:(NSString*)directory{
     self = [super init];
     
-    DBSession* dbSession = [[DBSession alloc] initWithAppKey:appKey appSecret:secret root:kDBRootDropbox];
+    RMWeakLinkedDBSession* dbSession = [[RMWeakLinkedDBSession alloc] initWithAppKey:appKey appSecret:secret];
     dbSession.delegate = self;
-    [DBSession setSharedSession:dbSession];
+    [RMWeakLinkedDBSession setSharedSession:dbSession];
     
     self.pullingTimeInterval = 3;
     self.rootDirectory = directory;
@@ -57,7 +60,7 @@ typedef enum RMDropboxResourceRepositoryState{
 }
 
 - (BOOL)isReady{
-    return [[DBSession sharedSession] isLinked];
+    return [[RMWeakLinkedDBSession sharedSession] isLinked];
 }
 
 - (void)connect{
@@ -97,20 +100,20 @@ typedef enum RMDropboxResourceRepositoryState{
     if([[[url description]lowercaseString]hasSuffix:@"cancel"])
         return;
     
-    if ([[DBSession sharedSession] handleOpenURL:url]) {
+    if ([[RMWeakLinkedDBSession sharedSession] handleOpenURL:url]) {
         [self connect];
     }
 }
 
-- (void)sessionDidReceiveAuthorizationFailure:(DBSession *)session userId:(NSString *)userId{
-    [[DBSession sharedSession]unlinkAll];
+- (void)sessionDidReceiveAuthorizationFailure:(id)session userId:(NSString *)userId{
+    [[RMWeakLinkedDBSession sharedSession]unlinkAll];
     [self presentsLinkAccountViewController];
 }
 
 - (void)presentsLinkAccountViewController{
     UIViewController* root = [[[[UIApplication sharedApplication]windows]objectAtIndex:0]rootViewController];
     NSAssert(root,@"Your application's main window has no root view controller.");
-    [[DBSession sharedSession] linkFromController:root];
+    [[RMWeakLinkedDBSession sharedSession] linkFromController:root];
 }
 
 #pragma mark Synchronization status Management
@@ -120,7 +123,7 @@ typedef enum RMDropboxResourceRepositoryState{
     
     _processQueue = dispatch_queue_create("com.wherecloud.resourcemanager", 0);
     
-    self.dbClient = [[DBRestClient alloc]initWithSession:[DBSession sharedSession]];
+    self.dbClient = [[RMWeakLinkedDBRestClient alloc]initWithSession:[RMWeakLinkedDBSession sharedSession]];
     self.dbClient.delegate = self;
     
     [self loadAccount];
@@ -148,12 +151,13 @@ typedef enum RMDropboxResourceRepositoryState{
     [self.dbClient loadAccountInfo];
 }
 
-- (void)restClient:(DBRestClient*)client loadedAccountInfo:(DBAccountInfo*)info{
-    self.permissions = [[RMDropboxPermissions alloc]initWithAccount:info];
+- (void)restClient:(id)client loadedAccountInfo:(id)info{
+    RWWeakLinkedDBAccountInfo* account = [[RWWeakLinkedDBAccountInfo alloc]initWithAccountInfo:info];
+    self.permissions = [[RMDropboxPermissions alloc]initWithAccount:account];
     [self pull];
 }
 
-- (void)restClient:(DBRestClient*)client loadAccountInfoFailedWithError:(NSError*)error{
+- (void)restClient:(id)client loadAccountInfoFailedWithError:(NSError*)error{
     if(error.code == NSURLErrorTimedOut){
         [self loadAccount];
     }   // [self pull];
@@ -182,9 +186,11 @@ typedef enum RMDropboxResourceRepositoryState{
     [self.dbClient loadMetadata:path];
 }
 
-- (void)restClient:(DBRestClient *)client loadedMetadata:(DBMetadata *)metadata {
+- (void)restClient:(id)client loadedMetadata:(id)dbmetadata {
+    RMWeakLinkedDBMetadata* metadata = [[RMWeakLinkedDBMetadata alloc]initWithMetaData:dbmetadata];
     if (metadata.isDirectory && !metadata.isDeleted) {
-        for (DBMetadata *file in metadata.contents) {
+        for (id dbfile in metadata.contents) {
+            RMWeakLinkedDBMetadata* file = [[RMWeakLinkedDBMetadata alloc]initWithMetaData:dbfile];
             if(file.isDirectory){
                 [self loadMetadata:file.path];
             }else{
@@ -207,7 +213,7 @@ typedef enum RMDropboxResourceRepositoryState{
             }
         }
     }else if(metadata.isDeleted){
-        [self restClient:client loadMetadataFailedWithError:[NSError errorWithDomain:@"RMDropboxResourceRepositoryDomain" code:-1 userInfo:@{@"metaData" : metadata}]];
+        [self restClient:client loadMetadataFailedWithError:[NSError errorWithDomain:@"RMDropboxResourceRepositoryDomain" code:-1 userInfo:@{@"metaData" : dbmetadata}]];
         return;
     }
     
@@ -218,20 +224,20 @@ typedef enum RMDropboxResourceRepositoryState{
     }
 }
 
-- (void)restClient:(DBRestClient *)client loadMetadataFailedWithError:(NSError *)error {
+- (void)restClient:(id)client loadMetadataFailedWithError:(NSError *)error {
     self.metaDataRequestCount--;
     
     //Handle case where root folder has been deleted from dropbox
     if(error.code == -1 && [error.domain isEqualToString:@"RMDropboxResourceRepositoryDomain"]){
-        DBMetadata* metaData = [error.userInfo objectForKey:@"metaData"];
-        if(metaData.isDirectory && [metaData.path isEqualToString:self.rootDirectory]){
+        RMWeakLinkedDBMetadata* metadata = [[RMWeakLinkedDBMetadata alloc]initWithMetaData:[error.userInfo objectForKey:@"metaData"]];
+        if(metadata.isDirectory && [metadata.path isEqualToString:self.rootDirectory]){
             [self notifyThatRootDirectoryDoesntExistsOnDropboxAndStop];
             return;
         }
     }
     
     //Handle the case where the root folder has never existed on dropbox
-    if((error.code == 404 || error.code == DBErrorFileNotFound) && [error.domain isEqualToString:DBErrorDomain]){
+    if(error.code == 404 /*|| (error.code == DBErrorFileNotFound) && [error.domain isEqualToString:DBErrorDomain])*/){
         NSString* path = [error.userInfo objectForKey:@"path"];
         if([path isEqualToString:self.rootDirectory]){
             [self notifyThatRootDirectoryDoesntExistsOnDropboxAndStop];
@@ -248,7 +254,8 @@ typedef enum RMDropboxResourceRepositoryState{
     // dispatch_async(_processQueue, ^{
     NSMutableArray* filesToDownload = [NSMutableArray array];
     
-    for(DBMetadata* file in self.dropboxResourcesMetadata){
+    for(id dbfile in self.dropboxResourcesMetadata){
+        RMWeakLinkedDBMetadata* file = [[RMWeakLinkedDBMetadata alloc]initWithMetaData:dbfile];
         NSString* relativePath = [self relativePathForResourceWithPath:file.path];
         BOOL shouldDownload = [self.delegate shouldRepository:self updateFileWithRelativePath:relativePath modificationDate:file.lastModifiedDate];
         if(shouldDownload){
@@ -274,7 +281,8 @@ typedef enum RMDropboxResourceRepositoryState{
     
     self.state = RMDropboxResourceRepositoryStateDownloading;
     
-    for(DBMetadata* file in files){
+    for(id dbfile in files){
+        RMWeakLinkedDBMetadata* file = [[RMWeakLinkedDBMetadata alloc]initWithMetaData:dbfile];
         NSString* relativePath = [self relativePathForResourceWithPath:file.path];
         NSString* path = [self.delegate repository:self requestStoragePathForFileWithRelativePath:relativePath];
     
@@ -287,7 +295,7 @@ typedef enum RMDropboxResourceRepositoryState{
     }
 }
 
-- (void)restClient:(DBRestClient*)client loadedFile:(NSString*)localPath contentType:(NSString*)contentType metadata:(DBMetadata*)metadata {
+- (void)restClient:(id)dbclient loadedFile:(NSString*)localPath contentType:(NSString*)contentType metadata:(id)dbmetadata {
     self.pendingDownloadCount--;
     
     if(self.pendingDownloadCount <= 0){
@@ -295,7 +303,7 @@ typedef enum RMDropboxResourceRepositoryState{
     }
 }
 
-- (void)restClient:(DBRestClient*)client loadFileFailedWithError:(NSError*)error {
+- (void)restClient:(id)dbclient loadFileFailedWithError:(NSError*)error {
     self.pendingDownloadCount--;
     
     if(self.pendingDownloadCount <= 0){
@@ -310,7 +318,8 @@ typedef enum RMDropboxResourceRepositoryState{
     
     //Manage files that have been updated
     NSMutableArray* updatedFilePaths = [NSMutableArray array];
-    for(DBMetadata* file in self.pendingDowloads){
+    for(id dbfile in self.pendingDowloads){
+        RMWeakLinkedDBMetadata* file = [[RMWeakLinkedDBMetadata alloc]initWithMetaData:dbfile];
         NSString* relativePath = [self relativePathForResourceWithPath:file.path];
         NSString* path = [self.delegate repository:self requestStoragePathForFileWithRelativePath:relativePath];
         [updatedFilePaths addObject:path];
@@ -359,7 +368,7 @@ typedef enum RMDropboxResourceRepositoryState{
             if(self.pendingDowloads.count == 1){
                 text = [NSString stringWithFormat:@"Downloading '%@'",[[[self.pendingDowloads objectAtIndex:0]path]lastPathComponent]];
             }else{
-                text = [NSString stringWithFormat:@"Downloading %d files", self.pendingDowloads.count];
+                text = [NSString stringWithFormat:@"Downloading %lu files", (unsigned long)self.pendingDowloads.count];
             }
             [self notifyHudWitchMessage:text];
             break;

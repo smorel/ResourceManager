@@ -9,12 +9,12 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
-#import "DropboxSDK.h"
+#import "RWWeakLinkedDBAccountInfo.h"
 
 @interface RMDropboxPermissions : NSObject
 @property(nonatomic, copy) void(^availabilityBlock)(BOOL available);
 
-- (id)initWithAccount:(DBAccountInfo*)account;
+- (id)initWithAccount:(RWWeakLinkedDBAccountInfo*)account;
 
 - (BOOL)arePermissionsAvailable;
 - (BOOL)canAccesFilesInDirectory:(NSString*)directory;

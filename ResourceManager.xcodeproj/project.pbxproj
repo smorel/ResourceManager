@@ -22,6 +22,14 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		962C762C18D72F7100EE43CC /* RMWeakLinkedDBSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 962C762A18D72F7100EE43CC /* RMWeakLinkedDBSession.h */; };
+		962C762D18D72F7100EE43CC /* RMWeakLinkedDBSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 962C762B18D72F7100EE43CC /* RMWeakLinkedDBSession.m */; };
+		962C763018D7319200EE43CC /* RMWeakLinkedDBRestClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 962C762E18D7319200EE43CC /* RMWeakLinkedDBRestClient.h */; };
+		962C763118D7319200EE43CC /* RMWeakLinkedDBRestClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 962C762F18D7319200EE43CC /* RMWeakLinkedDBRestClient.m */; };
+		962C763418D734C400EE43CC /* RMWeakLinkedDBMetadata.h in Headers */ = {isa = PBXBuildFile; fileRef = 962C763218D734C400EE43CC /* RMWeakLinkedDBMetadata.h */; };
+		962C763518D734C400EE43CC /* RMWeakLinkedDBMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 962C763318D734C400EE43CC /* RMWeakLinkedDBMetadata.m */; };
+		962C763818D736DE00EE43CC /* RWWeakLinkedDBAccountInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 962C763618D736DE00EE43CC /* RWWeakLinkedDBAccountInfo.h */; };
+		962C763918D736DE00EE43CC /* RWWeakLinkedDBAccountInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 962C763718D736DE00EE43CC /* RWWeakLinkedDBAccountInfo.m */; };
 		963714E617958AB700CE847D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 963714E517958AB700CE847D /* Foundation.framework */; };
 		963714F017958AB700CE847D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 963714EE17958AB700CE847D /* InfoPlist.strings */; };
 		9637150017958B9E00CE847D /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 963714FF17958B9E00CE847D /* CFNetwork.framework */; };
@@ -32,7 +40,7 @@
 		9637150B1795921700CE847D /* RMResourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 963715091795921700CE847D /* RMResourceManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9637150C1795921700CE847D /* RMResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9637150A1795921700CE847D /* RMResourceManager.m */; };
 		9637150E179596B700CE847D /* ResourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9637150D1795969700CE847D /* ResourceManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		963715161795B2CB00CE847D /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 963715151795B2CB00CE847D /* DropboxSDK.framework */; };
+		963715161795B2CB00CE847D /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 963715151795B2CB00CE847D /* DropboxSDK.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		9637151B1795C91400CE847D /* RMFileSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 963715191795C91400CE847D /* RMFileSystem.h */; };
 		9637151C1795C91400CE847D /* RMFileSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9637151A1795C91400CE847D /* RMFileSystem.m */; };
 		9637151F1795E91600CE847D /* UIImage+ResourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9637151D1795E91600CE847D /* UIImage+ResourceManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -62,6 +70,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		962C762A18D72F7100EE43CC /* RMWeakLinkedDBSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMWeakLinkedDBSession.h; path = Classes/Private/RMWeakLinkedDBSession.h; sourceTree = "<group>"; };
+		962C762B18D72F7100EE43CC /* RMWeakLinkedDBSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMWeakLinkedDBSession.m; path = Classes/Private/RMWeakLinkedDBSession.m; sourceTree = "<group>"; };
+		962C762E18D7319200EE43CC /* RMWeakLinkedDBRestClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMWeakLinkedDBRestClient.h; path = Classes/Private/RMWeakLinkedDBRestClient.h; sourceTree = "<group>"; };
+		962C762F18D7319200EE43CC /* RMWeakLinkedDBRestClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMWeakLinkedDBRestClient.m; path = Classes/Private/RMWeakLinkedDBRestClient.m; sourceTree = "<group>"; };
+		962C763218D734C400EE43CC /* RMWeakLinkedDBMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMWeakLinkedDBMetadata.h; path = Classes/Private/RMWeakLinkedDBMetadata.h; sourceTree = "<group>"; };
+		962C763318D734C400EE43CC /* RMWeakLinkedDBMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMWeakLinkedDBMetadata.m; path = Classes/Private/RMWeakLinkedDBMetadata.m; sourceTree = "<group>"; };
+		962C763618D736DE00EE43CC /* RWWeakLinkedDBAccountInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RWWeakLinkedDBAccountInfo.h; path = Classes/Private/RWWeakLinkedDBAccountInfo.h; sourceTree = "<group>"; };
+		962C763718D736DE00EE43CC /* RWWeakLinkedDBAccountInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RWWeakLinkedDBAccountInfo.m; path = Classes/Private/RWWeakLinkedDBAccountInfo.m; sourceTree = "<group>"; };
 		963714E217958AB700CE847D /* ResourceManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework.static; includeInIndex = 0; path = ResourceManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		963714E517958AB700CE847D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		963714ED17958AB700CE847D /* ResourceManager-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ResourceManager-Info.plist"; sourceTree = "<group>"; };
@@ -114,6 +130,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		962C763A18D7385800EE43CC /* DropboxSDK runtime weak linked classes */ = {
+			isa = PBXGroup;
+			children = (
+				962C762A18D72F7100EE43CC /* RMWeakLinkedDBSession.h */,
+				962C762B18D72F7100EE43CC /* RMWeakLinkedDBSession.m */,
+				962C762E18D7319200EE43CC /* RMWeakLinkedDBRestClient.h */,
+				962C762F18D7319200EE43CC /* RMWeakLinkedDBRestClient.m */,
+				962C763218D734C400EE43CC /* RMWeakLinkedDBMetadata.h */,
+				962C763318D734C400EE43CC /* RMWeakLinkedDBMetadata.m */,
+				962C763618D736DE00EE43CC /* RWWeakLinkedDBAccountInfo.h */,
+				962C763718D736DE00EE43CC /* RWWeakLinkedDBAccountInfo.m */,
+			);
+			name = "DropboxSDK runtime weak linked classes";
+			sourceTree = "<group>";
+		};
 		963714D717958AB700CE847D = {
 			isa = PBXGroup;
 			children = (
@@ -215,6 +246,7 @@
 		963AB7B11799B3590076925C /* Dropbox */ = {
 			isa = PBXGroup;
 			children = (
+				962C763A18D7385800EE43CC /* DropboxSDK runtime weak linked classes */,
 				963AB7A917999B850076925C /* RMDropboxResourceRepository.h */,
 				963AB7AA17999B850076925C /* RMDropboxResourceRepository.m */,
 				96EFE7D5179728E00034F935 /* RMDropboxPermissions.h */,
@@ -241,12 +273,16 @@
 			files = (
 				9637150B1795921700CE847D /* RMResourceManager.h in Headers */,
 				9637150E179596B700CE847D /* ResourceManager.h in Headers */,
+				962C763418D734C400EE43CC /* RMWeakLinkedDBMetadata.h in Headers */,
 				9637151B1795C91400CE847D /* RMFileSystem.h in Headers */,
 				9637151F1795E91600CE847D /* UIImage+ResourceManager.h in Headers */,
 				96EFE7CA1796EA010034F935 /* RMRuntime.h in Headers */,
+				962C763818D736DE00EE43CC /* RWWeakLinkedDBAccountInfo.h in Headers */,
+				962C762C18D72F7100EE43CC /* RMWeakLinkedDBSession.h in Headers */,
 				96EFE7D7179728E00034F935 /* RMDropboxPermissions.h in Headers */,
 				96FEFDF1179774A50001CC4A /* RMHud.h in Headers */,
 				963AB7A31799977A0076925C /* RMResourceRepository.h in Headers */,
+				962C763018D7319200EE43CC /* RMWeakLinkedDBRestClient.h in Headers */,
 				963AB7AB17999B850076925C /* RMDropboxResourceRepository.h in Headers */,
 				963AB7AF17999B980076925C /* RMBundleResourceRepository.h in Headers */,
 			);
@@ -346,8 +382,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				962C763518D734C400EE43CC /* RMWeakLinkedDBMetadata.m in Sources */,
 				9637150C1795921700CE847D /* RMResourceManager.m in Sources */,
+				962C763118D7319200EE43CC /* RMWeakLinkedDBRestClient.m in Sources */,
+				962C763918D736DE00EE43CC /* RWWeakLinkedDBAccountInfo.m in Sources */,
 				9637151C1795C91400CE847D /* RMFileSystem.m in Sources */,
+				962C762D18D72F7100EE43CC /* RMWeakLinkedDBSession.m in Sources */,
 				963715201795E91600CE847D /* UIImage+ResourceManager.m in Sources */,
 				96EFE7CB1796EA010034F935 /* RMRuntime.m in Sources */,
 				96EFE7D8179728E00034F935 /* RMDropboxPermissions.m in Sources */,

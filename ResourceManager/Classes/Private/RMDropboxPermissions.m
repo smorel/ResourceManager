@@ -11,14 +11,14 @@
 
 @interface RMDropboxPermissions()
 @property(nonatomic,assign) BOOL available;
-@property(nonatomic,retain) DBAccountInfo* account;
+@property(nonatomic,retain) RWWeakLinkedDBAccountInfo* account;
 @property(nonatomic,retain) NSMutableDictionary* allowedUsersByFolder;
 @property(nonatomic,retain) NSMutableDictionary* allowedUsersByExtension;
 @end
 
 @implementation RMDropboxPermissions
 
-- (id)initWithAccount:(DBAccountInfo*)theAccount{
+- (id)initWithAccount:(RWWeakLinkedDBAccountInfo*)theAccount{
     self = [super init];
     
     self.account = theAccount;

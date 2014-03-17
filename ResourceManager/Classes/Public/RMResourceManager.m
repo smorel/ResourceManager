@@ -51,6 +51,7 @@ static RMResourceManager* kSharedManager = nil;
     self = [super init];
     self.hudEnabled = YES;
     self.repositories = [NSSet setWithArray:theRepositories];
+    
     return self;
 }
 

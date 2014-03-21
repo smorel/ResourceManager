@@ -12,6 +12,16 @@
 #import "UIImage+ResourceManager.h"
 #import "RMHud.h"
 
+static NSString* osVersion = nil;
+NSString *RMOSVersion() {
+	static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        osVersion = [[UIDevice currentDevice] systemVersion];
+    });
+	return osVersion;
+}
+
+
 static RMResourceManager* kSharedManager = nil;
 
 @interface RMResourceManager()
@@ -142,6 +152,10 @@ static RMResourceManager* kSharedManager = nil;
 #pragma mark Managing Resource Paths
 
 + (NSString *)pathForResource:(NSString *)name ofType:(NSString *)ext observer:(id)observer usingBlock:(void(^)(id observer, NSString* path))updateBlock{
+    if([RMOSVersion() floatValue] < 6 && [ext hasPrefix:@"."]){
+        ext  = [ext stringByReplacingOccurrencesOfString:@"." withString:@"" options:0 range:NSMakeRange(0,1)];
+    }
+    
     NSString* path = [self pathForResource:name ofType:ext];
     if(path && updateBlock && observer){
         [RMResourceManager addObserverForPath:path object:observer usingBlock:updateBlock];
@@ -150,6 +164,10 @@ static RMResourceManager* kSharedManager = nil;
 }
 
 + (NSString *)pathForResource:(NSString *)name ofType:(NSString *)ext{
+    if([RMOSVersion() floatValue] < 6 && [ext hasPrefix:@"."]){
+        ext  = [ext stringByReplacingOccurrencesOfString:@"." withString:@"" options:0 range:NSMakeRange(0,1)];
+    }
+    
     NSString* path = [[NSBundle mainBundle]pathForResource:name ofType:ext];
     
     RMResourceManager* manager = [RMResourceManager sharedManager];
@@ -177,11 +195,20 @@ static RMResourceManager* kSharedManager = nil;
 }
 
 + (NSArray *)pathsForResourcesWithExtension:(NSString *)ext{
+    if([RMOSVersion() floatValue] < 6 && [ext hasPrefix:@"."]){
+        ext  = [ext stringByReplacingOccurrencesOfString:@"." withString:@"" options:0 range:NSMakeRange(0,1)];
+    }
+    
     NSString* currentLocale = [[NSLocale preferredLanguages] objectAtIndex:0];
     return [self pathsForResourcesWithExtension:ext localization:currentLocale];
 }
 
 + (NSArray *)pathsForResourcesWithExtension:(NSString *)ext localization:(NSString *)localizationName{
+    
+    if([RMOSVersion() floatValue] < 6 && [ext hasPrefix:@"."]){
+        ext  = [ext stringByReplacingOccurrencesOfString:@"." withString:@"" options:0 range:NSMakeRange(0,1)];
+    }
+    
     RMResourceManager* manager = [RMResourceManager sharedManager];
     if(!manager || !manager.fileSystem){
         return [[NSBundle mainBundle]pathsForResourcesOfType:ext inDirectory:nil];
@@ -191,6 +218,11 @@ static RMResourceManager* kSharedManager = nil;
 }
 
 + (NSArray *)pathsForResourcesWithExtension:(NSString *)ext observer:(id)observer usingBlock:(void(^)(id observer, NSArray* paths))updateBlock{
+    
+    if([RMOSVersion() floatValue] < 6 && [ext hasPrefix:@"."]){
+        ext  = [ext stringByReplacingOccurrencesOfString:@"." withString:@"" options:0 range:NSMakeRange(0,1)];
+    }
+    
     NSArray* paths = [self pathsForResourcesWithExtension:ext];
     if(paths && updateBlock && observer){
         [RMResourceManager addObserverForResourcesWithExtension:ext object:observer usingBlock:updateBlock];
@@ -199,6 +231,11 @@ static RMResourceManager* kSharedManager = nil;
 }
 
 + (NSArray *)pathsForResourcesWithExtension:(NSString *)ext localization:(NSString *)localizationName observer:(id)observer usingBlock:(void(^)(id observer, NSArray* paths))updateBlock{
+    
+    if([RMOSVersion() floatValue] < 6 && [ext hasPrefix:@"."]){
+        ext  = [ext stringByReplacingOccurrencesOfString:@"." withString:@"" options:0 range:NSMakeRange(0,1)];
+    }
+    
     NSArray* paths = [self pathsForResourcesWithExtension:ext localization:localizationName];
     if(paths && updateBlock && observer){
         [RMResourceManager addObserverForResourcesWithExtension:ext object:observer usingBlock:updateBlock];
@@ -255,6 +292,11 @@ static RMResourceManager* kSharedManager = nil;
     if(!ext)
         return;
     
+    
+    if([RMOSVersion() floatValue] < 6 && [ext hasPrefix:@"."]){
+        ext  = [ext stringByReplacingOccurrencesOfString:@"." withString:@"" options:0 range:NSMakeRange(0,1)];
+    }
+    
     RMResourceManager* manager = [RMResourceManager sharedManager];
     if(!manager || !manager.fileSystem)
         return;
@@ -287,7 +329,12 @@ static RMResourceManager* kSharedManager = nil;
 
 - (void)resourcesDidUpdateWithExtensions:(NSSet*)extensions{
     for(NSString* extension in extensions){
-        NSMutableDictionary* observersToUpdateBlocks = [self.updateExtensionsDictionary objectForKey:extension];
+        NSString* ext = extension;
+        if([RMOSVersion() floatValue] < 6 && [ext hasPrefix:@"."]){
+            ext  = [ext stringByReplacingOccurrencesOfString:@"." withString:@"" options:0 range:NSMakeRange(0,1)];
+        }
+        
+        NSMutableDictionary* observersToUpdateBlocks = [self.updateExtensionsDictionary objectForKey:ext];
         
         NSArray* updatedFiles = [RMResourceManager pathsForResourcesWithExtension:extension];
         

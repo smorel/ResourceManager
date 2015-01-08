@@ -31,6 +31,21 @@
  */
 - (id)initWithRepositories:(NSArray*)repositories;
 
+
+/******************************************************
+ Managing Main bundles
+ *****************************************************/
+
+/** If you have extra resource you want to manage outside the main bundle,
+ you can add these bundles here so that you'll be able to access your resources without
+ the need to explicitly specify wich bundle it is.
+ */
++ (void)registerBundle:(NSBundle*)bundle;
+
+/**
+ */
++ (NSArray*)bundles;
+
 /******************************************************
  Managing Singleton
  *****************************************************/

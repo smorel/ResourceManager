@@ -55,6 +55,20 @@ static RMResourceManager* kSharedManager = nil;
 }
 
 
++ (NSArray*)bundles{
+    static NSMutableArray* CKResourceManagerBundles = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        CKResourceManagerBundles = [[NSMutableArray alloc]init];
+        [CKResourceManagerBundles addObject:[NSBundle mainBundle]];
+    });
+    return CKResourceManagerBundles;
+}
+
++ (void)registerBundle:(NSBundle*)bundle{
+    [(NSMutableArray*)[self bundles] addObject:bundle];
+}
+
 #pragma mark Initializing Resource Manager
 
 - (id)initWithRepositories:(NSArray*)theRepositories{
@@ -168,7 +182,11 @@ static RMResourceManager* kSharedManager = nil;
         ext  = [ext stringByReplacingOccurrencesOfString:@"." withString:@"" options:0 range:NSMakeRange(0,1)];
     }
     
-    NSString* path = [[NSBundle mainBundle]pathForResource:name ofType:ext];
+    NSString* path = nil;
+    for(NSBundle* bundle in [RMResourceManager bundles]){
+        path = [bundle pathForResource:name ofType:ext];
+        if(path) break;
+    }
     
     RMResourceManager* manager = [RMResourceManager sharedManager];
     if(!manager || !manager.fileSystem){
@@ -211,7 +229,11 @@ static RMResourceManager* kSharedManager = nil;
     
     RMResourceManager* manager = [RMResourceManager sharedManager];
     if(!manager || !manager.fileSystem){
-        return [[NSBundle mainBundle]pathsForResourcesOfType:ext inDirectory:nil];
+        NSArray* paths = nil;
+        for(NSBundle* bundle in [RMResourceManager bundles]){
+            paths = [bundle pathsForResourcesOfType:ext inDirectory:nil];
+            if([paths count] > 0) return paths;
+        }
     }
     
     return [manager.fileSystem pathsForResourcesWithExtension:ext localization:localizationName];

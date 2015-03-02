@@ -359,7 +359,7 @@ typedef enum RMDropboxResourceRepositoryState{
             if(self.pendingDowloads.count == 1){
                 text = [NSString stringWithFormat:@"Downloading '%@'",[[[self.pendingDowloads objectAtIndex:0]path]lastPathComponent]];
             }else{
-                text = [NSString stringWithFormat:@"Downloading %d files", self.pendingDowloads.count];
+                text = [NSString stringWithFormat:@"Downloading %lu files", (unsigned long)self.pendingDowloads.count];
             }
             [self notifyHudWitchMessage:text];
             break;

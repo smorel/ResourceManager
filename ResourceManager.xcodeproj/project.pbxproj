@@ -28,7 +28,6 @@
 		9637150217958BA400CE847D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9637150117958BA400CE847D /* Security.framework */; };
 		9637150417958BAA00CE847D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9637150317958BAA00CE847D /* SystemConfiguration.framework */; };
 		9637150617958BB100CE847D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9637150517958BB100CE847D /* QuartzCore.framework */; };
-		9637150817958BB900CE847D /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9637150717958BB900CE847D /* libstdc++.dylib */; };
 		9637150B1795921700CE847D /* RMResourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 963715091795921700CE847D /* RMResourceManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9637150C1795921700CE847D /* RMResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9637150A1795921700CE847D /* RMResourceManager.m */; };
 		9637150E179596B700CE847D /* ResourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9637150D1795969700CE847D /* ResourceManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -71,7 +70,6 @@
 		9637150117958BA400CE847D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		9637150317958BAA00CE847D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		9637150517958BB100CE847D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		9637150717958BB900CE847D /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		963715091795921700CE847D /* RMResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMResourceManager.h; path = Classes/Public/RMResourceManager.h; sourceTree = "<group>"; };
 		9637150A1795921700CE847D /* RMResourceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMResourceManager.m; path = Classes/Public/RMResourceManager.m; sourceTree = "<group>"; };
 		9637150D1795969700CE847D /* ResourceManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ResourceManager.h; path = Classes/ResourceManager.h; sourceTree = "<group>"; };
@@ -101,7 +99,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9637150817958BB900CE847D /* libstdc++.dylib in Frameworks */,
 				9637150617958BB100CE847D /* QuartzCore.framework in Frameworks */,
 				9637150417958BAA00CE847D /* SystemConfiguration.framework in Frameworks */,
 				9637150217958BA400CE847D /* Security.framework in Frameworks */,
@@ -135,7 +132,6 @@
 			isa = PBXGroup;
 			children = (
 				963715151795B2CB00CE847D /* DropboxSDK.framework */,
-				9637150717958BB900CE847D /* libstdc++.dylib */,
 				9637150517958BB100CE847D /* QuartzCore.framework */,
 				9637150317958BAA00CE847D /* SystemConfiguration.framework */,
 				9637150117958BA400CE847D /* Security.framework */,
@@ -438,6 +434,7 @@
 				ARCHS = (
 					armv7,
 					armv7s,
+					arm64,
 				);
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -454,7 +451,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = "i386 armv7 armv7s x86_64";
+				VALID_ARCHS = "i386 armv7 armv7s x86_64 arm64";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -465,6 +462,7 @@
 				ARCHS = (
 					armv7,
 					armv7s,
+					arm64,
 				);
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -480,7 +478,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = "i386 armv7 armv7s x86_64";
+				VALID_ARCHS = "i386 armv7 armv7s x86_64 arm64";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;

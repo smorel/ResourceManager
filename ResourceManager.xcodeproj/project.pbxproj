@@ -78,7 +78,6 @@
 		9637151A1795C91400CE847D /* RMFileSystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMFileSystem.m; path = Classes/Private/RMFileSystem.m; sourceTree = "<group>"; };
 		9637151D1795E91600CE847D /* UIImage+ResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+ResourceManager.h"; path = "Classes/Public/UIImage+ResourceManager.h"; sourceTree = "<group>"; };
 		9637151E1795E91600CE847D /* UIImage+ResourceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+ResourceManager.m"; path = "Classes/Public/UIImage+ResourceManager.m"; sourceTree = "<group>"; };
-		963AB79D1798C1410076925C /* README.mdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.mdown; sourceTree = SOURCE_ROOT; };
 		963AB79F17997DC60076925C /* What's Next.mdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "What's Next.mdown"; sourceTree = SOURCE_ROOT; };
 		963AB7A1179997780076925C /* RMResourceRepository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMResourceRepository.h; path = Classes/Public/RMResourceRepository.h; sourceTree = "<group>"; };
 		963AB7A2179997780076925C /* RMResourceRepository.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMResourceRepository.m; path = Classes/Public/RMResourceRepository.m; sourceTree = "<group>"; };
@@ -92,6 +91,7 @@
 		96EFE7D6179728E00034F935 /* RMDropboxPermissions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMDropboxPermissions.m; path = Classes/Private/RMDropboxPermissions.m; sourceTree = "<group>"; };
 		96FEFDEF179774A50001CC4A /* RMHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMHud.h; path = Classes/Private/RMHud.h; sourceTree = "<group>"; };
 		96FEFDF0179774A50001CC4A /* RMHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMHud.m; path = Classes/Private/RMHud.m; sourceTree = "<group>"; };
+		D964942B1AA61D9A00C17BB7 /* README.mdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.mdown; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,7 +144,7 @@
 		963714EB17958AB700CE847D /* ResourceManager */ = {
 			isa = PBXGroup;
 			children = (
-				963AB79D1798C1410076925C /* README.mdown */,
+				D964942B1AA61D9A00C17BB7 /* README.mdown */,
 				963AB79F17997DC60076925C /* What's Next.mdown */,
 				9637150D1795969700CE847D /* ResourceManager.h */,
 				963714FC17958B1100CE847D /* Classes */,

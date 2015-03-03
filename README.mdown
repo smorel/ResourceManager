@@ -166,9 +166,9 @@ The recommended approach for installing ResourceManager is via the [CocoaPods](h
 Adds the following lines in you PodFile
 
 <pre>
-platform :ios, '5.0'
+platform :ios, '7.0'
 
-pod 'ResourceManager'
+pod 'ResourceManager-smorel'
 </pre>
 
 ### As a framework

@@ -193,7 +193,8 @@ QuartzCore.
 
 #### Compiling the framework
 
-ResourceManager is built as a Static Framework. Static Frameworks are not natively supported by Xcode and require some additional specifications to be compiled properly.
+ResourceManager is built as a Static Framework. Static Frameworks are not natively supported by Xcode 5 or less and require some additional specifications to be compiled properly.
+You can skip this setup if using XCode 6 and more.
 
 Copy the following file:
 

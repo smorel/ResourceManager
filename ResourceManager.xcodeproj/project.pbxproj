@@ -114,6 +114,7 @@
 		963714D717958AB700CE847D = {
 			isa = PBXGroup;
 			children = (
+				D964942B1AA61D9A00C17BB7 /* README.mdown */,
 				963714EB17958AB700CE847D /* ResourceManager */,
 				963714E417958AB700CE847D /* Frameworks */,
 				963714E317958AB700CE847D /* Products */,
@@ -144,7 +145,6 @@
 		963714EB17958AB700CE847D /* ResourceManager */ = {
 			isa = PBXGroup;
 			children = (
-				D964942B1AA61D9A00C17BB7 /* README.mdown */,
 				963AB79F17997DC60076925C /* What's Next.mdown */,
 				9637150D1795969700CE847D /* ResourceManager.h */,
 				963714FC17958B1100CE847D /* Classes */,

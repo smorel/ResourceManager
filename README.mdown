@@ -13,6 +13,9 @@ Repositories can be defined as bundles, as well as a Dropbox folder. The Resourc
 This framework should be used during the development process as you do not want to impact your user experience with files updating at runtime! You can easily disconnect sync mechanism but still use the APIs to get the resources from the application main bundle by not setting a shared RMResourceManager.
 
 
+**ResourceManager** supports ios version 7 and more as well as the following architectures: armv7, armv7s, arm64 and i386 for the simulator.
+
+
 ## Sample Usage
 
 <b>1. Initializing the resource manager:</b>

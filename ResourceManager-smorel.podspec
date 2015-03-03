@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 
-  s.name         = "ResourceManager"
+  s.name         = "ResourceManager-smorel"
   s.version      = "1.2.0"
   s.summary      = "Synchronize your application resources from dropbox to the app and experience dynamic reload on simulator and devices."
   s.homepage     = "https://github.com/smorel/ResourceManager"
@@ -25,7 +25,6 @@ Pod::Spec.new do |s|
   s.subspec 'All' do |al|    
     al.source_files = 'ResourceManager/Classes/**/*.{h,m,mm}', 'ResourceManager/Classes/ResourceManager.h'
     al.private_header_files = 'ResourceManager/Classes/Private/**/*.{h}'
-    al.source_files = 'Classes/AppCoreKit.h'
   end
 
 end

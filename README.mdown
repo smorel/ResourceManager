@@ -172,7 +172,7 @@ pod 'ResourceManager'
 
 #### Using ResourceManager in your own App (Pre-Compiled)
 
-You can find a pre-compiled version of ResourceManager and sample integration in our sample repository at https://github.com/wherecloud/appcorekit-samples
+You can find a pre-compiled version of ResourceManager and sample integration in our sample repository at https://github.com/smorel/appcorekit-samples
 
 * <b>Drag'n'drop</b> the ResourceManager and the DropBoxSDK frameworks in your XCode project.
 
@@ -289,20 +289,16 @@ By default, if we do not find a ResourceManager.permissions file or if a folder/
 
 It has been designed to update directly to your device and not only the simulator like it was previously implemented in AppCoreKit. Several changes have been made to the AppCoreKit to fully integrate this new framework as a weak dependency and in a very efficient way. AppCoreKit provides the mechanism to automatically reload stylesheets and layouts, images, mappings, mock, localization files (.strings) and updates the UI as a consequence. Go to the AppCoreKit github repository and get the <i>master</i> branch to try the integration:
 
-https://github.com/wherecloud/AppCoreKit
+https://github.com/smorel/AppCoreKit
 
 
 
 ## Credits
 
-If you have any comments, suggestions, question or information request, please contact us at appcorekitsupport@wherecloud.com.
-
-Want to keep updated? Follow us on Twitter at @appcorekit.
+If you have any comments, suggestions, question or information request, please contact us at morel.sebastien@gmail.com.
 
 
 ## License
-
-Copyright 2009-2013 WhereCloud, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

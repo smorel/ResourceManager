@@ -112,6 +112,9 @@
             }
         }
         
+        if(!fileModifiedDate){
+            fileModifiedDate = [NSDate date];
+        }
         [self.fileModifiedDates setObject:fileModifiedDate forKey:path];
     }
     

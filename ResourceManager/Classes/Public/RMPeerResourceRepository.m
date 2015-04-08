@@ -7,12 +7,31 @@
 //
 
 #import "RMPeerResourceRepository.h"
-
 #import <AppPeerIOS/AppPeer.h>
+#import <objc/runtime.h>
+
+@interface UIAlertView(RMPeerResourceRepository)
+@property(nonatomic,retain) APPeer* peer;
+@end
+
+@implementation UIAlertView(RMPeerResourceRepository)
+
+static char UIAlertViewPeerKey;
+
+- (void)setPeer:(APPeer *)peer{
+    objc_setAssociatedObject(self, &UIAlertViewPeerKey, peer, OBJC_ASSOCIATION_RETAIN);
+}
+
+- (APPeer*)peer{
+    return objc_getAssociatedObject(self, &UIAlertViewPeerKey);
+}
+
+@end
+
+
 
 @interface RMPeerResourceRepository()
 @property(nonatomic,retain) APHub* hub;
-@property(nonatomic,retain) APPeer* pendingConnectionPeer;
 @end
 
 @implementation RMPeerResourceRepository
@@ -46,7 +65,6 @@
     
     self.hub.didFindPeerBlock = ^(APPeer *peer) {
         NSLog(@"ResourceManager: Did find peer %@",peer.name);
-        bself.pendingConnectionPeer = peer;
         dispatch_async(dispatch_get_main_queue(), ^{
             [bself promptAlertForConnectingToPeer:peer];
         });
@@ -67,14 +85,14 @@
 - (void)promptAlertForConnectingToPeer:(APPeer*)peer{
     NSString* message = [NSString stringWithFormat:@"Would you like to connect and receive updates from peer '%@'",peer.name];
     UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"Resource Manager" message:message delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+    alertView.peer = peer;
     [alertView show];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if(buttonIndex == 1){
-        [self.hub connectToPeer:self.pendingConnectionPeer];
+        [self.hub connectToPeer:alertView.peer];
     }
-    self.pendingConnectionPeer = nil;
 }
 
 - (void)didReceiveUpdates:(NSArray*)changedFiles{

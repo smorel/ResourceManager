@@ -10,5 +10,6 @@
 #import "RMResourceRepository.h"
 #import "RMDropboxResourceRepository.h"
 #import "RMBundleResourceRepository.h"
+#import "RMPeerResourceRepository.h"
 
 #import "UIImage+ResourceManager.h"

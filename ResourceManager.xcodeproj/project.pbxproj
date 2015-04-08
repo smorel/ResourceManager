@@ -50,11 +50,12 @@
 		96FEFDF2179774A50001CC4A /* RMHud.m in Sources */ = {isa = PBXBuildFile; fileRef = 96FEFDF0179774A50001CC4A /* RMHud.m */; };
 		D9182F7A1AD45B5800603C7B /* RMPeerResourceRepository.h in Headers */ = {isa = PBXBuildFile; fileRef = D9182F781AD45B5800603C7B /* RMPeerResourceRepository.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D9182F7B1AD45B5800603C7B /* RMPeerResourceRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = D9182F791AD45B5800603C7B /* RMPeerResourceRepository.m */; };
-		D9182F9E1AD4620200603C7B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D9182F9D1AD4620200603C7B /* main.m */; };
-		D9182FA41AD462DE00603C7B /* RMPeerDeamonBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = D9182FA31AD462DE00603C7B /* RMPeerDeamonBundle.m */; };
-		D9182FA71AD4655200603C7B /* RMPeerDeamon.m in Sources */ = {isa = PBXBuildFile; fileRef = D9182FA61AD4655200603C7B /* RMPeerDeamon.m */; };
 		D9182FD91AD5626000603C7B /* AppPeerIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9182FD81AD5626000603C7B /* AppPeerIOS.framework */; };
-		D9182FDB1AD5626F00603C7B /* AppPeerMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9182FDA1AD5626F00603C7B /* AppPeerMac.framework */; };
+		D9182FEB1AD57FB900603C7B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D9182FEA1AD57FB900603C7B /* main.m */; };
+		D91830031AD57FEC00603C7B /* RMPeerDeamon.m in Sources */ = {isa = PBXBuildFile; fileRef = D9182FA61AD4655200603C7B /* RMPeerDeamon.m */; };
+		D91830041AD57FF200603C7B /* RMPeerDeamonBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = D9182FA31AD462DE00603C7B /* RMPeerDeamonBundle.m */; };
+		D91830051AD5800100603C7B /* AppPeerMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9182FDA1AD5626F00603C7B /* AppPeerMac.framework */; };
+		D91830071AD5818500603C7B /* AppPeerMac.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = D9182FDA1AD5626F00603C7B /* AppPeerMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,14 +69,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		D9182F991AD4620200603C7B /* CopyFiles */ = {
+		D91830061AD5817F00603C7B /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			dstPath = "";
+			dstSubfolderSpec = 10;
 			files = (
+				D91830071AD5818500603C7B /* AppPeerMac.framework in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -112,14 +114,15 @@
 		96FEFDF0179774A50001CC4A /* RMHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMHud.m; path = Classes/Private/RMHud.m; sourceTree = "<group>"; };
 		D9182F781AD45B5800603C7B /* RMPeerResourceRepository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMPeerResourceRepository.h; path = Classes/Public/RMPeerResourceRepository.h; sourceTree = "<group>"; };
 		D9182F791AD45B5800603C7B /* RMPeerResourceRepository.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMPeerResourceRepository.m; path = Classes/Public/RMPeerResourceRepository.m; sourceTree = "<group>"; };
-		D9182F9B1AD4620200603C7B /* RMPeerDeamon */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = RMPeerDeamon; sourceTree = BUILT_PRODUCTS_DIR; };
-		D9182F9D1AD4620200603C7B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		D9182FA21AD462DE00603C7B /* RMPeerDeamonBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMPeerDeamonBundle.h; sourceTree = "<group>"; };
-		D9182FA31AD462DE00603C7B /* RMPeerDeamonBundle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMPeerDeamonBundle.m; sourceTree = "<group>"; };
-		D9182FA51AD4655200603C7B /* RMPeerDeamon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMPeerDeamon.h; sourceTree = "<group>"; };
-		D9182FA61AD4655200603C7B /* RMPeerDeamon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMPeerDeamon.m; sourceTree = "<group>"; };
+		D9182FA21AD462DE00603C7B /* RMPeerDeamonBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMPeerDeamonBundle.h; path = ../RMPeerDeamon/RMPeerDeamonBundle.h; sourceTree = "<group>"; };
+		D9182FA31AD462DE00603C7B /* RMPeerDeamonBundle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMPeerDeamonBundle.m; path = ../RMPeerDeamon/RMPeerDeamonBundle.m; sourceTree = "<group>"; };
+		D9182FA51AD4655200603C7B /* RMPeerDeamon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMPeerDeamon.h; path = ../RMPeerDeamon/RMPeerDeamon.h; sourceTree = "<group>"; };
+		D9182FA61AD4655200603C7B /* RMPeerDeamon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMPeerDeamon.m; path = ../RMPeerDeamon/RMPeerDeamon.m; sourceTree = "<group>"; };
 		D9182FD81AD5626000603C7B /* AppPeerIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppPeerIOS.framework; path = ResourceManager/External/AppPeerIOS.framework; sourceTree = "<group>"; };
 		D9182FDA1AD5626F00603C7B /* AppPeerMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppPeerMac.framework; path = RMPeerDeamon/External/AppPeerMac.framework; sourceTree = "<group>"; };
+		D9182FE31AD57FB900603C7B /* RMPeerDeamonBundle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RMPeerDeamonBundle.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D9182FE61AD57FB900603C7B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D9182FEA1AD57FB900603C7B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D964942B1AA61D9A00C17BB7 /* README.mdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.mdown; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -138,11 +141,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D9182F981AD4620200603C7B /* Frameworks */ = {
+		D9182FE01AD57FB900603C7B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D9182FDB1AD5626F00603C7B /* AppPeerMac.framework in Frameworks */,
+				D91830051AD5800100603C7B /* AppPeerMac.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,7 +157,7 @@
 			children = (
 				D964942B1AA61D9A00C17BB7 /* README.mdown */,
 				963714EB17958AB700CE847D /* ResourceManager */,
-				D9182F9C1AD4620200603C7B /* RMPeerDeamon */,
+				D9182FE41AD57FB900603C7B /* RMPeerDeamon */,
 				963714E417958AB700CE847D /* Frameworks */,
 				963714E317958AB700CE847D /* Products */,
 			);
@@ -164,7 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				963714E217958AB700CE847D /* ResourceManager.framework */,
-				D9182F9B1AD4620200603C7B /* RMPeerDeamon */,
+				D9182FE31AD57FB900603C7B /* RMPeerDeamonBundle.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -280,16 +283,18 @@
 			name = Peer;
 			sourceTree = "<group>";
 		};
-		D9182F9C1AD4620200603C7B /* RMPeerDeamon */ = {
+		D9182FE41AD57FB900603C7B /* RMPeerDeamon */ = {
 			isa = PBXGroup;
 			children = (
-				D9182F9D1AD4620200603C7B /* main.m */,
+				D9182FE61AD57FB900603C7B /* Info.plist */,
+				D9182FEA1AD57FB900603C7B /* main.m */,
 				D9182FA21AD462DE00603C7B /* RMPeerDeamonBundle.h */,
 				D9182FA31AD462DE00603C7B /* RMPeerDeamonBundle.m */,
 				D9182FA51AD4655200603C7B /* RMPeerDeamon.h */,
 				D9182FA61AD4655200603C7B /* RMPeerDeamon.m */,
 			);
-			path = RMPeerDeamon;
+			name = RMPeerDeamon;
+			path = RMPeerDeamonBundle;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -335,22 +340,23 @@
 			productReference = 963714E217958AB700CE847D /* ResourceManager.framework */;
 			productType = "com.apple.product-type.framework.static";
 		};
-		D9182F9A1AD4620200603C7B /* RMPeerDeamon */ = {
+		D9182FE21AD57FB900603C7B /* RMPeerDeamon */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D9182F9F1AD4620200603C7B /* Build configuration list for PBXNativeTarget "RMPeerDeamon" */;
+			buildConfigurationList = D9182FFD1AD57FB900603C7B /* Build configuration list for PBXNativeTarget "RMPeerDeamon" */;
 			buildPhases = (
-				D9182F971AD4620200603C7B /* Sources */,
-				D9182F981AD4620200603C7B /* Frameworks */,
-				D9182F991AD4620200603C7B /* CopyFiles */,
+				D9182FDF1AD57FB900603C7B /* Sources */,
+				D9182FE01AD57FB900603C7B /* Frameworks */,
+				D9182FE11AD57FB900603C7B /* Resources */,
+				D91830061AD5817F00603C7B /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = RMPeerDeamon;
-			productName = RMPeerDeamon;
-			productReference = D9182F9B1AD4620200603C7B /* RMPeerDeamon */;
-			productType = "com.apple.product-type.tool";
+			productName = RMPeerDeamonBundle;
+			productReference = D9182FE31AD57FB900603C7B /* RMPeerDeamonBundle.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -361,7 +367,7 @@
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Sebastien Morel";
 				TargetAttributes = {
-					D9182F9A1AD4620200603C7B = {
+					D9182FE21AD57FB900603C7B = {
 						CreatedOnToolsVersion = 6.1.1;
 					};
 				};
@@ -372,6 +378,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 963714D717958AB700CE847D;
 			productRefGroup = 963714E317958AB700CE847D /* Products */;
@@ -380,7 +387,7 @@
 			targets = (
 				963714E117958AB700CE847D /* ResourceManager */,
 				963714E817958AB700CE847D /* ResourceManager Documentation */,
-				D9182F9A1AD4620200603C7B /* RMPeerDeamon */,
+				D9182FE21AD57FB900603C7B /* RMPeerDeamon */,
 			);
 		};
 /* End PBXProject section */
@@ -391,6 +398,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				963714F017958AB700CE847D /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D9182FE11AD57FB900603C7B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -443,13 +457,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D9182F971AD4620200603C7B /* Sources */ = {
+		D9182FDF1AD57FB900603C7B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D9182FA41AD462DE00603C7B /* RMPeerDeamonBundle.m in Sources */,
-				D9182FA71AD4655200603C7B /* RMPeerDeamon.m in Sources */,
-				D9182F9E1AD4620200603C7B /* main.m in Sources */,
+				D91830031AD57FEC00603C7B /* RMPeerDeamon.m in Sources */,
+				D91830041AD57FF200603C7B /* RMPeerDeamonBundle.m in Sources */,
+				D9182FEB1AD57FB900603C7B /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -598,14 +612,17 @@
 			};
 			name = Release;
 		};
-		D9182FA01AD4620200603C7B /* Debug */ = {
+		D9182FFE1AD57FB900603C7B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -620,6 +637,8 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = RMPeerDeamonBundle/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -628,14 +647,17 @@
 			};
 			name = Debug;
 		};
-		D9182FA11AD4620200603C7B /* Release */ = {
+		D9182FFF1AD57FB900603C7B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -648,6 +670,8 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = RMPeerDeamonBundle/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -685,11 +709,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D9182F9F1AD4620200603C7B /* Build configuration list for PBXNativeTarget "RMPeerDeamon" */ = {
+		D9182FFD1AD57FB900603C7B /* Build configuration list for PBXNativeTarget "RMPeerDeamon" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D9182FA01AD4620200603C7B /* Debug */,
-				D9182FA11AD4620200603C7B /* Release */,
+				D9182FFE1AD57FB900603C7B /* Debug */,
+				D9182FFF1AD57FB900603C7B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};

@@ -32,7 +32,9 @@
     
     
     NSString* name = [UIDevice currentDevice].name;
-    self.hub = [[APHub alloc] initWithName:name subdomain:@"RMPeerResourceRepository"];
+    NSString* bundleIdentifier = [[[NSBundle mainBundle]bundleIdentifier]stringByReplacingOccurrencesOfString:@"." withString:@"_"];
+    NSString* domain = [NSString stringWithFormat:@"%@_%@",@"RMPeerResourceRepository",bundleIdentifier];
+    self.hub = [[APHub alloc] initWithName:name subdomain:domain];
     self.hub.autoConnect = NO;
     
     self.hub.didReceiveDataFromPeerBlock = ^(NSData *data, APPeer *peer) {

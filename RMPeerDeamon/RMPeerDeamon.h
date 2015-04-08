@@ -10,7 +10,7 @@
 
 @interface RMPeerDeamon : NSObject
 
-- (id)initWithDirectories:(NSArray*)directories;
+- (id)initWithDirectories:(NSArray*)directories bundleIdentifier:(NSString*)bundleIdentifier;
 - (void)start;
 
 @end

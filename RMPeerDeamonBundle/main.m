@@ -13,15 +13,19 @@
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         NSMutableArray* directories = [NSMutableArray array];
+        NSString* bundleIdentifier = nil;
         for(int i =1;i<argc;++i){
             NSString* arg = [NSString stringWithUTF8String:argv[i]];
-            if([arg hasPrefix:@"-"]){ ++i; }
-            else{
-                [directories addObject:arg];
+            if([arg isEqualToString:@"-directory"]){
+                [directories addObject:[NSString stringWithUTF8String:argv[i+1]]];
+                ++i;
+            }else if ([arg isEqualToString:@"-bundle-identifier"]){
+                bundleIdentifier = [NSString stringWithUTF8String:argv[i+1]];
+                ++i;
             }
             
         }
-        RMPeerDeamon* deamon = [[RMPeerDeamon alloc]initWithDirectories:directories];
+        RMPeerDeamon* deamon = [[RMPeerDeamon alloc]initWithDirectories:directories bundleIdentifier:bundleIdentifier];
         [deamon start];
         [[NSRunLoop currentRunLoop] run];
     }

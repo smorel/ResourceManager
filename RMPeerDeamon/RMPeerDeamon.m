@@ -13,15 +13,17 @@
 
 @interface RMPeerDeamon()<RMPeerDeamonBundleDelegate>
 @property(nonatomic,retain) RMPeerDeamonBundle* bundle;
+@property(nonatomic,retain) NSString* bundleIdentifier;
 @property(nonatomic,retain) APHub* hub;
 @end
 
 @implementation RMPeerDeamon
 
-- (id)initWithDirectories:(NSArray*)directories{
+- (id)initWithDirectories:(NSArray*)directories bundleIdentifier:(NSString*)bundleIdentifier{
     self = [super init];
+    self.bundleIdentifier = bundleIdentifier;
     
-    NSLog(@"Starting Deamon with directories: %@",directories);
+    NSLog(@"Starting Deamon with directories: %@ bundleIdentifier %@",directories,bundleIdentifier);
     
     self.bundle = [[RMPeerDeamonBundle alloc]initWithDirectories:directories delegate:self];
     [self setupHub];
@@ -33,7 +35,11 @@
     __weak RMPeerDeamon* bself = self;
     
     NSString* name = [NSHost currentHost].name;
-    self.hub = [[APHub alloc] initWithName:name subdomain:@"RMPeerResourceRepository"];
+    
+    NSString* bundleIdentifier = [self.bundleIdentifier stringByReplacingOccurrencesOfString:@"." withString:@"_"];
+    NSString* domain = [NSString stringWithFormat:@"%@_%@",@"RMPeerResourceRepository",bundleIdentifier];
+    
+    self.hub = [[APHub alloc] initWithName:name subdomain:domain];
     self.hub.autoConnect = NO;
     
     self.hub.didConnectToPeerBlock = ^(APPeer* peer){

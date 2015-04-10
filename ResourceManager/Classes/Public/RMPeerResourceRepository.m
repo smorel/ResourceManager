@@ -46,14 +46,27 @@ static char UIAlertViewPeerKey;
     self.hub = nil;
 }
 
+- (NSString*)peerDescription{
+    NSString* name = [UIDevice currentDevice].name;
+    return [NSString stringWithFormat:@"1______%@",name];
+}
+
+- (NSString*)peerDomain{
+    NSString* bundleIdentifier = [[[NSBundle mainBundle]bundleIdentifier]stringByReplacingOccurrencesOfString:@"." withString:@"_"];
+    return [NSString stringWithFormat:@"%@_%@",@"RMPeerResourceRepository",bundleIdentifier];
+}
+
+- (NSDictionary*)peerAttributes:(APPeer*)peer{
+    NSString* desc = peer.name;//make sure it is a valid base 64!
+    NSInteger role = [[desc substringToIndex:1]integerValue];
+    NSString* name = [desc substringFromIndex:7];
+    return @{ @"name" : name, @"role" : @(role) };
+}
+
 - (void)setupHub{
     __weak RMPeerResourceRepository* bself = self;
     
-    
-    NSString* name = [UIDevice currentDevice].name;
-    NSString* bundleIdentifier = [[[NSBundle mainBundle]bundleIdentifier]stringByReplacingOccurrencesOfString:@"." withString:@"_"];
-    NSString* domain = [NSString stringWithFormat:@"%@_%@",@"RMPeerResourceRepository",bundleIdentifier];
-    self.hub = [[APHub alloc] initWithName:name subdomain:domain];
+    self.hub = [[APHub alloc] initWithName:[self peerDescription] subdomain:[self peerDomain]];
     self.hub.autoConnect = NO;
     
     self.hub.didReceiveDataFromPeerBlock = ^(NSData *data, APPeer *peer) {
@@ -64,10 +77,13 @@ static char UIAlertViewPeerKey;
     };
     
     self.hub.didFindPeerBlock = ^(APPeer *peer) {
-        NSLog(@"ResourceManager: Did find peer %@",peer.name);
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [bself promptAlertForConnectingToPeer:peer];
-        });
+        NSDictionary* attributes = [bself peerAttributes:peer];
+        if([[attributes objectForKey:@"role"]integerValue] == 0){
+            NSLog(@"ResourceManager: Did find peer %@",[attributes objectForKey:@"name"]);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [bself promptAlertForConnectingToPeer:peer];
+            });
+        }
     };
     
     self.hub.didConnectToPeerBlock = ^(APPeer* peer){
@@ -83,7 +99,9 @@ static char UIAlertViewPeerKey;
 }
 
 - (void)promptAlertForConnectingToPeer:(APPeer*)peer{
-    NSString* message = [NSString stringWithFormat:@"Would you like to connect and receive updates from peer '%@'",peer.name];
+    NSDictionary* attributes = [self peerAttributes:peer];
+    
+    NSString* message = [NSString stringWithFormat:@"Would you like to connect to resource server '%@'",[attributes objectForKey:@"name"]];
     UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"Resource Manager" message:message delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
     alertView.peer = peer;
     [alertView show];

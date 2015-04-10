@@ -30,16 +30,20 @@
     return self;
 }
 
+- (NSString*)peerDescription{
+    NSString* name = [NSHost currentHost].name;
+    return [NSString stringWithFormat:@"0______%@",name];
+}
+
+- (NSString*)peerDomain{
+    NSString* bundleIdentifier = [self.bundleIdentifier stringByReplacingOccurrencesOfString:@"." withString:@"_"];
+    return [NSString stringWithFormat:@"%@_%@",@"RMPeerResourceRepository",bundleIdentifier];
+}
 
 - (void)setupHub{
     __weak RMPeerDeamon* bself = self;
     
-    NSString* name = [NSHost currentHost].name;
-    
-    NSString* bundleIdentifier = [self.bundleIdentifier stringByReplacingOccurrencesOfString:@"." withString:@"_"];
-    NSString* domain = [NSString stringWithFormat:@"%@_%@",@"RMPeerResourceRepository",bundleIdentifier];
-    
-    self.hub = [[APHub alloc] initWithName:name subdomain:domain];
+    self.hub = [[APHub alloc] initWithName:[self peerDescription] subdomain:[self peerDomain]];
     self.hub.autoConnect = NO;
     
     self.hub.didConnectToPeerBlock = ^(APPeer* peer){

@@ -120,7 +120,7 @@
 		D9182FA61AD4655200603C7B /* RMPeerDeamon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMPeerDeamon.m; path = ../RMPeerDeamon/RMPeerDeamon.m; sourceTree = "<group>"; };
 		D9182FD81AD5626000603C7B /* AppPeerIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppPeerIOS.framework; path = ResourceManager/External/AppPeerIOS.framework; sourceTree = "<group>"; };
 		D9182FDA1AD5626F00603C7B /* AppPeerMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppPeerMac.framework; path = RMPeerDeamon/External/AppPeerMac.framework; sourceTree = "<group>"; };
-		D9182FE31AD57FB900603C7B /* RMPeerDeamonBundle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RMPeerDeamonBundle.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D9182FE31AD57FB900603C7B /* RMPeerDeamon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RMPeerDeamon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9182FE61AD57FB900603C7B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D9182FEA1AD57FB900603C7B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D964942B1AA61D9A00C17BB7 /* README.mdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.mdown; sourceTree = SOURCE_ROOT; };
@@ -167,7 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				963714E217958AB700CE847D /* ResourceManager.framework */,
-				D9182FE31AD57FB900603C7B /* RMPeerDeamonBundle.app */,
+				D9182FE31AD57FB900603C7B /* RMPeerDeamon.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -355,7 +355,7 @@
 			);
 			name = RMPeerDeamon;
 			productName = RMPeerDeamonBundle;
-			productReference = D9182FE31AD57FB900603C7B /* RMPeerDeamonBundle.app */;
+			productReference = D9182FE31AD57FB900603C7B /* RMPeerDeamon.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -716,6 +716,7 @@
 				D9182FFF1AD57FB900603C7B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

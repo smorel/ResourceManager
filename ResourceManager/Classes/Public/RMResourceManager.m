@@ -229,11 +229,12 @@ static RMResourceManager* kSharedManager = nil;
     
     RMResourceManager* manager = [RMResourceManager sharedManager];
     if(!manager || !manager.fileSystem){
-        NSArray* paths = nil;
+        NSMutableArray* allPaths = [NSMutableArray array];
         for(NSBundle* bundle in [RMResourceManager bundles]){
-            paths = [bundle pathsForResourcesOfType:ext inDirectory:nil];
-            if([paths count] > 0) return paths;
+            NSArray* paths = [bundle pathsForResourcesOfType:ext inDirectory:nil forLocalization:localizationName];
+            [allPaths addObjectsFromArray:paths];
         }
+        return allPaths;
     }
     
     return [manager.fileSystem pathsForResourcesWithExtension:ext localization:localizationName];

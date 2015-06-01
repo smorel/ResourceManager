@@ -12,15 +12,21 @@
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        NSMutableArray* directories = [NSMutableArray array];
-        NSString* bundleIdentifier = nil;
+        NSMutableArray* arguments = [NSMutableArray array];
         for(int i =1;i<argc;++i){
             NSString* arg = [NSString stringWithUTF8String:argv[i]];
+            [arguments addObjectsFromArray:[arg componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+        }
+        
+        NSMutableArray* directories = [NSMutableArray array];
+        NSString* bundleIdentifier = nil;
+        for(int i =0;i<arguments.count;++i){
+            NSString* arg = arguments[i];
             if([arg isEqualToString:@"-directory"]){
-                [directories addObject:[NSString stringWithUTF8String:argv[i+1]]];
+                [directories addObject:arguments[i+1]];
                 ++i;
             }else if ([arg isEqualToString:@"-bundle-identifier"]){
-                bundleIdentifier = [NSString stringWithUTF8String:argv[i+1]];
+                bundleIdentifier = arguments[i+1];
                 ++i;
             }
             

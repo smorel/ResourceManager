@@ -237,7 +237,13 @@ NSString* RMResourceManagerUpdatedResourcesPathKey             = @"RMResourceMan
 }
 
 - (NSArray*)filesInApplicationBundleWithExtension:(NSString*)extension localization:(NSString*)localizationName{
-    return [[NSBundle mainBundle]pathsForResourcesOfType:extension inDirectory:nil forLocalization:localizationName];
+    NSMutableArray* allPaths = [NSMutableArray array];
+    for(NSBundle* bundle in [RMResourceManager bundles]){
+        NSArray* paths = [bundle pathsForResourcesOfType:extension inDirectory:nil forLocalization:localizationName];
+        [allPaths addObjectsFromArray:paths];
+    }
+    
+    return allPaths;
 }
 
 - (NSArray*)mergePathsFromCache:(NSArray*)cachePaths withApplicationBundlePaths:(NSArray*)appPaths{

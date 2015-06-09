@@ -48,7 +48,7 @@ Command line requiers to specify the directories to watch and the app bundle ide
 
 example: 
 
-    open ~/RmPeerDeamon.app -directory "MyProjectFolder/Resources" -bundle-identifier "com.mycompany.myapp"
+    open ~/RMPeerDeamon.app -directory "MyProjectFolder/Resources" -bundle-identifier "com.mycompany.myapp"
 
 
 **1.2. Synchronizing Resources from Dropbox**

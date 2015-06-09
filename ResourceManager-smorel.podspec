@@ -23,7 +23,7 @@ Pod::Spec.new do |s|
   s.dependency 'Dropbox-iOS-SDK'
   s.dependency 'AppPeerIOS-smorel'
 
-  s.requires_arc = false
+  s.requires_arc = true
 
   s.subspec 'All' do |al|    
     al.source_files = 'ResourceManager/Classes/**/*.{h,m,mm}', 'ResourceManager/Classes/ResourceManager.h'

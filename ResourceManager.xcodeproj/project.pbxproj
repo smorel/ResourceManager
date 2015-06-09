@@ -561,7 +561,10 @@
 				FRAMEWORK_VERSION = 1.0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ResourceManager/ResourceManager-Prefix.pch";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/DropboxSDK.framework/Headers/\"";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/DropboxSDK.framework/Headers/\"",
+					"$(PROJECT_DIR)/ResourceManager/External/AppPeerIOS.framework/Headers/**",
+				);
 				INFOPLIST_FILE = "ResourceManager/ResourceManager-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = NO;
@@ -590,7 +593,10 @@
 				FRAMEWORK_VERSION = 1.0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ResourceManager/ResourceManager-Prefix.pch";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/DropboxSDK.framework/Headers/\"";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/DropboxSDK.framework/Headers/\"",
+					"$(PROJECT_DIR)/ResourceManager/External/AppPeerIOS.framework/Headers/**",
+				);
 				INFOPLIST_FILE = "ResourceManager/ResourceManager-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";

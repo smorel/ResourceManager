@@ -7,7 +7,7 @@
 //
 
 #import "RMPeerResourceRepository.h"
-#import <AppPeerIOS/AppPeer.h>
+#import "AppPeer.h"
 #import <objc/runtime.h>
 
 @interface UIAlertView(RMPeerResourceRepository)

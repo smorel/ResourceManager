@@ -357,7 +357,9 @@ typedef enum RMDropboxResourceRepositoryState{
         {
             NSString* text = nil;
             if(self.pendingDowloads.count == 1){
-                text = [NSString stringWithFormat:@"Downloading '%@'",[[[self.pendingDowloads objectAtIndex:0]path]lastPathComponent]];
+                DBMetadata* meta = [self.pendingDowloads objectAtIndex:0];
+                NSString* name = [[meta path]lastPathComponent];
+                text = [NSString stringWithFormat:@"Downloading '%@'",name];
             }else{
                 text = [NSString stringWithFormat:@"Downloading %lu files", (unsigned long)self.pendingDowloads.count];
             }

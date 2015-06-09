@@ -14,7 +14,6 @@ Pod::Spec.new do |s|
 
   s.module_name = 'ResourceManager'
 
-  s.default_subspec = 'All'
 
   s.frameworks =  'Security', 'QuartzCore'
 
@@ -23,11 +22,18 @@ Pod::Spec.new do |s|
   s.dependency 'Dropbox-iOS-SDK'
   s.dependency 'AppPeerIOS-smorel'
 
-  s.requires_arc = true
-
-  s.subspec 'All' do |al|    
-    al.source_files = 'ResourceManager/Classes/**/*.{h,m,mm}', 'ResourceManager/Classes/ResourceManager.h'
-    al.private_header_files = 'ResourceManager/Classes/Private/**/*.{h}'
-  end
-
+  
+  non_arc_files = 'ResourceManager/Classes/Public/UIImage+ResourceManager.m', 'ResourceManager/Classes/Public/UIImage+ResourceManager.h'
+  
+  
+    s.source_files = 'ResourceManager/Classes/**/*.{h,m,mm}', 'ResourceManager/Classes/ResourceManager.h'
+    s.private_header_files = 'ResourceManager/Classes/Private/**/*.{h}'
+    s.requires_arc = true
+    s.exclude_files = non_arc_files
+    
+    s.subspec 'NoArc' do |ar|
+        ar.source_files = non_arc_files
+        ar.requires_arc = false
+    end
+  
 end

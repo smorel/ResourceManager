@@ -44,7 +44,7 @@ On your Mac:
 
 We provide a mac app named RMPeerDeamon, that scans changes for assets in specifified folders. To run this app, you can build it and run it as a command line tool in your terminal.
 
-Command line requiers to specify the directories too watch and the app bundle identifier that is related to this manager.
+Command line requiers to specify the directories to watch and the app bundle identifier that is related to these assets.
 
 example: 
 
@@ -208,12 +208,15 @@ pod 'ResourceManager-smorel'
 
 You can find a pre-compiled version of ResourceManager and sample integration in our sample repository at https://github.com/smorel/appcorekit-samples
 
-* <b>Drag'n'drop</b> the ResourceManager and the DropBoxSDK frameworks in your XCode project.
+* <b>Drag'n'drop</b> the ResourceManager, the DropBoxSDK and the AppPeerIOS frameworks in your XCode project.
 
 * Add the following <b>frameworks and libraries dependencies</b> to your project in the build phases settings: 
 <pre>
+Foundation.
 Security, 
-QuartzCore.
+QuartzCore,
+CFNetwork,
+SystemConfiguration.
 </pre>
 
 * Adds the following <b>link flags</b> in your build settings (<b>OTHER_LDFLAGS</b>): 
@@ -249,8 +252,12 @@ And
 * Add the following <b>frameworks and libraries dependencies</b> to your project in the build phases settings: 
 <pre>
 DropboxSDK, (that can be found in this repository) 
+AppPeerIOS, (that can be found in this repository) 
+Foundation,
 Security, 
-QuartzCore.
+QuartzCore,
+CFNetwork,
+SystemConfiguration.
 </pre>
 
 

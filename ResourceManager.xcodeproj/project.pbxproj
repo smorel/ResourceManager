@@ -82,7 +82,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		96332B521B26757D00E93064 /* ResourceManager-smorel.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = "ResourceManager-smorel.podspec"; sourceTree = "<group>"; };
+		96332B521B26757D00E93064 /* ResourceManager-smorel.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = "ResourceManager-smorel.podspec"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		963714E217958AB700CE847D /* ResourceManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework.static; includeInIndex = 0; path = ResourceManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		963714E517958AB700CE847D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		963714ED17958AB700CE847D /* ResourceManager-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ResourceManager-Info.plist"; sourceTree = "<group>"; };

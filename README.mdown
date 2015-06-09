@@ -21,7 +21,7 @@ This framework should be used during the development process as you do not want 
 <b>1. Initializing the resource manager:</b>
 
 
-**1.1. Synchronizing Resources via network with your Mac **
+**1.1. Synchronizing Resources via network with your Mac**
 
 In your application delegate:
 
@@ -48,7 +48,7 @@ Command line requiers to specify the directories too watch and the app bundle id
 
 example: 
 
-open ~/RmPeerDeamon.app -directory "MyProjectFolder/Resources" -bundle-identifier "com.mycompany.myapp"
+    open ~/RmPeerDeamon.app -directory "MyProjectFolder/Resources" -bundle-identifier "com.mycompany.myapp"
 
 
 **1.2. Synchronizing Resources from Dropbox**

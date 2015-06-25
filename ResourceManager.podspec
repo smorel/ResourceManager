@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 
-  s.name         = "ResourceManager-smorel"
+  s.name         = "ResourceManager"
   s.version      = "1.3.0"
   s.summary      = "Synchronize your application resources from dropbox to the app and experience dynamic reload on simulator and devices."
   s.homepage     = "https://github.com/smorel/ResourceManager"
@@ -10,10 +10,6 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '7.0'
 
   s.description = 'ResourceManager allows you to synchronize your resource in the app running on a device or emulator while your editing them on your Mac. Whether it is an image, a sound, a nib, an AppCoreKit stylesheet or layout and even string files, the ResourceManager let your see the changes you''re making in your assets live on your devices. Connect several devices with different form factor or idiom simultaneously with one or several resource managers. This is useful when you''re working in team and want to get your UI up-to-date while other are working on it. Or only connect your Mac with your devices if you don''t trust your colleagues It''s up to you!'
-
-
-  s.module_name = 'ResourceManager'
-
 
   s.frameworks =  'Security', 'QuartzCore'
 

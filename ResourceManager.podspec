@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   s.xcconfig = { 'HEADER_SEARCH_PATHS' => '/usr/include/libxml2', 'OTHER_LDFLAGS' => '-ObjC -all_load -weak_library /usr/lib/libstdc++.dylib' } 
 
   s.dependency 'Dropbox-iOS-SDK'
-  s.dependency 'AppPeerIOS-smorel'
+  s.dependency 'AppPeerIOS'
 
   
   non_arc_files = 'ResourceManager/Classes/Public/UIImage+ResourceManager.m', 'ResourceManager/Classes/Public/UIImage+ResourceManager.h'

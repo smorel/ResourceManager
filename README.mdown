@@ -199,7 +199,7 @@ Adds the following lines in you PodFile
 <pre>
 platform :ios, '7.0'
 
-pod 'ResourceManager-smorel'
+pod 'ResourceManager'
 </pre>
 
 ### As a framework

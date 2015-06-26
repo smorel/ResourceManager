@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
   
     
     s.subspec 'Default' do |de|
-        de.source_files = 'ResourceManager/Classes/**/*.{h,m,mm}'
+        de.source_files = 'ResourceManager/Classes/Public/**/*.{h,m,mm}'
         de.private_header_files = 'ResourceManager/Classes/Private/**/*.{h}'
         de.requires_arc = true
         de.exclude_files = non_arc_files

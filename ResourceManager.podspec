@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
   
     
     s.subspec 'Default' do |de|
-        de.source_files = 'ResourceManager/Classes/**/*.{h,m,mm}', 'ResourceManager/Classes/ResourceManager.h'
+        de.source_files = 'ResourceManager/Classes/**/*.{h,m,mm}'
         de.private_header_files = 'ResourceManager/Classes/Private/**/*.{h}'
         de.requires_arc = true
         de.exclude_files = non_arc_files
@@ -37,6 +37,7 @@ Pod::Spec.new do |s|
     end
   
   s.subspec 'All' do |al|
+      al.source_files = 'ResourceManager/Classes/ResourceManager.h'
       al.dependency 'ResourceManager/NoArc'
   end
   

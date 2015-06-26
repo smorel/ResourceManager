@@ -9,7 +9,7 @@
 #import "RMResourceManager.h"
 #import "RMFileSystem.h"
 
-#import "UIImage+ResourceManager.h"
+//#import "UIImage+ResourceManager.h"
 #import "RMHud.h"
 
 static NSString* osVersion = nil;

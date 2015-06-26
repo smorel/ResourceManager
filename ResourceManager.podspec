@@ -22,12 +22,13 @@ Pod::Spec.new do |s|
   
   non_arc_files = 'ResourceManager/Classes/Public/UIImage+ResourceManager.m', 'ResourceManager/Classes/Public/UIImage+ResourceManager.h'
   
+  execlude_from_default = 'ResourceManager/Classes/ResourceManager.h', 'ResourceManager/Classes/Public/UIImage+ResourceManager.m', 'ResourceManager/Classes/Public/UIImage+ResourceManager.h'
     
     s.subspec 'Default' do |de|
-        de.source_files = 'ResourceManager/Classes/Public/**/*.{h,m,mm}'
+        de.source_files = 'ResourceManager/Classes/**/*.{h,m,mm}'
         de.private_header_files = 'ResourceManager/Classes/Private/**/*.{h}'
         de.requires_arc = true
-        de.exclude_files = non_arc_files
+        de.exclude_files = execlude_from_default
     end
     
     s.subspec 'NoArc' do |ar|

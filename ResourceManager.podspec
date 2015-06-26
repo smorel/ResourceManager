@@ -17,19 +17,27 @@ Pod::Spec.new do |s|
 
   s.dependency 'Dropbox-iOS-SDK'
   s.dependency 'AppPeerIOS'
-
+  
+  s.default_subspec = 'All'
   
   non_arc_files = 'ResourceManager/Classes/Public/UIImage+ResourceManager.m', 'ResourceManager/Classes/Public/UIImage+ResourceManager.h'
   
-  
-    s.source_files = 'ResourceManager/Classes/**/*.{h,m,mm}', 'ResourceManager/Classes/ResourceManager.h'
-    s.private_header_files = 'ResourceManager/Classes/Private/**/*.{h}'
-    s.requires_arc = true
-    s.exclude_files = non_arc_files
+    
+    s.subspec 'Default' do |de|
+        de.source_files = 'ResourceManager/Classes/**/*.{h,m,mm}', 'ResourceManager/Classes/ResourceManager.h'
+        de.private_header_files = 'ResourceManager/Classes/Private/**/*.{h}'
+        de.requires_arc = true
+        de.exclude_files = non_arc_files
+    end
     
     s.subspec 'NoArc' do |ar|
         ar.source_files = non_arc_files
         ar.requires_arc = false
+        ar.dependency 'ResourceManager/Default'
     end
+  
+  s.subspec 'All' do |al|
+      al.dependency 'ResourceManager/NoArc'
+  end
   
 end

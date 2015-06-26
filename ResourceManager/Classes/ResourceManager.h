@@ -8,7 +8,6 @@
 
 #import "RMResourceManager.h"
 #import "RMResourceRepository.h"
-#import "RMDropboxResourceRepository.h"
 #import "RMBundleResourceRepository.h"
 #import "RMPeerResourceRepository.h"
 

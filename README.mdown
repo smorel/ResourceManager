@@ -8,7 +8,7 @@
 
 <b>ResourceManager</b> provides simple APIs similar to <b>NSBundle</b> to get the paths of the most recent resources from the various resource repositories.
 
-Repositories can be defined as bundles, as well as a Dropbox folder or a peer connection to a deamon running on your Mac. The Resource Manager provides APIs similar to <b>NSNotificationCenter</b> to register for notifications when files are updated. As soon as a file gets saved in one or several remote repositories, the files will get downloaded to the application's cache directory if needed and a notification is sent to your application to update. You can also get notified of file additions and changes by observing file extensions.
+Repositories can be defined as bundles, as well as a peer connection to a deamon running on your Mac. The Resource Manager provides APIs similar to <b>NSNotificationCenter</b> to register for notifications when files are updated. As soon as a file gets saved in one or several remote repositories, the files will get downloaded to the application's cache directory if needed and a notification is sent to your application to update. You can also get notified of file additions and changes by observing file extensions.
 
 This framework should be used during the development process as you do not want to impact your user experience with files updating at runtime! You can easily disconnect sync mechanism but still use the APIs to get the resources from the application main bundle by not setting a shared RMResourceManager.
 
@@ -51,44 +51,7 @@ example:
     open ~/RMPeerDeamon.app -directory "MyProjectFolder/Resources" -bundle-identifier "com.mycompany.myapp"
 
 
-**1.2. Synchronizing Resources from Dropbox**
-
-Create your app on Dropbox:
-
-https://www.dropbox.com/developers/apps
-
-In your target plist:
-
-The Dropbox authentication mechanism requires application redirect via Url Scheme.
-"From the DropboxSDK documentation" at https://www.dropbox.com/developers/core/start/ios
-
-Once authenticated, your app will be re-launched with the URL scheme db-APP_KEY. The easiest way to register for this scheme is to right-click on your app's plist file and select Open As → Source Code, and add the following code below the first <dict> tag, substituting APP_KEY with your app's key:
-
-<pre> CFBundleURLTypes CFBundleURLSchemes db-APP_KEY</pre>
-
-In your application delegate:
-
-
-``` objective-c
-#import < ResourceManager/ResourceManager.h >
-
-- (id)init{
-   self = [super init];
-   
-    //Comment or remove the following code when you want to deactivate the sync mechanism
-    RMDropboxResourceRepository* rp = [[RMDropboxResourceRepository alloc]initWithAppKey:@"APP_KEY" 
-                                                                                  secret:@"APP_SECRET" 
-                                                                           rootDirectory:@"ROOT_DIRECTORY"];
-    RMResourceManager* rm = [[RMResourceManager alloc]initWithRepositories:@[rp]];
-    [RMResourceManager setSharedManager:rm];
-                                              
-    
-    //Do your stuff
-}
-```
-
-
-**1.3. Synchronizing your resource from your XCode project's directory (Working in Simulator Only)**
+**1.2. Synchronizing your resource from your XCode project's directory (Working in Simulator Only)**
 
 In your target plist:
 
@@ -208,8 +171,6 @@ pod 'ResourceManager'
 
 You can find a pre-compiled version of ResourceManager and sample integration in our sample repository at https://github.com/smorel/appcorekit-samples
 
-* <b>Drag'n'drop</b> the ResourceManager, the DropBoxSDK and the AppPeerIOS frameworks in your XCode project.
-
 * Add the following <b>frameworks and libraries dependencies</b> to your project in the build phases settings: 
 <pre>
 Foundation.
@@ -251,7 +212,6 @@ And
 
 * Add the following <b>frameworks and libraries dependencies</b> to your project in the build phases settings: 
 <pre>
-DropboxSDK, (that can be found in this repository) 
 AppPeerIOS, (that can be found in this repository) 
 Foundation,
 Security, 
@@ -271,61 +231,6 @@ SystemConfiguration.
 
 ResourceManager provides a "Documentation" target that generate a docset using the public header files and the additional programming guides in the Documentation folder. This target is a script base on "appledoc". To install appledoc, follow the installation procedure here : https://github.com/tomaz/appledoc
 
-
-## Your Dropbox Resource Repository
-
-### Folders
-
-Resource manager supports resource in folders. It will flatten the file hierarchy when downloading the files into the application's cache directory to match the hierarchy it would have in the application bundle: 1 root directory and localization folders.
-
-### Restrictions/Permissions (For Advanced Users)
-
-An advantage of organizing your resources into folders is that the Resource Manager framework provides a mechanism to specify *per user* restrictions on folders or file extensions.
-
-This feature allows you to give controlled access to your client or colleagues. For instance, let's say you want your designer to customize some resources files for a specific release of your app. But meanwhile, you want to continue working on the next version of your app, customizing resources in the process. By working within a folder that only you have access to, their version of the app will not be impacted by the changes you make in your folder.
-
-At the same time, as soon as you give access to a new user, their app will be notified and their version will update automatically. As soon as you remove this person's access, the files that are newly restricted will be removed from their cache directory and their version of the app will use the main bundle resource again.
-
-This could also be used to test two different versions of an app, by giving users access to two different versions of the application resources.
-
-Here is a sample ResourceManager.permissions file that you could place into your Dropbox folder for user restrictions to update when you save this file.
-Users are the Dropbox "Display Name" for the user account for which you want to specify the restrictions.
-
-
-``` json
-[
-   { "folder" : "folder1", //and its subfolders
-     "users" : [
-         "Sebastien Morel"
-      ]
-   },
-
-   { "folder" : "folder2",
-     "users" : [
-         "Sebastien Morel",
-         "Frederic Brunel"
-     ]
-   },
-
-
-   { "folder" : "folder1/nextedFolder1",
-     "users" : [
-         "Frederic Brunel"
-     ]
-   },
-   
-   { "extension" : "mp3",
-     "users" : [
-         "Sebastien Morel",
-         "Frederic Brunel",
-         "Martin Dufort"
-     ]
-   }
-]
-
-```
-
-By default, if we do not find a ResourceManager.permissions file or if a folder/file extension on dropbox has no entry in the permissions file, we consider that everybody can access the files in this folder/extension.
 
 ## Fully integrated with AppCoreKit
 

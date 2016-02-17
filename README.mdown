@@ -51,7 +51,7 @@ example:
     open ~/RMPeerDeamon.app -directory "MyProjectFolder/Resources" -bundle-identifier "com.mycompany.myapp"
 
 
-**1.2. Synchronizing your resource from your XCode project's directory (Working in Simulator Only)**
+**1.2. Synchronizing your resource from your Xcode project's directory (Working in Simulator Only)**
 
 In your target plist:
 
@@ -189,7 +189,7 @@ SystemConfiguration.
 #### Compiling the framework
 
 ResourceManager is built as a Static Framework. Static Frameworks are not natively supported by Xcode 5 or less and require some additional specifications to be compiled properly.
-You can skip this setup if using XCode 6 and more.
+You can skip this setup if using Xcode 6 and more.
 
 Copy the following file:
 
